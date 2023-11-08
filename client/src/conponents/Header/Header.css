@@ -1,0 +1,45 @@
+#text-header {
+    color: red;
+}
+#header {
+    display: flex;
+    align-items: center;
+}
+
+
+.item {
+    margin: 0 10px;
+    position: relative;
+}
+
+img {
+    width: 10vw;
+    margin-left: 50px !important;
+}
+span {
+    width: 30vw;
+}
+
+svg {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+}
+
+svg:hover {
+    scale: 1.1;
+    cursor: pointer;
+}
+
+#search-input {
+    /* height: 36px; */
+    width: 20vw;
+    padding: 4px 6px;
+    border: 1px solid #d9d9d9;
+    line-height: 1.5715;
+    border-radius: 4px;
+}
+
+#search-input:hover {
+    border-color: lightblue;
+}
