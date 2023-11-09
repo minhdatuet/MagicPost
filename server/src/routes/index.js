@@ -1,4 +1,4 @@
-import authRouter from './auth.js'
+const authRouter = require('./auth.js');
 
 const initRoutes = (app) => {
     app.use('/api/v1/auth', authRouter)
@@ -7,4 +7,4 @@ const initRoutes = (app) => {
     })
 }
 
-export default initRoutes
+module.exports = initRoutes

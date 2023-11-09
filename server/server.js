@@ -1,8 +1,8 @@
-import express from 'express'
-import 'dotenv/config'
-import cors from 'cors'
-import initRoutes from './src/routes/index.js'
-
+const express = require('express');
+require('dotenv/config');
+const cors = require('cors');
+const initRoutes = require('./src/routes/index.js');
+const connectDatabase = require('./src/config/connectDatabase.js');
 const app = express()
 app.use(cors({
     origin: process.env.CLIENT_URL,
@@ -12,6 +12,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 initRoutes(app)
+connectDatabase()
 
 const port = process.env.PORT || 8888
 const listener = app.listen(port, () => {

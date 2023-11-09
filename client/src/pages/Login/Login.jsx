@@ -6,10 +6,10 @@ const Login = () => {
     <div id='login'>
         <h3>Đăng nhập</h3>
         <div>
-            <label htmlFor="phone">Số điện thoại</label>
+            <label htmlFor="phone">Số điện thoại: </label>
             <input type="text" id='phone'/>
             <br />
-            <label htmlFor="password">Mật khẩu</label>
+            <label htmlFor="password">Mật khẩu: </label>
             <input id='password' type="password" />
         </div>
         <Button className='item' text="Đăng nhập" textColor="white" bgColor="black" width="100px" />
