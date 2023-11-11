@@ -9,7 +9,6 @@ const Login = () => {
     password: ''
   })
   const handleSubmit = async () => {
-    // console.log(payload)
     const response = await apiLogin(payload)
     console.log(response)
   }
@@ -21,12 +20,10 @@ const Login = () => {
         <h3>ĐĂNG NHẬP</h3>
         <div>
           <div class="input-icons">
-            {/* <label htmlFor="phone">Số điện thoại: </label> */}
             <i class="fa fa-phone icon"></i>
             <input type="text" id='phone' value={payload.phone} placeholder="Số điện thoại"
             onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
             <br />
-            {/* <label htmlFor="password">Mật khẩu: </label> */}
             <i class="fa fa-edit icon"></i>
             <input id='password' type="password" placeholder="Mật khẩu"
             value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
