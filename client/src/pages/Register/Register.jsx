@@ -19,22 +19,41 @@ const Register = () => {
 
   return (
     <div id='register'>
-        <h3>Đăng ký</h3>
+        <br></br>
+        <h3>ĐĂNG KÝ</h3>
         <div>
-            <label htmlFor="name">Họ và tên: </label>
-            <input type="text" id='name' value={payload.name} onChange={(e) => setPayload(prev => ({...prev, name: e.target.value}) )} />
-            <br />
-            <label htmlFor="phone">Số điện thoại: </label>
-            <input type="text" id='phone' value={payload.phone} onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
-            <br />
-            <label htmlFor="password">Mật khẩu: </label>
-            <input id='password' type="password" value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
-            <br />
-            <label htmlFor="address">Địa chỉ: </label>
-            <input type="text" id='address' value={payload.address} onChange={(e) => setPayload(prev => ({...prev, address: e.target.value}) )} />
-            <br />
+          <div class="input-icons">
+            {/* <label htmlFor="name">Họ và tên: </label> */}
+            <i class="fa fa-edit icon"></i>
+            <input type="text" id='name' placeholder="Họ và tên"
+            value={payload.name} onChange={(e) => setPayload(prev => ({...prev, name: e.target.value}) )} />
+            <br></br>
+            {/* <label htmlFor="phone">Số điện thoại: </label> */}
+            <i class="fa fa-phone icon"></i>
+            <input type="text" id='phone' placeholder="Số điện thoại"
+            value={payload.phone} onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
+             <br></br>
+            {/* <label htmlFor="password">Mật khẩu: </label> */}
+            <i class="fa fa-edit icon"></i>
+            <input id='password' type="password" 
+            placeholder="Mật khẩu" value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
+             <br></br>
+            {/* <label htmlFor="password">Nhập lại mật khẩu: </label> */}
+            <i class="fa fa-edit icon"></i>
+            <input id='password' type="password" 
+            placeholder="Nhập lại mật khẩu" value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
+             <br></br>
+            {/* <label htmlFor="address">Địa chỉ: </label> */}
+            <i class="fa fa-edit icon"></i>
+            <input type="text" id='address' 
+            placeholder="Địa chỉ" value={payload.address} onChange={(e) => setPayload(prev => ({...prev, address: e.target.value}) )} />
+          </div>
         </div>
+        <br></br>
+        <div id = "btn">
         <Button className='item' text="Đăng ký" textColor="white" bgColor="black" width="100px" onClick={handleSubmit} />
+        </div>
+        <br></br>
     </div>
 
   )

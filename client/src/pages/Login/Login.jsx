@@ -15,16 +15,28 @@ const Login = () => {
   }
 
   return (
+
     <div id='login'>
-        <h3>Đăng nhập</h3>
+        <br></br>
+        <h3>ĐĂNG NHẬP</h3>
         <div>
-            <label htmlFor="phone">Số điện thoại: </label>
-            <input type="text" id='phone' value={payload.phone} onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
+          <div class="input-icons">
+            {/* <label htmlFor="phone">Số điện thoại: </label> */}
+            <i class="fa fa-phone icon"></i>
+            <input type="text" id='phone' value={payload.phone} placeholder="Số điện thoại"
+            onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
             <br />
-            <label htmlFor="password">Mật khẩu: </label>
-            <input id='password' type="password" value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
+            {/* <label htmlFor="password">Mật khẩu: </label> */}
+            <i class="fa fa-edit icon"></i>
+            <input id='password' type="password" placeholder="Mật khẩu"
+            value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
+          </div>
         </div>
-        <Button className='item' text="Đăng nhập" textColor="white" bgColor="black" width="100px" onClick={handleSubmit} />
+        <br></br>
+        <div id = "btn">
+          <Button className='item' text="Đăng nhập" textColor="white" bgColor="black" width="100px" onClick={handleSubmit} />
+        </div>
+        <br></br>
     </div>
 
   )
