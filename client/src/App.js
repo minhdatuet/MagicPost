@@ -2,6 +2,7 @@ import Header from "./conponents/Header/Header";
 import {Routes, Route} from 'react-router-dom'
 import { Home } from "./pages/Home/Home";
 import { routes } from "./routes";
+import Footer from "./conponents/Footer/Footer";
 import Button from "./conponents/Button/Button";
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           )
         })}
       </Routes>
+      <Footer></Footer>
     </div>
   );
 }

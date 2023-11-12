@@ -8,7 +8,7 @@ import slide3 from '../../assets/images/slide3.png'
 export const Home = () => {
   return (
     <div>
-      <Slick arrImg = {[slide1, slide2, slide3]}>
+      <Slick arrImg = {[slide1, slide2, slide3, slide2]}>
         
       </Slick>
     </div>
