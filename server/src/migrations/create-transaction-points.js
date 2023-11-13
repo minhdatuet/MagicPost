@@ -1,33 +1,34 @@
 'use strict';
+
+const { DataTypes } = require('sequelize');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Accounts', {
+    await queryInterface.createTable('TransactionPoints', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      warehouseId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: 'warehouses', key: 'id' }
+      },
+      pointLeaderId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: { model: 'accounts', key: 'id' }
+      },
       name: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      phone: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      password: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      accountType: {
-        allowNull: false,
-        type: Sequelize.ENUM(['BOSS','WAREHOUSE_LEADER', 'WAREHOUSE_STAFF', 'POINT_LEADER', 'POINT_STAFF', 'CUSTOMER' ])
+        type: Sequelize.STRING(30),
+        allowNull: false
       },
       address: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +41,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Accounts');
+    await queryInterface.dropTable('TransactionPoints');
   }
 };

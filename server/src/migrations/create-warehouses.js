@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Accounts', {
+    await queryInterface.createTable('Warehouses', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,23 +11,16 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        type: Sequelize.STRING
-      },
-      phone: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      password: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      accountType: {
-        allowNull: false,
-        type: Sequelize.ENUM(['BOSS','WAREHOUSE_LEADER', 'WAREHOUSE_STAFF', 'POINT_LEADER', 'POINT_STAFF', 'CUSTOMER' ])
+        type: Sequelize.STRING(30)
       },
       address: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      leaderId: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: { model: 'accounts', key: 'id' }
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +33,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Accounts');
+    await queryInterface.dropTable('Warehouses');
   }
 };
