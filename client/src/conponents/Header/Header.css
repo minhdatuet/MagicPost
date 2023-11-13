@@ -22,8 +22,8 @@ span {
 
 svg {
     position: absolute;
-    right: 10px;
-    top: 8px;
+    /* right: 10px;
+    top: 8px; */
 }
 
 svg:hover {
