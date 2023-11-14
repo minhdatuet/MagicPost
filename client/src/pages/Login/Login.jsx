@@ -8,34 +8,53 @@ const Login = () => {
     phone: '',
     password: ''
   })
+  const [errorMessage, setErrorMessage] = useState('');
   const handleSubmit = async () => {
-    const response = await apiLogin(payload)
-    console.log(response)
+    try {
+      if (!payload.phone || !payload.password) {
+        setErrorMessage('Vui lòng điền đầy đủ thông tin đăng nhập!');
+        return;
+      }
+      const response = await apiLogin(payload);
+      console.log(response);
+      
+      if (response && response.error) {
+        setErrorMessage('Tên đăng nhập hoặc mật khẩu không chính xác!');
+      } else {
+        setErrorMessage('');
+        //chuyển sang trang của người dùng
+      }
+    } catch (error) {
+      setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');
+    }
   }
 
   return (
-
-    <div id='login'>
+    <div id = "container">
+      <div id = "container-signIn">
+        <h1>Đăng nhập</h1>
         <br></br>
-        <h3>ĐĂNG NHẬP</h3>
-        <div>
-          <div class="input-icons">
-            <i class="fa fa-phone icon"></i>
-            <input type="text" id='phone' value={payload.phone} placeholder="Số điện thoại"
+        <form>
+            <input type="text" id='phone' value={payload.phone} placeholder=" Số điện thoại"
             onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
-            <br />
-            <i class="fa fa-edit icon"></i>
-            <input id='password' type="password" placeholder="Mật khẩu"
+            <br></br>
+            <input id='password' type="password" placeholder=" Mật khẩu"
             value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
-          </div>
-        </div>
-        <br></br>
-        <div id = "btn">
-          <Button className='item' text="Đăng nhập" textColor="white" bgColor="black" width="100px" onClick={handleSubmit} />
-        </div>
-        <br></br>
+        </form>
+        {errorMessage && (
+            <p style={{ color: 'red', marginTop: '5px'}}>{errorMessage}</p>
+        )}
+        <Button text="Xác nhận" textColor="navy" bgColor="white" width="100px" onClick={handleSubmit} />
+      </div>
+      <div id = "poster">
+        <h1>Xin chào!</h1>
+        <p>
+          Vui lòng nhập thông tin cá nhân 
+          <br></br>
+          để sử dụng website
+        </p>
+      </div>
     </div>
-
   )
 }
 
