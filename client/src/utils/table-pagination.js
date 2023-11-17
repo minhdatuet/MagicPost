@@ -9,9 +9,23 @@ const calculateRange = (data, rowsPerPage) => {
 
 const sliceData = (data, page, rowsPerPage) => {
     return data.slice((page - 1) * rowsPerPage, page * rowsPerPage);
-}  
+}
+
+const nextPage = (currentPage, totalPages, setCurrentPage) => {
+    if (currentPage < totalPages) {
+        setCurrentPage(currentPage + 1);
+    }
+}
+
+const prevPage = (currentPage, setCurrentPage) => {
+    if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+    }
+}
 
 export {
     calculateRange,
-    sliceData
-}
+    sliceData,
+    nextPage,
+    prevPage
+};

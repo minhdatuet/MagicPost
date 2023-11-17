@@ -4,7 +4,7 @@ import Login from "../pages/Login/Login";
 import Package from "../pages/Package/Package";
 import Register from "../pages/Register/Register";
 import TransactionPoint from "../pages/TransactionPoint";
-import Warehouse from "../pages/Warehouse";
+import Warehouse from "../pages/Warehouse/Warehouse";
 
 export const routes = [
     {

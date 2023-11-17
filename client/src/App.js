@@ -6,7 +6,7 @@ import Button from "./conponents/Button/Button";
 import Sidebar from "./conponents/Sidebar/Sidebar";
 import Package from "./pages/Package/Package";
 import './App.css'
-import Warehouse from "./pages/Warehouse";
+import Warehouse from "./pages/Warehouse/Warehouse";
 import TransactionPoint from "./pages/TransactionPoint";
 import Account from "./pages/Account";
 function App() {

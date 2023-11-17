@@ -135,7 +135,7 @@ export default function Sidebar() {
     <nav className="sidebar">
       <div className="sidebarWrapper">
         {navList.map((item) => (
-          "Factory" === item.role ? <div className="sidebarMenu">
+          "Admin" === item.role ? <div className="sidebarMenu">
             <h3 className="sidebarTitle">{"Admin"}</h3>
             <ul className="sidebarList">
               {
