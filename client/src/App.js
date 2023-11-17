@@ -1,22 +1,29 @@
 import Header from "./conponents/Header/Header";
-import {Routes, Route} from 'react-router-dom'
+import {Routes, Route, Router} from 'react-router-dom'
 import { Home } from "./pages/Home/Home";
 import { routes } from "./routes";
 import Button from "./conponents/Button/Button";
+import Sidebar from "./conponents/Sidebar/Sidebar";
+import Package from "./pages/Package/Package";
+import './App.css'
+import Warehouse from "./pages/Warehouse";
+import TransactionPoint from "./pages/TransactionPoint";
+import Account from "./pages/Account";
 function App() {
   return (
-    <div>
-      <Header />
-      
-      <Routes>
-        {routes.map((route) => {
-          const Page = route.page
-          return (
-            <Route path={route.path} element={<Page />}  />
-          )
-        })}
-      </Routes>
-    </div>
+      <div className='dashboard-container'>
+      <div>
+      <Sidebar/>
+      </div>
+          <div className='dashboard-body'>
+              <Routes>
+                  <Route path="/warehouse" element={<Warehouse/>} />
+                  <Route path="/package" element={<Package/>} />
+                  <Route exact path="/transaction" element={<TransactionPoint/>} />
+                  <Route exact path="/account" element={<Account/>} />
+              </Routes>
+          </div>
+      </div>
   );
 }
 

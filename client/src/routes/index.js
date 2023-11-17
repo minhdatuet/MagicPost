@@ -1,7 +1,7 @@
 import Account from "../pages/Account";
 import { Home } from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
-import Package from "../pages/Package";
+import Package from "../pages/Package/Package";
 import Register from "../pages/Register/Register";
 import TransactionPoint from "../pages/TransactionPoint";
 import Warehouse from "../pages/Warehouse";
@@ -24,15 +24,15 @@ export const routes = [
         page: Warehouse
     },
     {
-        path: "/transaction",
+        path: '/transaction',
         page: TransactionPoint
     },
     {
-        path: "/package",
+        path: '/package',
         page: Package
     },
     {
-        path: "account",
+        path: 'account',
         page: Account
     }
 ]
