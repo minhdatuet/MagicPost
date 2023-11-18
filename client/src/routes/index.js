@@ -1,6 +1,10 @@
+import Account from "../pages/Account";
 import { Home } from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
+import Package from "../pages/Package/Package";
 import Register from "../pages/Register/Register";
+import TransactionPoint from "../pages/TransactionPoint";
+import Warehouse from "../pages/Warehouse/Warehouse";
 
 export const routes = [
     {
@@ -16,7 +20,19 @@ export const routes = [
         page: Register
     },
     {
-        path: '*',
-        page: Home
+        path: '/warehouse',
+        page: Warehouse
+    },
+    {
+        path: '/transaction',
+        page: TransactionPoint
+    },
+    {
+        path: '/package',
+        page: Package
+    },
+    {
+        path: 'account',
+        page: Account
     }
 ]

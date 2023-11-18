@@ -12,18 +12,18 @@
     position: relative;
 }
 
-img {
-    width: 8vw;
+.item img {
+    width: 10vw;
     margin-left: 50px !important;
 }
-span {
+.item span {
     width: 30vw;
 }
 
 svg {
     position: absolute;
-    right: 10px;
-    top: 8px;
+    /* right: 10px;
+    top: 8px; */
 }
 
 svg:hover {
