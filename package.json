@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@mui/icons-material": "^5.14.18",
+    "react-pro-sidebar": "^1.1.0-alpha.1"
+  }
+}
