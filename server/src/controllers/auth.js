@@ -16,16 +16,71 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.register = async (req, res) => {
-    const {name, phone, password, address} = req.body
+exports.createAccount = async (req, res) => {
+    const {name, phone, password, address, accountType} = req.body
     try{
         // return name
-        if(!name || !phone || !password || !address) return res.status(400).json({
+        if(!name || !phone || !password || !address || !accountType) return res.status(400).json({
             err: 1,
-            msg: 'Missing inputs!' 
+            msg: 'Missing inputs!' + (!name ? "name " : " ") + (!phone ? "phone " : " ") 
+                                + (!password ? "password " : " ") + (!address ? "address " : " ")
+                                + (!accountType ? "accountType " : " ")
         })
         const response = await authService.registerService(req.body)
         return res.status(200).json(response)    
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: 'Fail at auth controller' + error
+        })
+    }
+}
+
+exports.updateLeader = async (req, res) => {
+    const {accountType, phone, positionId } = req.body
+    try{
+        // return name
+        if(!accountType || !phone || !positionId) return res.status(400).json({
+            err: 1,
+            msg: 'Missing inputs!' + (!accountType ? "accountType " : " ") + (!phone ? "phone " : " ") + (!positionId ? "positionId " : " ")
+        })
+        const response = await authService.updateLeader(req.body)
+        return res.status(200).json(response)    
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: 'Fail at auth controller' + error
+        })
+    }
+}
+
+exports.updateEmployee = async (req, res) => {
+    const {accountType, phone, positionId } = req.body
+    try{
+        // return name
+        if(!accountType || !phone || !positionId) return res.status(400).json({
+            err: 1,
+            msg: 'Missing inputs!' + (!accountType ? "accountType " : " ") + (!phone ? "phone " : " ") + (!positionId ? "positionId " : " ")
+        })
+        const response = await authService.updateEmployee(req.body)
+        return res.status(200).json(response)    
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: 'Fail at auth controller' + error
+        })
+    }
+}
+
+exports.getEmployees = async (req, res) => {
+    const {positionId, type} = req.body
+    try {
+        if(!positionId || !type) return res.status(400).json({
+            err: 1,
+            msg: 'Missing inputs!' + (!positionId ? "positionId " : " ") + (!type ? "type " : " ")
+        })
+        const response = await authService.getEmployees(req.body)
+        return res.status(200).json(response)
     } catch (error) {
         return res.status(500).json({
             err: -1,
