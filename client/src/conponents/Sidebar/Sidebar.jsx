@@ -136,7 +136,9 @@ export default function Sidebar() {
       <div className="sidebarWrapper">
         {navList.map((item) => (
           "Admin" === item.role ? <div className="sidebarMenu">
-            <h3 className="sidebarTitle">{"Admin"}</h3>
+            <Link style={{ textDecoration: 'none' }} to={'/'}>
+                  <h3 className="sidebarTitle">{"Admin"}</h3>
+            </Link>
             <ul className="sidebarList">
               {
                 item.navChild.map((child) => (
