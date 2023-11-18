@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      TransactionPoint.hasMany(models.Package, {foreignKey: 'transactionPointStartId', sourceKey: 'id'}),
+      TransactionPoint.hasMany(models.Package, {foreignKey: 'transactionPointEndId', sourceKey: 'id'}),
+      TransactionPoint.belongsTo(models.Accounts, {foreignKey: 'pointLeaderId'}),
+      TransactionPoint.belongsTo(models.Warehouse, {foreignKey: 'warehouseId'}),
+      TransactionPoint.hasMany(models.Employee, {foreignKey: 'transactionPointId', sourceKey: 'id'})
     }
   }
   TransactionPoint.init({

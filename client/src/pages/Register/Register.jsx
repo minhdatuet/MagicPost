@@ -47,7 +47,6 @@ const Register = () => {
             <i class="fa fa-edit icon"></i>
             <input type="text" id='address' 
             placeholder="Địa chỉ" value={payload.address} onChange={(e) => setPayload(prev => ({...prev, address: e.target.value}) )} />
-            {/* //test2 */}
           </div>
         </div>
         <br></br>

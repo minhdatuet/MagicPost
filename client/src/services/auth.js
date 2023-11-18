@@ -17,7 +17,7 @@ export const apiRegister = (payload) =>  new Promise(async(resolve, reject) => {
     try {
         const response = await axiosConfig({
             method: 'post',
-            url: '/api/v1/auth/register',
+            url: '/api/v1/auth/create',
             data: payload
         })
         resolve(response)
