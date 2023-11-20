@@ -1,11 +1,12 @@
 import React from 'react'
 import './Button.css'
-const Button = ({className, text, textColor, bgColor, width, onClick}) => {
+const Button = ({className, text, textColor, bgColor, width, height, onClick}) => {
     const buttonStyles = {
         color: textColor || 'black', // Default color is black if not provided
         backgroundColor: bgColor || 'gray', // Default background color is gray if not provided
         // Add more style properties as needed
         width: width || 'auto',
+        height: height || 'auto'
 
       };
 

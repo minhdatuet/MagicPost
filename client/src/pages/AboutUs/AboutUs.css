@@ -1,6 +1,8 @@
 #list {
     display: flex;
     justify-content: space-evenly;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 #list #student {

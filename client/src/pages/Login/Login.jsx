@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './Login.css'
 import Button from '../../conponents/Button/Button'
 import { apiLogin } from '../../services/auth'
+import car from '../../assets/images/car.png'
 
 const Login = () => {
   const [payload, setPayload] = useState({
@@ -21,8 +22,7 @@ const Login = () => {
       if (response && response.error) {
         setErrorMessage('Tên đăng nhập hoặc mật khẩu không chính xác!');
       } else {
-        setErrorMessage('');
-        //chuyển sang trang của người dùng
+        setErrorMessage('Đã đăng nhập thành công');
       }
     } catch (error) {
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');
@@ -32,27 +32,40 @@ const Login = () => {
   return (
     <div id = "container">
       <div id = "container-signIn">
-        <h1>Đăng nhập</h1>
-        <br></br>
-        <form>
-            <input type="text" id='phone' value={payload.phone} placeholder=" Số điện thoại"
-            onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
-            <br></br>
-            <input id='password' type="password" placeholder=" Mật khẩu"
-            value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
-        </form>
-        {errorMessage && (
-            <p style={{ color: 'red', marginTop: '5px'}}>{errorMessage}</p>
-        )}
-        <Button text="Xác nhận" textColor="navy" bgColor="white" width="100px" onClick={handleSubmit} />
+        <div id = "flex1">
+          <div className = "flexRow">
+            <img id = "imgSignIn" src= {car} alt = ""/>
+            <h1>Đăng nhập</h1>
+          </div>
+          <form>
+            <div id = "phone">
+              <label>Số điện thoại</label>
+              <input type="text" id='phone' value={payload.phone} placeholder="Số điện thoại"
+              onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
+            </div>
+            <div id = "password">
+              <label>Mật khẩu</label>
+              <input id='password' type="password" placeholder="Mật khẩu"
+              value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
+            </div>
+          </form>
+          <br></br>
+          <button className = "btnSignIn" onClick={handleSubmit}>Xác nhận</button>
+          <br></br>
+          {errorMessage && (
+              <p style={{ color: 'red', marginTop: '5px'}}>{errorMessage}</p>
+          )}
+        </div>
       </div>
       <div id = "poster">
-        <h1>Xin chào!</h1>
-        <p>
-          Vui lòng nhập thông tin cá nhân 
-          <br></br>
-          để sử dụng website
-        </p>
+        <div id = "flex2">
+          <h1>Xin chào!</h1>
+          <p>
+            Vui lòng nhập thông tin cá nhân 
+            <br></br>
+            để sử dụng website
+          </p>
+        </div>
       </div>
     </div>
   )
