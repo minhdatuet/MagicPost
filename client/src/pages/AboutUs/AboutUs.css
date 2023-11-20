@@ -1,0 +1,22 @@
+#list {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+#list #student {
+    display: flex;
+    flex-direction: column;
+}
+
+#list #student p {
+    text-align: center;
+    size: 20px;
+}
+
+#avt1 {
+    border-radius: 100px;
+    width: 200px;
+    height: 200px;
+}

@@ -5,6 +5,8 @@ import Package from "../pages/Package/Package";
 import Register from "../pages/Register/Register";
 import TransactionPoint from "../pages/TransactionPoint";
 import Warehouse from "../pages/Warehouse/Warehouse";
+import Construction from "../pages/Construction/Construction"
+import AboutUs from "../pages//AboutUs//AboutUs"
 
 export const routes = [
     {
@@ -34,5 +36,17 @@ export const routes = [
     {
         path: 'account',
         page: Account
+    },
+    {
+        path: '*',
+        page: Home
+    },
+    {
+        path: '/construction',
+        page: Construction
+    },
+    {
+        path: '/aboutUs',
+        page: AboutUs
     }
 ]
