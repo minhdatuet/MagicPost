@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './Login.css'
 import Button from '../../conponents/Button/Button'
 import { apiLogin } from '../../services/auth'
+import { useNavigate } from 'react-router-dom'
 import car from '../../assets/images/car.png'
 
 const Login = () => {
@@ -10,19 +11,27 @@ const Login = () => {
     password: ''
   })
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
   const handleSubmit = async () => {
     try {
       if (!payload.phone || !payload.password) {
         setErrorMessage('Vui lòng điền đầy đủ thông tin đăng nhập!');
         return;
       }
+      
       const response = await apiLogin(payload);
       console.log(response);
       
       if (response && response.error) {
         setErrorMessage('Tên đăng nhập hoặc mật khẩu không chính xác!');
       } else {
-        setErrorMessage('Đã đăng nhập thành công');
+        // Clear sensitive information from the state
+        // setPayload({ phone: '', password: '' });
+        console.log(response);
+        localStorage.setItem('id', response.data.id);
+        localStorage.setItem('name', response.data.name);
+        localStorage.setItem('role', response.data.accountType);
+        // window.location.reload();
       }
     } catch (error) {
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');
