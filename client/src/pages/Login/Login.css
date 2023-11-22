@@ -66,6 +66,7 @@
 
 
 #poster {
+    position: relative;
     border-radius: 0px 20px 20px 0px;
     background-image: url(https://media.istockphoto.com/id/1299083810/vi/anh/b%C6%B0u-ki%E1%BB%87n-tr%C3%AAn-b%C4%83ng-t%E1%BA%A3i-trong-nh%C3%A0-kho.jpg?s=612x612&w=0&k=20&c=BAQefYe9vrqWQyNwAvsKHlyf99qqQdvPiStprLXED8s=);
     width: 700px;
@@ -78,8 +79,8 @@
 #poster::before {
     border-radius: 0px 20px 20px 0px;
     position:absolute;
-    width: 700px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
     content: "";
     background-color: rgba(0, 0, 0, 0.4);
     z-index: -1;

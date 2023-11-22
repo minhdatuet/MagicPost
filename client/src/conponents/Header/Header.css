@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
 
 #header {
-    margin-top: -1%;
     position: relative;
     background: url(../../assets/images/bg_1-1.jpg) no-repeat;
     height: 100vh;
@@ -66,8 +65,9 @@ nav .menuNav {
     margin-top: 270px
 }
 .post h1 {
+    display: flex;
+    justify-content: center;
     font-family: "Courier Prime", monospace; 
-    font-size: 70px;
     font-weight: 600;
     color: white;
     border-right: 4px solid #000;
@@ -86,4 +86,20 @@ nav .menuNav {
 
 span {
     margin-left: 200px;
+}
+
+@media screen and (min-width:360px) {
+    .post h1 {
+        font-size: 30px;
+    }
+}
+@media screen and (min-width:768px) {
+    .post h1 {
+        font-size: 50px;
+    }
+}
+@media screen and (min-width:1366px) {
+    .post h1 {
+        font-size:70px;
+    }
 }
