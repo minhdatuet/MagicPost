@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Modal from 'react-bootstrap/Modal';
+import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';
 
 import all_orders from '../../../constants/orders';
 import { calculateRange, sliceData, nextPage, prevPage, lastPage, firstPage } from '../../../utils/table-pagination';
@@ -8,16 +14,19 @@ import DoneIcon from '../../../assets/icons/done.svg';
 import CancelIcon from '../../../assets/icons/cancel.svg';
 import RefundedIcon from '../../../assets/icons/refunded.svg';
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
-
+import CreateNewPackageModal from './Modal/CreateNewPackage';
+import ExampleModal from './Modal/ExampleModal'
+import { Create } from '@mui/icons-material';
 function Package() {
+    const [modalShow, setModalShow] = useState(false);
     const [search, setSearch] = useState('');
     const [orders, setOrders] = useState(all_orders);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
 
     useEffect(() => {
-        setPagination(calculateRange(all_orders, 5));
-        setOrders(sliceData(all_orders, page, 5));
+        setPagination(calculateRange(all_orders, 4));
+        setOrders(sliceData(all_orders, page, 4));
     }, [page]);
 
     // Search
@@ -30,11 +39,11 @@ function Package() {
                 item.product.toLowerCase().includes(search.toLowerCase())
             );
             setOrders(searchResults);
-            setPagination(calculateRange(searchResults, 5));
+            setPagination(calculateRange(searchResults, 4));
             setPage(1); // Reset to the first page when searching
         } else {
-            setOrders(sliceData(all_orders, page, 5));
-            setPagination(calculateRange(all_orders, 5));
+            setOrders(sliceData(all_orders, page, 4));
+            setPagination(calculateRange(all_orders, 4));
         }
     };
 
@@ -59,9 +68,11 @@ function Package() {
     const handleFirstPage = () => {
         firstPage(page, setPage);
     };
+
     return (
         <div className='dashboard-content'>
-        <HeaderRole btnText={"Đơn hàng mới"} />
+        <HeaderRole btnText={"Đơn hàng mới"} variant="primary" onClick={() => setModalShow(true)}/>
+        <CreateNewPackageModal show={modalShow} onHide={() => setModalShow(false)} dialogClassName="modal-dialog-custom"/>
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     <h2>Đơn hàng</h2>
@@ -75,7 +86,6 @@ function Package() {
                         />
                     </div>
                 </div>
-
                 <table>
                     <thead>
                         <th>ID</th>
@@ -136,7 +146,7 @@ function Package() {
                     <div className='dashboard-content-footer'>
                         <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
                         <span className="pagination" onClick={handlePrevPage} disabled={page === 1}>{'<'}</span>
-                        {calculateRange(all_orders, 5).map((item, index) => (
+                        {calculateRange(all_orders, 4).map((item, index) => (
                             <span
                                 key={index}
                                 className={item === page ? 'active-pagination' : 'pagination'}

@@ -1,0 +1,94 @@
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for transparency */
+}
+.modal-dialog-custom {
+    position: fixed;
+    top: 50%; /* Center vertically */
+    left: 60%; /* Center horizontally */
+    transform: translate(-50%, -50%); 
+    z-index: 1050;
+  }
+  
+
+.form-container {
+    /* max-width: 400px; */
+    font-family: var(--font1);
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {    
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: smaller;
+    color: gray;
+    font-family: var(--font1);
+    margin-bottom: 10px;
+}
+
+.form-control {
+    border-radius: 5px;
+    margin-top: 5px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.modal-body, .modal-header, .modal-footer {
+    background-color: white;
+    /* margin: 0; */
+    font-family: var(--font1);
+    /* float: left; */
+    color: gray;
+    border: 1px solid gray;
+}
+.custom-modal {
+    background-color: gray;
+}
+.form-create {
+    width: 700px;
+    background-color: gray;
+}
+.half {
+    float: left;
+    width: 25%;
+    margin-bottom: 1em;
+  }
+  .center {
+    width: 25%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .right { 
+    width: 25%;
+    margin-left: 2%;
+    margin-right: 5%;
+ }
+  
+  .left {
+    margin-left: 5%;
+    margin-right: 2%; 
+  }
+  
+  @media (max-width: 480px) {
+    .half {
+       width: 100%; 
+       float: none;
+       margin-bottom: 0; 
+    }
+  }
+  
+  
+  /* Clearfix */
+  .cf:before,
+  .cf:after {
+      content: " "; /* 1 */
+      display: table; /* 2 */
+  }
+  
+  .cf:after {
+      clear: both;
+  }

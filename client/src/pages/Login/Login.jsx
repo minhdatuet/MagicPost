@@ -27,11 +27,11 @@ const Login = () => {
       } else {
         // Clear sensitive information from the state
         // setPayload({ phone: '', password: '' });
-        console.log(response);
-        localStorage.setItem('id', response.data.id);
-        localStorage.setItem('name', response.data.name);
-        localStorage.setItem('role', response.data.accountType);
-        // window.location.reload();
+        // console.log(response);
+        // localStorage.setItem('id', response.data.id);
+        // localStorage.setItem('name', response.data.name);
+        localStorage.setItem('role', 'BOSS');
+        window.location.reload();
       }
     } catch (error) {
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');

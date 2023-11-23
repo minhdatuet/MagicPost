@@ -71,7 +71,8 @@ th {
     padding: 12px 24px;
     background: transparent;
     box-shadow: none;
-    color: #2D83B5;
+    color: gray;
+    /* color: #2D83B5; */
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1.25;
@@ -144,7 +145,8 @@ td span, td div span {
     margin: 0.2rem;
     border-radius: 5px;
     color: #FFFFFF;
-    background-color: #2D83B5;
+    background-color: gray;
+    /* background-color: #2D83B5; */
     cursor: pointer;
 }
 .empty-table {
@@ -156,7 +158,7 @@ td span, td div span {
     font-weight: 700;
     border-color: #FFFFFF;
 }
-
+  
 @media only screen and (max-width: 768px) {
     .dashboard-content-container {
         margin: 1em;
