@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import all_warehouse from '../../constants/warehouses';
-import { calculateRange, sliceData, nextPage, prevPage } from '../../utils/table-pagination';
+import all_warehouse from '../../../constants/warehouses';
+import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage} from '../../../utils/table-pagination';
 
 import './style.css';
-import HeaderRole from '../../conponents/HeaderRole/HeaderRole';
+import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 
 function Warehouse() {
     const [search, setSearch] = useState('');
@@ -36,6 +36,7 @@ function Warehouse() {
     };
 
     // Change Page 
+
     const handleChangePage = (newPage) => {
         if (newPage !== page) {
             setPage(newPage);
@@ -48,6 +49,14 @@ function Warehouse() {
 
     const handlePrevPage = () => {
         prevPage(page, setPage);
+    };
+
+    const handleLastPage = () => {
+        lastPage(page, pagination.length, setPage);
+    };
+
+    const handleFirstPage = () => {
+        firstPage(page, setPage);
     };
 
     const renderPagination = () => {
@@ -122,10 +131,12 @@ function Warehouse() {
 
                 {warehouses.length !== 0 ? (
                     <div className='dashboard-content-footer'>
-                        <button onClick={handlePrevPage} disabled={page === 1}>{'<<'}</button>
+                        <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
+                        <span className="pagination" onClick={handlePrevPage} disabled={page === 1}>{'<'}</span>
                         {renderPagination()}
-                        <button onClick={handleNextPage} disabled={page === pagination.length}>{'>>'}</button>
-                    </div>
+                        <span className="pagination" onClick={handleNextPage} disabled={page === pagination.length}>{'>'}</span>
+                        <span className="pagination" onClick={handleLastPage} disabled={page === pagination.length}>{'>>'}</span>
+                        </div>
                 ) : (
                     <div className='dashboard-content-footer'>
                         <span className='empty-table'>No data</span>

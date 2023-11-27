@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import all_orders from '../../constants/orders';
-import { calculateRange, sliceData, nextPage, prevPage } from '../../utils/table-pagination';
+import all_orders from '../../../constants/orders';
+import { calculateRange, sliceData, nextPage, prevPage, lastPage, firstPage } from '../../../utils/table-pagination';
 
 import './styles.css';
-import DoneIcon from '../../assets/icons/done.svg';
-import CancelIcon from '../../assets/icons/cancel.svg';
-import RefundedIcon from '../../assets/icons/refunded.svg';
-import HeaderRole from '../../conponents/HeaderRole/HeaderRole';
+import DoneIcon from '../../../assets/icons/done.svg';
+import CancelIcon from '../../../assets/icons/cancel.svg';
+import RefundedIcon from '../../../assets/icons/refunded.svg';
+import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 
 function Package() {
     const [search, setSearch] = useState('');
@@ -52,13 +52,19 @@ function Package() {
     const handlePrevPage = () => {
         prevPage(page, setPage);
     };
+    const handleLastPage = () => {
+        lastPage(page, pagination.length, setPage);
+    };
 
+    const handleFirstPage = () => {
+        firstPage(page, setPage);
+    };
     return (
         <div className='dashboard-content'>
-        <HeaderRole btnText={"Đơn hàng mới"}/>
+        <HeaderRole btnText={"Đơn hàng mới"} />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    <h2>Orders List</h2>
+                    <h2>Đơn hàng</h2>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -128,7 +134,8 @@ function Package() {
 
                 {orders.length !== 0 ? (
                     <div className='dashboard-content-footer'>
-                        <button onClick={handlePrevPage} disabled={page === 1}>{'<<'}</button>
+                        <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
+                        <span className="pagination" onClick={handlePrevPage} disabled={page === 1}>{'<'}</span>
                         {calculateRange(all_orders, 5).map((item, index) => (
                             <span
                                 key={index}
@@ -137,7 +144,8 @@ function Package() {
                                 {item}
                             </span>
                         ))}
-                        <button onClick={handleNextPage} disabled={page === pagination.length}>{'>>'}</button>
+                        <span className="pagination" onClick={handleNextPage} disabled={page === pagination.length}>{'>'}</span>
+                        <span className="pagination" onClick={handleLastPage} disabled={page === pagination.length}>{'>>'}</span>
                     </div>
                 ) : (
                     <div className='dashboard-content-footer'>
