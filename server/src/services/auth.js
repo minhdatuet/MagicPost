@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwr = require('jsonwebtoken');
 require('dotenv').config()
 const hashPassword = password => bcrypt.hashSync(password, bcrypt.genSaltSync(12))
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Op } = require('sequelize');
 
 exports.registerService = (body) => new Promise(async(resolve, reject) => {
     try {
@@ -158,6 +158,46 @@ exports.getEmployees = (body) => new Promise(async(resolve, reject) => {
                 break
             }
         }
+        resolve({
+            err: response? 0: 2,
+            msg: response? "Succesfully" : "Unsuccesfully",
+            data: JSON.stringify(response)
+        })
+    } catch (error) {
+        reject(error)
+    }
+})
+
+exports.getUser = (body) => new Promise(async(resolve, reject) => {
+    try {
+        let response  = await db.Accounts.findAll({
+            where: {
+              phone: body.phone,
+            },
+            attributes: ['name', 'phone', 'address', 'accountType'],
+            include: [
+            {
+                model: db.Warehouse,
+                attributes: ['name', 'address'],
+                required: false,
+            },
+            {
+                model: db.TransactionPoint,
+                attributes: ['name', 'address'],
+                required: false,
+            },
+            {
+                model: db.Employee,
+                required: false,
+                attributes: ['id'],
+                include: [{
+                    model: db.Warehouse,
+                    attributes: ['name', 'address']
+                }]
+            }]
+
+        })
+        
         resolve({
             err: response? 0: 2,
             msg: response? "Succesfully" : "Unsuccesfully",
