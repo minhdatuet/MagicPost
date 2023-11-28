@@ -117,11 +117,11 @@
   }
 
   .sidebarText {
-      /* margin-left: 15px; */
+      margin-left: 15px;
       display: none; /* Hide text on smaller screens */
   }
   .sidebar-item-label {
-    /* margin-left: 15px; */
+    margin-left: 15px;
     display: none; /* Hide text on smaller screens */
   }
 }
