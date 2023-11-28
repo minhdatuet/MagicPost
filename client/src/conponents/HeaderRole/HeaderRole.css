@@ -46,3 +46,8 @@
     cursor: pointer;
     border-radius: 20px;
 }
+
+.info-box {
+    padding: 20px;
+    border-radius: 1px solid black;
+}

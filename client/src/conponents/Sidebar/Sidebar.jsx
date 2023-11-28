@@ -132,7 +132,7 @@ export default function Sidebar() {
       <div className="sidebarWrapper">
         {navList.map((item) => (
           "Boss" === item.role ? <div className="sidebarMenu">
-            <Link style={{ textDecoration: 'none' }} to={'/admin/dashboard'}>
+            <Link style={{ textDecoration: 'none' }} to={'/boss/dashboard'}>
                   <h3 className="sidebarTitle">{item.role}</h3>
             </Link>
             <ul className="sidebarList">
@@ -151,7 +151,7 @@ export default function Sidebar() {
           </div> : null
         ))}
         <div className='sidebar-footer' onClick={handleClickLogout}>
-                        <span className="sidebar-item-label">Logout</span>
+                        <span className="sidebar-item-label">Đăng xuất</span>
                         <img 
                             src={LogoutIcon}
                             alt='icon-logout'

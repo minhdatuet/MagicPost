@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import { ChakraProvider } from "@chakra-ui/react";
 
 import all_orders from '../../../constants/orders';
 import { calculateRange, sliceData, nextPage, prevPage, lastPage, firstPage } from '../../../utils/table-pagination';
@@ -15,15 +16,21 @@ import CancelIcon from '../../../assets/icons/cancel.svg';
 import RefundedIcon from '../../../assets/icons/refunded.svg';
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import CreateNewPackageModal from './Modal/CreateNewPackage';
-import ExampleModal from './Modal/ExampleModal'
-import { Create } from '@mui/icons-material';
+
 function Package() {
-    const [modalShow, setModalShow] = useState(false);
     const [search, setSearch] = useState('');
     const [orders, setOrders] = useState(all_orders);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    }
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    }
     useEffect(() => {
         setPagination(calculateRange(all_orders, 4));
         setOrders(sliceData(all_orders, page, 4));
@@ -46,7 +53,6 @@ function Package() {
             setPagination(calculateRange(all_orders, 4));
         }
     };
-
     // Change Page 
     const handleChangePage = (newPage) => {
         if (newPage !== page) {
@@ -71,8 +77,12 @@ function Package() {
 
     return (
         <div className='dashboard-content'>
-        <HeaderRole btnText={"Đơn hàng mới"} variant="primary" onClick={() => setModalShow(true)}/>
-        <CreateNewPackageModal show={modalShow} onHide={() => setModalShow(false)} dialogClassName="modal-dialog-custom"/>
+        <HeaderRole btnText={"Đơn hàng mới"} variant="primary" onClick={handleOpenModal} />
+        <CreateNewPackageModal
+            dialogClassName="modal-dialog-custom"
+            show={isModalOpen}
+            onHide={handleCloseModal}
+          />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     <h2>Đơn hàng</h2>

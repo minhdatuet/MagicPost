@@ -1,11 +1,13 @@
 import React from 'react';
-
 import './HeaderRole.css';
 import NotificationIcon from '../../assets/icons/notification.svg';
 import SettingsIcon from '../../assets/icons/settings.svg';
+import { useState } from 'react';
 
 function HeaderRole ({ btnText, onClick }) {
-    return(
+    const [isShowInfo, setShowInfo] = useState(false);
+
+    return (
         <div className='dashboard-header-container'>
             {btnText && 
                 <button className='dashboard-header-btn' onClick={onClick}>{btnText}</button>
@@ -22,10 +24,17 @@ function HeaderRole ({ btnText, onClick }) {
                     className='dashboard-header-icon' />
                 <img
                     className='dashboard-header-avatar'
-                    src='https://reqres.in/img/faces/9-image.jpg' />
+                    src='https://reqres.in/img/faces/9-image.jpg'
+                    onClick={() => setShowInfo(true)} />   
+                    {isShowInfo && (
+                        <div className='info-box'>
+                            <p>This is additional information.</p>
+                            <button onClick={() => setShowInfo(false)}>Close</button>
+                        </div>
+                    )}
             </div>
         </div>
-    )
+    );
 }
 
 export default HeaderRole;

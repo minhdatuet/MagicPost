@@ -7,11 +7,12 @@
     left: 0 !important;
     margin: 0 !important;
     width: 250px;
-    height: 110vh;
+    height: 105vh;
     /* display: flex; */
     justify-content: center;
     position: sticky;
-    background-image: linear-gradient(#015C92, #2D83B5, #89CCF6);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6)); /* Subtle black gradient */
+    /* background-image: linear-gradient(#015C92, #2D83B5, #89CCF6); */
     padding: 0;
 }
   
@@ -25,6 +26,7 @@
   }
   
   .sidebarTitle {
+    font-weight: bold;
     text-align: center;
     font-size: 30px;
     color: white;
@@ -34,9 +36,10 @@
   }
   
   .sidebarList {
+    margin: 0;
+    margin-top: 10px;
     list-style: none;
     padding: 0;
-    margin: 0;
     width: 100%;
     height: 100%;
   }
@@ -46,8 +49,8 @@
     width: 100%;
     height: 100%;
     margin: 0 !important;
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding-top: 1.2em;
+    padding-bottom: 1.2em;
     display: flex;
     color: #FFFFFF;
     list-style: none;
@@ -61,20 +64,25 @@
   .sidebarListItem:hover {
     width: 100%;
     height: 100%;
-    background-color: #004B77;
+    background-color: gray;
+    /* background-color: #004B77; */
     /* background-color: rgb(145, 85, 253); */
   }
   
   .sidebarIcon{
-      width: 30px;
-      padding-left: 30px;
+      width: 30px !important;
+      /* padding-left: 20px;  */
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left: 30px;
   }
   
   .sidebarText{
     /* padding-left: 35px; */
     font-size: smaller;
     font-weight: 600;
-    margin-left: 40px;
+    margin-left: 35px;
+    margin-top: 8px;
   }
   .sidebar-item-icon {
     width: 20px;
@@ -82,7 +90,7 @@
 .sidebar-item-label {
     font-size: 15px;
     font-weight: 600;
-    margin-left: 15px;
+    /* margin-left: 15px; */
 }
 /* Footer */
 .sidebar-footer {
@@ -113,7 +121,7 @@
 
   .sidebarIcon {
       padding: 5px;
-      padding-left: 15px;
+      padding-left: 15px; 
   }
 
   .sidebarText {

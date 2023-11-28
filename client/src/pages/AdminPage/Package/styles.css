@@ -71,8 +71,7 @@ th {
     padding: 12px 24px;
     background: transparent;
     box-shadow: none;
-    color: gray;
-    /* color: #2D83B5; */
+    color: gray !important;
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1.25;
@@ -83,7 +82,7 @@ tbody {
     display: table-row-group;
 }
 tr, thead {
-    color: inherit;
+    color: gray;
     display: table-row;
     vertical-align: middle;
     outline: 0px;
@@ -145,8 +144,7 @@ td span, td div span {
     margin: 0.2rem;
     border-radius: 5px;
     color: #FFFFFF;
-    background-color: gray;
-    /* background-color: #2D83B5; */
+    background-color: gray !important;
     cursor: pointer;
 }
 .empty-table {
