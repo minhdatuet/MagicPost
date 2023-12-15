@@ -46,15 +46,15 @@ const Header = () => {
               </Link>
           </div>
           </li>
-          <span></span>
+          <span className='header-span'></span>
           <li>
           <Link to='/aboutUs'> 
-            <a>Giới thiệu</a>
+            Giới thiệu
           </Link>
           </li>
           <li>
             <Link to='/construction'>
-              <a>Hướng dẫn</a>
+              Hướng dẫn
             </Link>
           </li>
           <li>
@@ -64,7 +64,7 @@ const Header = () => {
           </li>
           <li>
             <Link to = '/login'>
-              <a>Đăng nhập</a>
+              Đăng nhập
             </Link>
           </li>
         </ul>

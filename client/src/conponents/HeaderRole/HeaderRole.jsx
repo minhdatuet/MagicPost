@@ -6,22 +6,22 @@ import SettingsIcon from '../../assets/icons/settings.svg';
 
 function HeaderRole ({ btnText, onClick }) {
     return(
-        <div className='dashbord-header-container'>
+        <div className='dashboard-header-container'>
             {btnText && 
-                <button className='dashbord-header-btn' onClick={onClick}>{btnText}</button>
+                <button className='dashboard-header-btn' onClick={onClick}>{btnText}</button>
             }
 
-            <div className='dashbord-header-right'>
+            <div className='dashboard-header-right'>
                 <img 
                     src={NotificationIcon}
                     alt='notification-icon'
-                    className='dashbord-header-icon' />
+                    className='dashboard-header-icon' />
                 <img 
                     src={SettingsIcon}
                     alt='settings-icon'
-                    className='dashbord-header-icon' />
+                    className='dashboard-header-icon' />
                 <img
-                    className='dashbord-header-avatar'
+                    className='dashboard-header-avatar'
                     src='https://reqres.in/img/faces/9-image.jpg' />
             </div>
         </div>
