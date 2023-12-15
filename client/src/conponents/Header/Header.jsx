@@ -3,8 +3,15 @@ import './Header.css'
 import { BsSearch } from 'react-icons/bs'
 import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import * as actions from '../../store/actions'
+
 
 const Header = () => {
+  const dispatch = useDispatch()
+  const { isLogged } = useSelector(state => state.auth)
+  const {userData} = useSelector(state => state.user)
+
   useEffect(() => {
     const handleScroll = () => {
       var header = document.getElementById('header');
@@ -62,11 +69,17 @@ const Header = () => {
               <input type = "text" id = "search-input" placeholder='Nhập mã đơn hàng...'></input>
             </div>
           </li>
-          <li>
+          {!isLogged && <li>
             <Link to = '/login'>
               Đăng nhập
             </Link>
-          </li>
+          </li>}
+          {isLogged && userData && <li onClick={() => dispatch(actions.logout())}>
+          
+          <Link to = '/login'>
+              <div>Đăng xuất</div>
+            </Link>
+          </li>}
         </ul>
       </nav>
       <br></br>

@@ -28,6 +28,7 @@ export const apiRegister = (payload) =>  new Promise(async(resolve, reject) => {
 })
 
 
+
 // const AuthServices = {
 //     async function
 // }

@@ -1,17 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Login.css'
 import Button from '../../conponents/Button/Button'
-import { apiLogin } from '../../services/auth'
+import * as actions from '../../store/actions'
 import { useNavigate } from 'react-router-dom'
 import car from '../../assets/images/car.png'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Login = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const {isLogged} = useSelector(state => state.auth)
+  const {userData} = useSelector(state => state.user)
   const [payload, setPayload] = useState({
     phone: '',
     password: ''
   })
+
+  useEffect(() => {
+    isLogged && navigate('/')
+  }, [isLogged])
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+  
   const handleSubmit = async () => {
     try {
       if (!payload.phone || !payload.password) {
@@ -19,20 +28,27 @@ const Login = () => {
         return;
       }
       
-      const response = await apiLogin(payload);
+      const response = dispatch(actions.login(payload))
       console.log(response);
+
+      
       
       if (response && response.error) {
         setErrorMessage('Tên đăng nhập hoặc mật khẩu không chính xác!');
       } else {
         // Clear sensitive information from the state
         // setPayload({ phone: '', password: '' });
-        console.log(response);
-        localStorage.setItem('id', response.data.id);
-        localStorage.setItem('name', response.data.name);
-        localStorage.setItem('role', response.data.accountType);
+        // console.log(response);
         // window.location.reload();
+        
+        // setTimeout(() => {
+
+        // }, 2000)
+                //   localStorage.setItem('id', '1');
+
       }
+
+      
     } catch (error) {
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');
     }
