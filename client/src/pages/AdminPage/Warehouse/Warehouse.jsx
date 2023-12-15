@@ -5,16 +5,35 @@ import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage} fro
 
 import './style.css';
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
+import CreateNewWarehouseModal from './Modal/CreateNewWarehouse/CreateNewWarehouse';
+import UpdateWarehouseModal from './Modal/UpdateWarehouse/UpdateWarehouse';
 
 function Warehouse() {
     const [search, setSearch] = useState('');
     const [warehouses, setWarehouses] = useState(all_warehouse);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [isDelete, setIsDelete] = useState(null);
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    }
 
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    }
+
+    const handleOpenUpdateModal = () => {
+        setIsUpdateModalOpen(true);
+    }
+
+    const handleCloseUpdateModal = () => {
+        setIsUpdateModalOpen(false);
+    }
     useEffect(() => {
-        setPagination(calculateRange(all_warehouse, 6));
-        setWarehouses(sliceData(all_warehouse, page, 6));
+        setPagination(calculateRange(all_warehouse, 5));
+        setWarehouses(sliceData(all_warehouse, page, 5));
     }, [page]);
 
     // Search
@@ -27,11 +46,11 @@ function Warehouse() {
                 item.leader.toLowerCase().includes(search.toLowerCase())
             );
             setWarehouses(searchResults);
-            setPagination(calculateRange(searchResults, 6));
+            setPagination(calculateRange(searchResults, 5));
             setPage(1); // Reset to the first page when searching
         } else {
-            setWarehouses(sliceData(all_warehouse, page, 6));
-            setPagination(calculateRange(all_warehouse, 6));
+            setWarehouses(sliceData(all_warehouse, page, 5));
+            setPagination(calculateRange(all_warehouse, 5));
         }
     };
 
@@ -91,10 +110,15 @@ function Warehouse() {
     return (
         <div className='dashboard-content'>
         <HeaderRole
-            btnText="Thêm kho hàng" />
+            btnText="Thêm kho hàng" onClick={setIsModalOpen}/>
+            <CreateNewWarehouseModal
+            // dialogClassName="modal-dialog-custom"
+            show={isModalOpen}
+            onHide={handleCloseModal}
+            style={{ zIndex: 9999 }} // Add this line
+        />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    
                     <h2>Danh sách kho</h2>
                     <div className='dashboard-content-search'>
                         <input
@@ -123,10 +147,24 @@ function Warehouse() {
                                     <td><span>{warehouse.name}</span></td>
                                     <td><span>{warehouse.email}</span></td>
                                     <td><span>{warehouse.leader}</span></td>
+                                    <td>
+                                        <ul class="list-inline m-0">
+                                            <li class="list-inline-item">
+                                                <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" onClick={setIsUpdateModalOpen}><i class="fa fa-edit"></i></button>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                            </li>
+                                        </ul>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
                     ) : null}
+                    <UpdateWarehouseModal
+                    show={isUpdateModalOpen}
+                    onHide={handleCloseUpdateModal}
+                />
                 </table>
 
                 {warehouses.length !== 0 ? (
