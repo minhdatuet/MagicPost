@@ -1,38 +1,62 @@
-import Account from "../pages/Account";
+import Account from "../pages/AdminPage/Account/Account";
 import { Home } from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
-import Package from "../pages/Package/Package";
+import Package from "../pages/AdminPage/Package/Package";
 import Register from "../pages/Register/Register";
-import TransactionPoint from "../pages/TransactionPoint";
-import Warehouse from "../pages/Warehouse/Warehouse";
+import TransactionPoint from "../pages/AdminPage/TransactionPoint/TransactionPoint";
+import Warehouse from "../pages/AdminPage/Warehouse/Warehouse";
+import Construction from "../pages/Construction/Construction"
+import AboutUs from "../pages//AboutUs//AboutUs"
+import DashBoardAdmin from "../pages/AdminPage/Dashboard/DashBoardAdmin"
 
-export const routes = [
+const publicRoutes = [
     {
-        path: '/',
-        page: Home
+      path: '/login',
+      page: Login
     },
     {
-        path: '/login',
-        page: Login
+      path: '/register',
+      page: Register
     },
     {
-        path: '/register',
-        page: Register
+      path: '/construction',
+      page: Construction
     },
     {
-        path: '/warehouse',
+      path: '/aboutUs',
+      page: AboutUs
+    },
+    {
+      path: '/',
+      page: Home
+    },
+    {
+      path: '*',
+      page: Home
+    }
+  ];
+  
+const bossRoutes = [
+    {
+        path: 'boss/dashboard',
+        page: DashBoardAdmin
+    },
+    {
+        path: 'boss/warehouse',
         page: Warehouse
     },
     {
-        path: '/transaction',
+        path: 'boss/transaction',
         page: TransactionPoint
     },
     {
-        path: '/package',
+        path: 'boss/package',
         page: Package
     },
     {
-        path: 'account',
+        path: 'boss/account',
         page: Account
-    }
+    },
 ]
+
+export {publicRoutes, bossRoutes}

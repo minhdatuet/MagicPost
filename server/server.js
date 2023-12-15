@@ -6,10 +6,12 @@ const connectDatabase = require('./src/config/connectDatabase.js');
 const app = express()
 app.use(cors({
     origin: process.env.CLIENT_URL,
-    methods: ["POST", "GET", "PUT", "DELETE"]
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true
 }))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+
 
 initRoutes(app)
 connectDatabase()

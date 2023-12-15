@@ -15,7 +15,7 @@ import {
   Inventory2Rounded,
   AccountBalanceRounded
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import LogoutIcon from '../../assets/icons/logout.svg';
@@ -23,63 +23,59 @@ import LogoutIcon from '../../assets/icons/logout.svg';
 export default function Sidebar() {
   const { currentUser } = useSelector((state) => state.auth);
   const [isActive, setIsActive] = useState(1);
+  const navigate = useNavigate();
+  const handleClickLogout = () => {
+    localStorage.setItem('role', '');
+    localStorage.setItem('id', '');
+    localStorage.setItem('name', '');
+    navigate('/');
+    window.location.reload();
+};
 
   const navList = [
     {
-      role: "Admin",
+      role: "Boss",
       navChild: [
         {
           icon: WarehouseRounded,
           title: "Kho hàng",
-          link: "/warehouse",
+          link: "boss/warehouse",
           key: 1,
         },
         {
           icon: FactoryRounded,
           title: "Điểm giao dịch",
-          link: "/transaction",
+          link: "boss/transaction",
           key: 2,
         },
         {
           icon: Inventory2Rounded,
           title: "Đơn hàng",
-          link: "/package",
+          link: "boss/package",
           key: 3,
         },
         {
           icon: AccountBalanceRounded,
           title: "Tài khoản",
-          link: "/account",
+          link: "boss/account",
           key: 4,
         },
        ]
     },
     {
-      role: "Factory",
+      role: "Leader",
       navChild: [
         {
-          icon: BarChart,
-          title: "Home",
-          link: "/",
+          icon: AccountBalanceRounded,
+          title: "Giao dịch viên",
+          link: "/leader/account",
           key: 1,
         },
         {
-          icon: Warehouse,
-          title: "Warehouse",
-          link: "/factory/warehouse",
+          icon: Inventory2Rounded,
+          title: "Hàng hoá",
+          link: "/leader/package",
           key: 2,
-        },
-        {
-          icon: SendToMobile,
-          title: "Export",
-          link: "/factory/export",
-          key: 3,
-        },
-        {
-          icon: Settings,
-          title: "Error Product",
-          link: "/factory/error",
-          key: 4,
         },
       ]
     },
@@ -135,9 +131,9 @@ export default function Sidebar() {
     <nav className="sidebar">
       <div className="sidebarWrapper">
         {navList.map((item) => (
-          "Admin" === item.role ? <div className="sidebarMenu">
-            <Link style={{ textDecoration: 'none' }} to={'/'}>
-                  <h3 className="sidebarTitle">{"Admin"}</h3>
+          "Boss" === item.role ? <div className="sidebarMenu">
+            <Link style={{ textDecoration: 'none' }} to={'/admin/dashboard'}>
+                  <h3 className="sidebarTitle">{item.role}</h3>
             </Link>
             <ul className="sidebarList">
               {
@@ -154,7 +150,7 @@ export default function Sidebar() {
             </ul>
           </div> : null
         ))}
-        <div className='sidebar-footer'>
+        <div className='sidebar-footer' onClick={handleClickLogout}>
                         <span className="sidebar-item-label">Logout</span>
                         <img 
                             src={LogoutIcon}

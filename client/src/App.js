@@ -1,33 +1,50 @@
+import React from 'react';
 import Header from "./conponents/Header/Header";
-import {Routes, Route, Router} from 'react-router-dom'
-import { Home } from "./pages/Home/Home";
-import { routes } from "./routes";
-import Button from "./conponents/Button/Button";
+import { Routes, Route } from 'react-router-dom';
+import { publicRoutes, bossRoutes } from "./routes";
+import Footer from "./conponents/Footer/Footer";
 import Sidebar from "./conponents/Sidebar/Sidebar";
-import Package from "./pages/Package/Package";
-import './App.css'
-import Warehouse from "./pages/Warehouse/Warehouse";
-import TransactionPoint from "./pages/TransactionPoint";
-import Account from "./pages/Account";
 import DashBoardAdmin from "./pages/AdminPage/Dashboard/DashBoardAdmin";
-import Login from "./pages/Login/Login";
+import './App.css'
+
 function App() {
   return (
-      <div className='dashboard-container'>
-      <div>
-      <Sidebar/>
-      </div>
-          <div className='dashboard-body'>
+    <Routes>
+      {localStorage.getItem('role') === 'BOSS' ? (
+        <Route
+          path="*"
+          element={
+            <div className='dashboard-container'>
+              <div>
+                <Sidebar/>
+              </div>
+              <div className='dashboard-body'>
+                <Routes>
+                  {bossRoutes.map((route, i) => (
+                    <Route key={i} path={route.path} element={<route.page />} />
+                  ))}
+                </Routes>
+              </div>
+            </div>
+          }
+        />
+      ) : (
+        <Route
+          path="*"
+          element={
+            <div>
+              <Header />
               <Routes>
-                  <Route path="/login" element={<Login/>} />
-                  <Route path="/" element={<DashBoardAdmin/>} />
-                  <Route path="/warehouse" element={<Warehouse/>} />
-                  <Route path="/package" element={<Package/>} />
-                  <Route exact path="/transaction" element={<TransactionPoint/>} />
-                  <Route exact path="/account" element={<Account/>} />
+                {publicRoutes.map((route, i) => (
+                  <Route key={i} path={route.path} element={<route.page />} />
+                ))}
               </Routes>
-          </div>
-      </div>
+              <Footer />
+            </div>
+          }
+        />
+      )}
+    </Routes>
   );
 }
 

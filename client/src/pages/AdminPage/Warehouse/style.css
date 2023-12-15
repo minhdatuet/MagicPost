@@ -156,3 +156,31 @@ td span, td div span {
     font-weight: 700;
     border-color: #FFFFFF;
 }
+
+@media only screen and (max-width: 768px) {
+    .dashboard-content-container {
+        margin: 1em;
+        background-color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 1em;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        overflow: auto;
+    }
+
+    .dashboard-content-footer {
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    .dashboard-content-footer .pagination,
+    .dashboard-content-footer .active-pagination {
+        margin: 0.2rem;
+        width: 30px; 
+    }
+    th, td {
+        padding: 5px; 
+    }
+}

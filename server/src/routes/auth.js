@@ -10,6 +10,6 @@ router.put('/update/leader', authController.updateLeader);
 router.post('/update/employee', authController.updateEmployee);
 
 router.get('/get/employees', authController.getEmployees);
-router.get('/get/user', authController.getUser);
+
 
 module.exports = router;

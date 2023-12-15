@@ -27,18 +27,6 @@ export const apiRegister = (payload) =>  new Promise(async(resolve, reject) => {
     }
 })
 
-export const apiGetUser = (payload) =>  new Promise(async(resolve, reject) => {
-    try {
-        const response = await axiosConfig({
-            method: 'get',
-            url: '/api/v1/auth/get/user',
-            data: payload
-        })
-        resolve(response)
-    } catch (error) {
-        reject(error)
-    }
-})
 
 
 // const AuthServices = {

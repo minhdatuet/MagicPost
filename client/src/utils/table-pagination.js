@@ -22,10 +22,31 @@ const prevPage = (currentPage, setCurrentPage) => {
         setCurrentPage(currentPage - 1);
     }
 }
+const firstPage = (currentPage, setCurrentPage) => {
+    if (currentPage > 1) {
+        setCurrentPage(1);
+    }
+}
 
-export {
-    calculateRange,
-    sliceData,
-    nextPage,
-    prevPage
+const lastPage = (currentPage, totalPages, setCurrentPage) => {
+    if (currentPage < totalPages) {
+        setCurrentPage(totalPages);
+    }
+}
+const limitDisplayedPages = (currentPage, totalPages) => {
+    const displayedPages = 3;
+    const halfDisplayed = Math.floor(displayedPages / 2);
+
+    let startPage = Math.max(1, currentPage - halfDisplayed);
+    let endPage = Math.min(startPage + displayedPages - 1, totalPages);
+
+    if (endPage - startPage + 1 < displayedPages) {
+        startPage = Math.max(1, endPage - displayedPages + 1);
+    }
+
+    return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
 };
+
+export { calculateRange, sliceData, nextPage, prevPage, limitDisplayedPages, firstPage, lastPage };
+
+
