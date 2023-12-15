@@ -92,14 +92,29 @@ nav .menuNav {
     .post h1 {
         font-size: 30px;
     }
+    #search-input {
+        width: 100px
+    }
+    nav .menuNav {
+        gap: 5px
+    }
 }
 @media screen and (min-width:768px) {
     .post h1 {
         font-size: 50px;
     }
+    #search-input {
+        width: 200px
+    }
+    nav .menuNav {
+        gap: 20px
+    }
 }
 @media screen and (min-width:1366px) {
     .post h1 {
         font-size:70px;
+    }
+    #search-input {
+        width: 250px
     }
 }

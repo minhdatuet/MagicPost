@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef} from 'react'
 import './Login.css'
 import Button from '../../conponents/Button/Button'
 import { apiLogin } from '../../services/auth'
@@ -12,6 +12,18 @@ const Login = () => {
   })
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+
+  const passwordRef = useRef(null);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (passwordRef.current) {
+        passwordRef.current.focus();
+      }
+    }
+  }
+  
   const handleSubmit = async () => {
     try {
       if (!payload.phone || !payload.password) {
@@ -31,6 +43,7 @@ const Login = () => {
         localStorage.setItem('id', response.data.id);
         localStorage.setItem('name', response.data.name);
         localStorage.setItem('role', response.data.accountType);
+        setErrorMessage('Đăng nhập thành công!');
         // window.location.reload();
       }
     } catch (error) {
@@ -47,15 +60,22 @@ const Login = () => {
             <h1>Đăng nhập</h1>
           </div>
           <form>
-            <div id = "phone">
+            <div id = "phoneDiv">
               <label>Số điện thoại</label>
-              <input type="text" id='phone' value={payload.phone} placeholder="Số điện thoại"
+              <input type="text" id='phone' 
+              value={payload.phone} 
+              placeholder="Số điện thoại"
+              onKeyDown={handleKeyDown}
               onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
             </div>
-            <div id = "password">
+            <div id = "passwordDiv">
               <label>Mật khẩu</label>
-              <input id='password' type="password" placeholder="Mật khẩu"
-              value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
+              <input id='password' 
+              type="password" 
+              placeholder="Mật khẩu"
+              value={payload.password} 
+              ref={passwordRef}
+              onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
             </div>
           </form>
           <br></br>
