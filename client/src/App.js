@@ -10,6 +10,7 @@ import Warehouse from "./pages/Warehouse/Warehouse";
 import TransactionPoint from "./pages/TransactionPoint";
 import Account from "./pages/Account";
 import DashBoardAdmin from "./pages/AdminPage/Dashboard/DashBoardAdmin";
+import Login from "./pages/Login/Login";
 function App() {
   return (
       <div className='dashboard-container'>
@@ -18,6 +19,7 @@ function App() {
       </div>
           <div className='dashboard-body'>
               <Routes>
+                  <Route path="/login" element={<Login/>} />
                   <Route path="/" element={<DashBoardAdmin/>} />
                   <Route path="/warehouse" element={<Warehouse/>} />
                   <Route path="/package" element={<Package/>} />
