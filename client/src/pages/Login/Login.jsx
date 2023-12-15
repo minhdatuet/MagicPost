@@ -22,7 +22,12 @@ const Login = () => {
       if (response && response.error) {
         setErrorMessage('Tên đăng nhập hoặc mật khẩu không chính xác!');
       } else {
+        //doan nhay sang router admin
         setErrorMessage('Đã đăng nhập thành công');
+        localStorage.setItem('id', response.data.id);
+        localStorage.setItem('name', response.data.name);
+        localStorage.setItem('role', response.data.accountType);
+        window.location.reload();
       }
     } catch (error) {
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');
