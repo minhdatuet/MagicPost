@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './AboutUs.css'
 import avt1 from '../../assets/images/avt1.jpg'
 import avt3 from '../../assets/images/avt3.jpg'
+import { useSelector, useDispatch } from 'react-redux'
+import * as actions from '../../store/actions'
 
-const AboutUs = () => {
+const AboutUs = () => {    
     return(
         <div id = "list">
             <div id = "student">

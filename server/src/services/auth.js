@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwr = require('jsonwebtoken');
 require('dotenv').config()
 const hashPassword = password => bcrypt.hashSync(password, bcrypt.genSaltSync(12))
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Op } = require('sequelize');
 
 exports.registerService = (body) => new Promise(async(resolve, reject) => {
     try {
@@ -167,3 +167,4 @@ exports.getEmployees = (body) => new Promise(async(resolve, reject) => {
         reject(error)
     }
 })
+
