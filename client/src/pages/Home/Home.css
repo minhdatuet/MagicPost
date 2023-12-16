@@ -76,6 +76,7 @@ div.packageForm {
 }
 
 .packageForm > .flex2 h1 {
+    margin-top: 3%;
     font-size: 20px;
     color: #ffffff;
 }
@@ -131,12 +132,14 @@ div.packageForm {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    margin-top: 10%;
 }
 
 .packageForm > .flex3 > .info > .flex3-2 > .flex4 {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    margin-top: 10%;
 }
 
  .flex4 > .flex5 {
