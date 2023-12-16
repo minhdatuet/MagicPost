@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react';
 import React from 'react';
 import './Home.css';
@@ -16,6 +17,29 @@ export const Home = () => {
       console.error('Error fetching data:', error);
     }
   };
+=======
+import React, { useEffect } from 'react'
+import './Home.css'
+import { apiGetPackage, apiGetUser } from '../../services/user'
+import { useSelector, useDispatch } from 'react-redux'
+import * as actions from '../../store/actions'
+
+export const Home = () => {
+  const dispatch = useDispatch()
+  const {isLogged} = useSelector(state => state.auth)
+  const {userData} = useSelector(state => state.user)
+
+  useEffect(() => {
+      setTimeout(() => {
+          isLogged && dispatch(actions.getUser())
+      },500)
+      
+  },[isLogged])
+
+
+  console.log(userData)
+
+>>>>>>> 815b9de5f71fd6105034b76d9c829ec06cbb8ed0
   return (
     <div id = "home">
       <div className = "flexSearch">
