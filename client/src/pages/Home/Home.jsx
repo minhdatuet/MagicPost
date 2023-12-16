@@ -21,20 +21,7 @@ export const Home = () => {
       console.error('Error fetching data:', error);
     }
   };
-
-  const dispatch = useDispatch()
-  const {isLogged} = useSelector(state => state.auth)
-  const {userData} = useSelector(state => state.user)
-
-  useEffect(() => {
-      setTimeout(() => {
-          isLogged && dispatch(actions.getUser())
-      },500)
-      
-  },[isLogged])
-
-
-  console.log(userData)
+  
   return (
     <div id = "home">
       <div className = "flexSearch">

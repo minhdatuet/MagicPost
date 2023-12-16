@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Package.hasOne(models.Status, {foreignKey: 'packageId',sourceKey: 'id'}),
-      Package.belongsTo(models.Accounts, {foreignKey: 'senderId', as: 'sender'}),
-      Package.belongsTo(models.Accounts, {foreignKey: 'receiverId', as: 'receiver'}),
+      Package.belongsTo(models.Customer, {foreignKey: 'senderId', as: 'sender'}),
+      Package.belongsTo(models.Customer, {foreignKey: 'receiverId', as: 'receiver'}),
       Package.belongsTo(models.TransactionPoint, {foreignKey: 'transactionPointStartId', as: 'transactionPointStart'}),
       Package.belongsTo(models.TransactionPoint, {foreignKey: 'transactionPointEndId', as: 'transactionPointEnd'}),
       Package.belongsTo(models.Warehouse, {foreignKey: 'warehouseStartId', as: 'warehouseStart'}),
