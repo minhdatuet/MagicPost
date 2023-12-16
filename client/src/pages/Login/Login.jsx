@@ -1,17 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Login.css'
 import Button from '../../conponents/Button/Button'
-import { apiLogin } from '../../services/auth'
+import * as actions from '../../store/actions'
 import { useNavigate } from 'react-router-dom'
 import car from '../../assets/images/car.png'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Login = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const {isLogged} = useSelector(state => state.auth)
+  const {userData} = useSelector(state => state.user)
   const [payload, setPayload] = useState({
     phone: '',
     password: ''
   })
+
+  useEffect(() => {
+    isLogged && navigate('/')
+  }, [isLogged])
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+  
   const handleSubmit = async () => {
     try {
       if (!payload.phone || !payload.password) {
@@ -19,8 +28,10 @@ const Login = () => {
         return;
       }
       
-      const response = await apiLogin(payload);
+      const response = dispatch(actions.login(payload))
       console.log(response);
+
+      
       
       if (response && response.error) {
         setErrorMessage('Tên đăng nhập hoặc mật khẩu không chính xác!');
@@ -34,6 +45,8 @@ const Login = () => {
         navigate(`/boss/dashboard`);
         window.location.reload();
       }
+
+      
     } catch (error) {
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');
     }

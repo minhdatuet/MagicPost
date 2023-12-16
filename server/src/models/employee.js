@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Employee.belongsTo(models.Accounts, { foreignKey: 'accountId' }),
-      Employee.belongsTo(models.Warehouse, { foreignKey: 'warehouseId' }),
-      Employee.belongsTo(models.TransactionPoint, { foreignKey: 'transactionPointId' })
+      Employee.belongsTo(models.Warehouse, { foreignKey: 'warehouseId'}),
+      Employee.belongsTo(models.TransactionPoint, { foreignKey: 'transactionPointId'})
     }
   }
   Employee.init({
