@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './Login.css'
 import Button from '../../conponents/Button/Button'
 import * as actions from '../../store/actions'
@@ -20,6 +20,17 @@ const Login = () => {
     isLogged && navigate('/')
   }, [isLogged])
   const [errorMessage, setErrorMessage] = useState('');
+
+  const passwordRef = useRef(null);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (passwordRef.current) {
+        passwordRef.current.focus();
+      }
+    }
+  }
   
   const handleSubmit = async () => {
     try {
@@ -45,8 +56,6 @@ const Login = () => {
         navigate(`/boss/dashboard`);
         window.location.reload();
       }
-
-      
     } catch (error) {
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');
     }
@@ -61,15 +70,22 @@ const Login = () => {
             <h1>Đăng nhập</h1>
           </div>
           <form>
-            <div id = "phone">
+            <div id = "phoneDiv">
               <label className='label-login'>Số điện thoại</label>
-              <input type="text" id='phone' value={payload.phone} placeholder="Số điện thoại"
+              <input type="text" id='phone' 
+              value={payload.phone} 
+              placeholder="Số điện thoại"
+              onKeyDown={handleKeyDown}
               onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
             </div>
-            <div id = "password">
+            <div id = "passwordDiv">
               <label>Mật khẩu</label>
-              <input id='password' type="password" placeholder="Mật khẩu"
-              value={payload.password} onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
+              <input id='password' 
+              type="password" 
+              placeholder="Mật khẩu"
+              value={payload.password} 
+              ref={passwordRef}
+              onChange={(e) => setPayload(prev => ({...prev, password: e.target.value}) )} />
             </div>
           </form>
           <br></br>

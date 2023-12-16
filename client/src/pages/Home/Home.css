@@ -4,6 +4,17 @@
     margin-top: 5%;
     margin-bottom: 5%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+#home.flexSearch {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 10px;
@@ -23,12 +34,201 @@
 
 #btnSubmit {
     height: 60px;
-    width: 80px;
+    width: 90px;
     background-color: #333333;
     color:white;
     font-family: "Courier Prime", monospace; 
     border-radius: 25px;
     font-size: 15px;
     font-weight: bolder;
+}
+
+div.packageForm {
+    background-color: #ffffff;
+    width: 70%;
+    height: 900px;
+    position: relative;
+}
+
+.flex1 {
+    display: flex;
+    align-items: center;
+    background-color: #cfb48b;
+    width: auto;
+    height: 50px;
+}
+
+.flex1 p {
+    color:#ffffff;
+    padding-left: 5%;
+    font-weight: bold;
+}
+
+.packageForm > .flex2 {
+    background-color: #3b3a3a;
+    width: 50%;
+    height: 90px;
+    position: absolute;
+    top: 0; left: 0;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10%;
+}
+
+.packageForm > .flex2 h1 {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.packageForm > .flex2 p {
+    margin-top: -10px;
+    font-size: 15px;
+    color: #ffffff;
+    font-style: italic;
+}
+
+.packageForm > .flex3 {
+    background-color: transparent;
+    width: 90%;
+    height: 500px;
+    position: absolute;
+    top: 8%; left: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.packageForm > .flex3 > .info {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    gap:5px;
+}
+
+#tem {
+    padding-left: 20%;
+    height: auto;
+    width: 320px;
+}
+
+.packageForm > .flex3 > .info > .flex3-1 {
+    width: 50%;
+}
+
+.packageForm > .flex3 > .info > .flex3-2 {
+    width: 50%;
+}
+
+.packageForm > .flex3 > .info > .flex3-1 > .flex1 {
+    height: 50px;
+}
+
+.packageForm > .flex3 > .info > .flex3-2 > .flex1 {
+    height: 50px;
+}
+
+.packageForm > .flex3 > .info > .flex3-1 > .flex4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.packageForm > .flex3 > .info > .flex3-2 > .flex4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+ .flex4 > .flex5 {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.pStatus {
+    color: green;
+    font-weight: bold;
+}
+
+.pLabel {
+    margin-left: 5%;
+    padding-right: 20px;
+}
+
+.packageForm > .flex3 > hr {
+    border: none;
+    border-top: 2px solid #ccc; 
+    margin: 20px 0; 
+  }
+
+@media screen and (min-width:360px) {
+    #home input {
+        width: 400px;
+    }
+    div.packageForm {
+        width: 90%;
+    }
+    .flex1 {
+        height: 50px;
+    }
+    .packageForm > .flex3 > .info > .flex3-1 > .flex1 {
+        height: 40px;
+    }
+    .packageForm > .flex3 > .info > .flex3-2 > .flex1 {
+        height: 40px;
+    }
+    .packageForm > .flex2 {
+        height: 90px;
+    }
+    #tem {
+        width: 170px;
+    }
+    
+}
+@media screen and (min-width:768px) {
+    #home input {
+        width: 550px;
+    }
+    div.packageForm {
+        width: 80%;
+    }
+    .flex1 {
+        height: 50px;
+    }
+    .packageForm > .flex3 > .info > .flex3-1 > .flex1 {
+        height: 40px;
+    }
+    .packageForm > .flex3 > .info > .flex3-2 > .flex1 {
+        height: 40px;
+    }
+    .packageForm > .flex2 {
+        height: 100px;
+    }
+    #tem {
+        width: 250px;
+    }
+}
+@media screen and (min-width:1366px) {
+    #home input {
+        width: 700px;
+    }
+    div.packageForm {
+        width: 70%;
+    }
+    .flex1 {
+        height: 60px;
+    }
+    .packageForm > .flex3 > .info > .flex3-1 > .flex1 {
+        height: 45px;
+    }
+    .packageForm > .flex3 > .info > .flex3-2 > .flex1 {
+        height: 45px;
+    }
+    .packageForm > .flex2 {
+        height: 110px;
+    }
+    #tem {
+        width: 300px;
+    }
 }
 
