@@ -95,7 +95,7 @@ function Warehouse() {
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     
-                    <h2>Danh sách kho</h2>
+                    <h2>Điểm giao dịch</h2>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -110,9 +110,10 @@ function Warehouse() {
                 <table>
                     <thead>
                         <th>ID</th>
-                        <th>NAME</th>
-                        <th>EMAIL</th>
-                        <th>LEADER</th>
+                        <th>ID KHO HÀNG</th>
+                        <th>ID TRƯỞNG ĐIỂM</th>
+                        <th>TÊN ĐIỂM</th>
+                        <th>ĐỊA CHỈ</th>
                     </thead>
 
                     {warehouses.length !== 0 ? (
@@ -122,6 +123,7 @@ function Warehouse() {
                                     <td><span>{warehouse.id}</span></td>
                                     <td><span>{warehouse.name}</span></td>
                                     <td><span>{warehouse.email}</span></td>
+                                    <td><span>{warehouse.leader}</span></td>
                                     <td><span>{warehouse.leader}</span></td>
                                     <td>
                                         <ul class="list-inline m-0">
