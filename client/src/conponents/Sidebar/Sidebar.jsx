@@ -16,18 +16,22 @@ import {
   AccountBalanceRounded
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import LogoutIcon from '../../assets/icons/logout.svg';
+import * as actions from '../../store/actions'
 
 export default function Sidebar() {
   const { currentUser } = useSelector((state) => state.auth);
   const [isActive, setIsActive] = useState(1);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const handleClickLogout = () => {
     localStorage.setItem('role', '');
     localStorage.setItem('id', '');
     localStorage.setItem('name', '');
+    dispatch(actions.logout())
+    
     navigate('/');
     window.location.reload();
 };

@@ -48,11 +48,6 @@ const Login = () => {
         setErrorMessage('Tên đăng nhập hoặc mật khẩu không chính xác!');
       } else {
         navigate(`/loading`);
-        setTimeout(() => {
-          localStorage.setItem('role', 'BOSS');
-          navigate('/boss/dashboard');
-          window.location.reload();
-        }, 5000);
       }
     } catch (error) {
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');
