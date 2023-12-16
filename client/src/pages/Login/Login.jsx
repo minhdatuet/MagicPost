@@ -39,13 +39,11 @@ const Login = () => {
         // Clear sensitive information from the state
         // setPayload({ phone: '', password: '' });
         // console.log(response);
-        // window.location.reload();
-        
-        // setTimeout(() => {
-
-        // }, 2000)
-                //   localStorage.setItem('id', '1');
-
+        // localStorage.setItem('id', response.data.id);
+        // localStorage.setItem('name', response.data.name);
+        localStorage.setItem('role', 'BOSS');
+        navigate(`/boss/dashboard`);
+        window.location.reload();
       }
 
       
@@ -64,7 +62,7 @@ const Login = () => {
           </div>
           <form>
             <div id = "phone">
-              <label>Số điện thoại</label>
+              <label className='label-login'>Số điện thoại</label>
               <input type="text" id='phone' value={payload.phone} placeholder="Số điện thoại"
               onChange={(e) => setPayload(prev => ({...prev, phone: e.target.value}) )} />
             </div>
