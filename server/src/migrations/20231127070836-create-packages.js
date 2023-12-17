@@ -12,12 +12,12 @@ module.exports = {
     senderId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'accounts', key: 'id' }
+        references: { model: 'customers', key: 'id' }
     },
     receiverId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'accounts', key: 'id' }
+        references: { model: 'customers', key: 'id' }
     },
     transactionPointStartId: {
         allowNull: false,

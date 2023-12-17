@@ -18,23 +18,43 @@ module.exports = {
         allowNull: false,
         type: Sequelize.ENUM(['DELIVERING', 'SUCCESS', 'FAILED'])
       },
-      dateTransactionPointStart: {
+      dateSendPackage: {
         allowNull: false,
         type: Sequelize.DATE
       },
-    dateWarehouseStart: {
+      dateSendToWarehouseStart: {
         allowNull: true,
         type: Sequelize.DATE
-    },
-    dateWarehouseEnd: {
+      },
+      dateWarehouseStartReceived: {
         allowNull: true,
         type: Sequelize.DATE
-    },
-    dateTransactionPointEnd: {
+      },
+      dateSendToWarehouseEnd: {
         allowNull: true,
         type: Sequelize.DATE
-    },
-    receiveDate: {
+      },
+      dateWarehouseEndReceived: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+      dateSendToPointEnd: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+      datePointEndReceived: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+      dateSendToReceiver: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+      dateReceiverReturn: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+    receivedDate: {
         allowNull: true,
         type: Sequelize.DATE
     },
