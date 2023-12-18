@@ -11,7 +11,7 @@ exports.getUser = (phone) => new Promise(async(resolve, reject) => {
               phone
             },
             raw: true,
-            attributes: ['name', 'phone', 'address', 'accountType'],
+            attributes: ['id','name', 'phone', 'address', 'accountType'],
             include: [
             {
                 model: db.Warehouse,

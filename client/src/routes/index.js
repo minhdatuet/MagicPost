@@ -35,7 +35,6 @@ const publicRoutes = [
       page: Home
     }
   ];
-  
 const bossRoutes = [
     {
         path: 'boss/dashboard',

@@ -6,20 +6,26 @@ import { useState } from 'react';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import Tippy from '@tippyjs/react/headless';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import * as actions from '../../store/actions'
 
 function HeaderRole ({ btnText, onClick }) {
     const [visible, setVisible] = useState(false);
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
-
+    const dispatch = useDispatch()
+    const { isLogged } = useSelector(state => state.auth)
+  const {userData} = useSelector(state => state.user)
     const navigate = useNavigate();
 
     const handleClickLogout = () => {
-        localStorage.setItem('role', '');
-        localStorage.setItem('id', '');
-        localStorage.setItem('name', '');
-        navigate('/');
-        window.location.reload();
+        // dispatch(actions.logout())
+        // localStorage.setItem('role', '');
+        // localStorage.setItem('id', '');
+        // localStorage.setItem('name', '');
+        
+        // navigate('/');
+        // window.location.reload();
     };
 
     return (

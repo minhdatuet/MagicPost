@@ -6,7 +6,13 @@ const actionTypes = {
     LOGIN_FAIL: 'REGISTER_FAIL',
     LOGOUT: 'LOGOUT',
 
-    GET_USER: 'GET_USER'
+    GET_USER: 'GET_USER',
+
+    GET_PACKAGES: 'GET_PACKAGES',
+
+    GET_TRANSACTIONPOINTS: 'GET_TRANSACTIONPOINTS',
+
+    GET_WAREHOUSES: 'GET_WAREHOUSES'
 }
 
 export default actionTypes

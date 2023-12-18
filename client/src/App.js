@@ -1,11 +1,13 @@
 import React from 'react';
 import Header from "./conponents/Header/Header";
 import { Routes, Route } from 'react-router-dom';
-import { publicRoutes, bossRoutes } from "./routes";
+import { publicRoutes, bossRoutes} from "./routes";
 import Footer from "./conponents/Footer/Footer";
 import Sidebar from "./conponents/Sidebar/Sidebar";
 import DashBoardAdmin from "./pages/AdminPage/Dashboard/DashBoardAdmin";
 import './App.css'
+import Loading from './pages/Loading/Loading';
+
 
 function App() {
   return (
@@ -44,6 +46,12 @@ function App() {
           }
         />
       )}
+      <Route
+          path="/loading"
+          element={
+            <Loading />
+          }
+      />
     </Routes>
   );
 }

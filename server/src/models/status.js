@@ -17,11 +17,16 @@ module.exports = (sequelize, DataTypes) => {
   Status.init({
     packageId: DataTypes.INTEGER,
     nameOfStatus: DataTypes.ENUM(['DELIVERING', 'SUCCESS', 'FAILED']),
-    dateTransactionPointStart: DataTypes.DATE,
-    dateWarehouseStart: DataTypes.DATE,
-    dateWarehouseEnd: DataTypes.DATE,
-    dateTransactionPointEnd: DataTypes.DATE,
-    receiveDate: DataTypes.DATE
+    dateSendPackage: DataTypes.DATE,
+    dateSendToWarehouseStart: DataTypes.DATE,
+    dateWarehouseStartReceived: DataTypes.DATE,
+    dateSendToWarehouseEnd: DataTypes.DATE,
+    dateWarehouseEndReceived: DataTypes.DATE,
+    dateSendToPointEnd: DataTypes.DATE,
+    datePointEndReceived: DataTypes.DATE,
+    dateSendToReceiver: DataTypes.DATE,
+    dateReceiverReturn: DataTypes.DATE,
+    receivedDate: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Status',
