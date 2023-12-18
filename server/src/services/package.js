@@ -3,11 +3,22 @@ const bcrypt = require('bcryptjs');
 const jwr = require('jsonwebtoken');
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
+
 exports.createService = (body) => new Promise(async(resolve, reject) => {
-    try {
+  try {
+        const sender = await db.Customer.create({
+                name: body.senderName,
+                phone: body.senderPhone,
+                address: body.senderAddress
+        })
+      const receiver = await db.Customer.create({
+              name: body.receiverName,
+              phone: body.receiverPhone,
+              address: body.receiverAddress
+        })
         const responsePacket = await db.Package.create({
-            senderId: body.senderId,
-            receiverId: body.receiverId,
+            senderId: sender.id,
+            receiverId: receiver.id,
             transactionPointStartId: body.transactionPointStartId,
             name: body.name,
             shippingCost: body.shippingCost
@@ -16,7 +27,7 @@ exports.createService = (body) => new Promise(async(resolve, reject) => {
         const responseStatus = await db.Status.create({
             packageId: responsePacket.id,
             nameOfStatus: 'DELIVERING',
-            dateTransactionPointStart: new Date()
+            dateSendPackage: new Date()
         })
         resolve({
             err: responsePacket && responseStatus ? 0 : 2,
@@ -27,50 +38,58 @@ exports.createService = (body) => new Promise(async(resolve, reject) => {
     }
 })
 
-exports.getAllPackages = () => new Promise(async(resolve, reject) => {
+exports.getAllService = () => new Promise(async(resolve, reject) => {
     try {
         const response = await db.Package.findAll({
-            attributes: ['name', 'shippingCost'],
+            attributes: ['id','name', 'shippingCost'],
             include: [
                 {
-                model: db.Accounts,
+                model: db.Customer,
                 as: 'sender',
-                attributes: ['name', 'phone', 'address'],
+                attributes: ['id', 'name', 'phone', 'address'],
                 required: false,
               },
               {
-                model: db.Accounts,
+                model: db.Customer,
                 as: 'receiver',
-                attributes: ['name', 'phone', 'address'],
+                attributes: ['id', 'name', 'phone', 'address'],
                 required: false,
               },
               {
                 model: db.TransactionPoint,
                 as: 'transactionPointStart',
-                attributes: ['name'],
+                attributes: ['id', 'name'],
                 required: false,
               },
               {
                 model: db.TransactionPoint,
                 as: 'transactionPointEnd',
-                attributes: ['name'],
+                attributes: ['id', 'name'],
                 required: false,
               },
               {
                 model: db.Warehouse,
                 as: 'warehouseStart',
-                attributes: ['name'],
+                attributes: ['id', 'name'],
                 required: false,
               },
               {
                 model: db.Warehouse,
                 as: 'warehouseEnd',
-                attributes: ['name'],
+                attributes: ['id', 'name'],
                 required: false,
               },
               {
                 model: db.Status,
-                attributes: ['nameOfStatus', 'dateTransactionPointStart', 'dateWarehouseStart', 'dateWarehouseEnd', 'dateTransactionPointEnd', 'receiveDate'],
+                attributes: ['nameOfStatus', 'dateSendPackage',
+                'dateSendToWarehouseStart',
+                'dateWarehouseStartReceived',
+                'dateSendToWarehouseEnd',
+                'dateWarehouseEndReceived',
+                'dateSendToPointEnd',
+                'datePointEndReceived',
+                'dateSendToReceiver',
+                'dateReceiverReturn', 'receivedDate'],
                 required: false
               }
             ]
@@ -78,7 +97,7 @@ exports.getAllPackages = () => new Promise(async(resolve, reject) => {
         resolve({
             err: response ? 0 : 2,
             msg: response ? 'Get all packages is successfully' : 'Get all packages is unsuccessfully',
-            data: JSON.stringify(response)
+            response
         })
     } catch (error) {
         reject(error)

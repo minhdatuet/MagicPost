@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 // import Form from 'react-bootstrap/Form';
 // import { ChakraProvider } from "@chakra-ui/react";
 
-import all_orders from '../../../constants/orders';
+// import packages from '../../../constants/orders';
 import { calculateRange, sliceData, nextPage, prevPage, lastPage, firstPage } from '../../../utils/table-pagination';
 import './styles.css';
 import DoneIcon from '../../../assets/icons/done.svg';
@@ -16,15 +16,47 @@ import RefundedIcon from '../../../assets/icons/refunded.svg';
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import CreateNewPackageModal from './Modal/CreateNewPackage/CreateNewPackage';
 import UpdatePackageModal from './Modal/UpdatePackage/UpdatePackage';
+// import * as actions from '../../store/actions'
+import { apiGetAllPackages } from '../../../services/package';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllPackages } from '../../../store/actions/package';
+import { getAllTransactionPoints, getAllWarehouses } from '../../../store/actions';
 
 function Package() {
+    const dispatch = useDispatch();
+    const {packages} = useSelector(state => state.package)
     const [search, setSearch] = useState('');
-    const [orders, setOrders] = useState(all_orders);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    // const [packages, setAllOrders] = useState([]);
     const [isDelete, setIsDelete] = useState(null);
+    const [orders, setOrders] = useState(packages);
+
+    //lay tat ca warehouses
+    //luc nao xong trang Warehouse thi copy doan nay sang
+    const {warehouses} = useSelector(state => state.warehouse)
+    useEffect(() => {
+        dispatch(getAllWarehouses())
+      
+    }, []);
+    console.log(warehouses)
+
+    //lay tat ca transactionpoints
+    //luc nao xong trang TransactionPoint thi copy doan nay sang
+    const {transactionPoints} = useSelector(state => state.transactionPoint)
+    useEffect(() => {
+        dispatch(getAllTransactionPoints())
+      
+    }, []);
+    console.log(transactionPoints)
+
+    useEffect(() => {
+          dispatch(getAllPackages())
+        
+      }, []);
+    console.log(packages)
     const handleOpenModal = () => {
         setIsModalOpen(true);
     }
@@ -41,15 +73,15 @@ const handleCloseUpdateModal = () => {
     setIsUpdateModalOpen(false);
 }
     useEffect(() => {
-        setPagination(calculateRange(all_orders, 4));
-        setOrders(sliceData(all_orders, page, 4));
+        setPagination(calculateRange(packages, 4));
+        setOrders(sliceData(packages, page, 4));
     }, [page]);
 
     // Search
     const handleSearch = (event) => {
         setSearch(event.target.value);
         if (event.target.value !== '') {
-            let searchResults = all_orders.filter((item) =>
+            let searchResults = packages.filter((item) =>
                 item.first_name.toLowerCase().includes(search.toLowerCase()) ||
                 item.last_name.toLowerCase().includes(search.toLowerCase()) ||
                 item.product.toLowerCase().includes(search.toLowerCase())
@@ -58,8 +90,8 @@ const handleCloseUpdateModal = () => {
             setPagination(calculateRange(searchResults, 4));
             setPage(1); // Reset to the first page when searching
         } else {
-            setOrders(sliceData(all_orders, page, 4));
-            setPagination(calculateRange(all_orders, 4));
+            setOrders(sliceData(packages, page, 4));
+            setPagination(calculateRange(packages, 4));
         }
     };
     // Change Page 
@@ -106,7 +138,7 @@ const handleCloseUpdateModal = () => {
 
     return (
         <div className='dashboard-content'>
-        <HeaderRole btnText={"Đơn hàng mới"} variant="primary" onClick={handleOpenModal} />
+        <HeaderRole btnText={"Thêm đơn hàng"} variant="primary" onClick={handleOpenModal} />
         <CreateNewPackageModal
             // dialogClassName="modal-dialog-custom"
             show={isModalOpen}
@@ -140,29 +172,29 @@ const handleCloseUpdateModal = () => {
                             {orders.map((order, index) => (
                                 <tr key={index}>
                                     <td><span>{order.id}</span></td>
-                                    <td><span>{order.date}</span></td>
+                                    <td><span>{order.Status.dateSendPackage}</span></td>
                                     <td>
                                         <div>
-                                            {order.status === 'Paid' ?
+                                            {order.Status.nameOfStatus === 'DELIVERING' ?
                                                 <img
                                                     src={DoneIcon}
                                                     alt='paid-icon'
                                                     className='dashboard-content-icon'
                                                 />
-                                                : order.status === 'Canceled' ?
+                                                : order.Status.nameOfStatus === 'FAILED' ?
                                                     <img
                                                         src={CancelIcon}
                                                         alt='canceled-icon'
                                                         className='dashboard-content-icon'
                                                     />
-                                                    : order.status === 'Refunded' ?
+                                                    : order.Status.nameOfStatus === 'Refunded' ?
                                                         <img
                                                             src={RefundedIcon}
                                                             alt='refunded-icon'
                                                             className='dashboard-content-icon'
                                                         />
                                                         : null}
-                                            <span>{order.status}</span>
+                                            <span>{order.Status.nameOfStatus}</span>
                                         </div>
                                     </td>
                                     <td>
@@ -172,10 +204,10 @@ const handleCloseUpdateModal = () => {
                                                 className='dashboard-content-avatar'
                                                 alt={order.first_name + ' ' + order.last_name}
                                             />
-                                            <span>{order.first_name} {order.last_name}</span>
+                                            <span>{order.sender.name}</span>
                                         </div>
                                     </td>
-                                    <td><span>${order.price}</span></td>
+                                    <td><span>${order.shippingCost}</span></td>
                                     <td>
                                    <ul class="list-inline m-0">
                                             <li class="list-inline-item">
@@ -200,7 +232,7 @@ const handleCloseUpdateModal = () => {
                     <div className='dashboard-content-footer'>
                         <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
                         <span className="pagination" onClick={handlePrevPage} disabled={page === 1}>{'<'}</span>
-                        {calculateRange(all_orders, 4).map((item, index) => (
+                        {calculateRange(packages, 4).map((item, index) => (
                             <span
                                 key={index}
                                 className={item === page ? 'active-pagination' : 'pagination'}

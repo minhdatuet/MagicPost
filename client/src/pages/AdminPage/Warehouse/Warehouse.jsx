@@ -7,8 +7,12 @@ import './style.css';
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import CreateNewWarehouseModal from './Modal/CreateNewWarehouse/CreateNewWarehouse';
 import UpdateWarehouseModal from './Modal/UpdateWarehouse/UpdateWarehouse';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllWarehouses } from '../../../store/actions';
 
 function Warehouse() {
+    
+
     const [search, setSearch] = useState('');
     const [warehouses, setWarehouses] = useState(all_warehouse);
     const [page, setPage] = useState(1);
@@ -119,7 +123,7 @@ function Warehouse() {
         />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    <h2>Danh sách kho</h2>
+                    <h2>Kho hàng</h2>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'

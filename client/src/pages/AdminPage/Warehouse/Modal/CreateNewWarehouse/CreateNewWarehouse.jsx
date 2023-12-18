@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, InputGroup, Row, Col } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
-
+import './CreateNewWarehouse.scss'
 function CreateNewWarehouseModal(props) {
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({

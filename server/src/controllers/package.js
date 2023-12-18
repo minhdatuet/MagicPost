@@ -1,8 +1,9 @@
 const packageService = require('../services/package.js');
 exports.create = async (req, res) => {
-    const {senderId, receiverId, transactionPointStartId, name, shippingCost} = req.body
+    const {senderPhone, senderName, senderAddress, receiverPhone, receiverName, receiverAddress, transactionPointStartId, name, shippingCost} = req.body
     try{
-        if(!senderId || !receiverId || !transactionPointStartId || !name || !shippingCost) return res.status(400).json({
+        if(!senderPhone || !senderName || !senderAddress || !receiverPhone || !receiverName || !receiverAddress 
+            || !transactionPointStartId || !name || !shippingCost) return res.status(400).json({
             err: 1,
             msg: 'Missing inputs!' 
         })
@@ -16,9 +17,9 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.getAllPackages = async (req, res) => {
+exports.getAll = async (req, res) => {
     try {
-        const response = await packageService.getAllPackages()
+        const response = await packageService.getAllService()
         return res.status(200).json(response)
     } catch (error) {
         return res.status(500).json({
