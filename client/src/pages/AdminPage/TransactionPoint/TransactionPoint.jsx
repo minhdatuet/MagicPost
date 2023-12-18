@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import SearchIcon from '@mui/icons-material/Search';
 
 import all_warehouse from '../../../constants/warehouses';
 import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage} from '../../../utils/table-pagination';
@@ -13,8 +14,8 @@ function Warehouse() {
     const [pagination, setPagination] = useState([]);
 
     useEffect(() => {
-        setPagination(calculateRange(all_warehouse, 5));
-        setWarehouses(sliceData(all_warehouse, page, 5));
+        setPagination(calculateRange(all_warehouse, 4));
+        setWarehouses(sliceData(all_warehouse, page, 4));
     }, [page]);
 
     // Search
@@ -27,11 +28,11 @@ function Warehouse() {
                 item.leader.toLowerCase().includes(search.toLowerCase())
             );
             setWarehouses(searchResults);
-            setPagination(calculateRange(searchResults, 5));
+            setPagination(calculateRange(searchResults, 4));
             setPage(1); // Reset to the first page when searching
         } else {
-            setWarehouses(sliceData(all_warehouse, page, 5));
-            setPagination(calculateRange(all_warehouse, 5));
+            setWarehouses(sliceData(all_warehouse, page, 4));
+            setPagination(calculateRange(all_warehouse, 4));
         }
     };
 
@@ -95,24 +96,25 @@ function Warehouse() {
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     
-                    <h2>Danh sách kho</h2>
+                    <h2>Điểm giao dịch</h2>
                     <div className='dashboard-content-search'>
-                        <input
+                      <input
                             type='text'
                             value={search}
                             placeholder='Search..'
                             className='dashboard-content-input'
                             onChange={handleSearch}
-                        />
+                        /> 
                     </div>
                 </div>
 
                 <table>
                     <thead>
                         <th>ID</th>
-                        <th>NAME</th>
-                        <th>EMAIL</th>
-                        <th>LEADER</th>
+                        <th>ID KHO HÀNG</th>
+                        <th>ID TRƯỞNG ĐIỂM</th>
+                        <th>TÊN ĐIỂM</th>
+                        <th>ĐỊA CHỈ</th>
                     </thead>
 
                     {warehouses.length !== 0 ? (
@@ -122,6 +124,7 @@ function Warehouse() {
                                     <td><span>{warehouse.id}</span></td>
                                     <td><span>{warehouse.name}</span></td>
                                     <td><span>{warehouse.email}</span></td>
+                                    <td><span>{warehouse.leader}</span></td>
                                     <td><span>{warehouse.leader}</span></td>
                                     <td>
                                         <ul class="list-inline m-0">

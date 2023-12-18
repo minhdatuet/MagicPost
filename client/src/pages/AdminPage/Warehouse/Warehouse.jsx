@@ -123,7 +123,7 @@ function Warehouse() {
         />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    <h2>Danh sách kho</h2>
+                    <h2>Kho hàng</h2>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'

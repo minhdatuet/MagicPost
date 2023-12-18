@@ -138,7 +138,7 @@ const handleCloseUpdateModal = () => {
 
     return (
         <div className='dashboard-content'>
-        <HeaderRole btnText={"Đơn hàng mới"} variant="primary" onClick={handleOpenModal} />
+        <HeaderRole btnText={"Thêm đơn hàng"} variant="primary" onClick={handleOpenModal} />
         <CreateNewPackageModal
             // dialogClassName="modal-dialog-custom"
             show={isModalOpen}
