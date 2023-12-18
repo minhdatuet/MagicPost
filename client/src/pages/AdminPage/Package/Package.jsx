@@ -16,6 +16,7 @@ import RefundedIcon from '../../../assets/icons/refunded.svg';
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import CreateNewPackageModal from './Modal/CreateNewPackage/CreateNewPackage';
 import UpdatePackageModal from './Modal/UpdatePackage/UpdatePackage';
+import ProvinceModal from './Modal/ModalLocation'
 // import * as actions from '../../store/actions'
 import { apiGetAllPackages } from '../../../services/package';
 import { useDispatch, useSelector } from 'react-redux';
@@ -139,7 +140,7 @@ const handleCloseUpdateModal = () => {
     return (
         <div className='dashboard-content'>
         <HeaderRole btnText={"Thêm đơn hàng"} variant="primary" onClick={handleOpenModal} />
-        <CreateNewPackageModal
+        <ProvinceModal
             // dialogClassName="modal-dialog-custom"
             show={isModalOpen}
             onHide={handleCloseModal}
