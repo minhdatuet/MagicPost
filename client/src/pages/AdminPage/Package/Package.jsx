@@ -53,11 +53,12 @@ function Package() {
 
   const handleCloseUpdateModal = () => {
     setIsUpdateModalOpen(false);
-  };
-  useEffect(() => {
-    setPagination(calculateRange(packages, 4));
-    setOrders(sliceData(packages, page, 4));
-  }, [page]);
+
+}
+    useEffect(() => {
+        setPagination(calculateRange(packages, 4));
+        setOrders(sliceData(packages, page, 4));
+    }, [page, packages]);
 
   // Search
   const handleSearch = (event) => {

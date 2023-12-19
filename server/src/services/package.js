@@ -103,3 +103,80 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
         reject(error)
     }
 })
+
+exports.deleteService = (id) => new Promise(async(resolve, reject) => {
+  try {
+    const package = await db.Package.findOne({
+      where: {id}
+    })
+    console.log(package)
+    const responseStatus = await db.Status.destroy({
+      where: {packageId: id}
+    })
+      const responsePackage = await db.Package.destroy({
+        where: {id}
+      })
+      
+      const responseSender = await db.Customer.destroy({
+        where: {id: package.senderId}
+      })
+      const responseReceiver = await db.Customer.destroy({
+        where: {id: package.receiverId}
+      })
+      resolve({
+        err: responseStatus && responsePackage && responseSender && responseReceiver ? 0 : 2,
+        msg: responseStatus && responsePackage && responseSender && responseReceiver ? 'Delete is successfully' : `Can't find this id`,
+      })
+
+    } catch (error) {
+      reject(error)
+  }
+})
+
+exports.updateService = (id, updatedData) => new Promise(async (resolve, reject) => {
+  try {
+    const package = await db.Package.findOne({
+      where: {id}
+    })
+
+      // Assuming db.Package.update returns the number of affected rows
+      const [rowsAffectedPackage] = await db.Package.update(updatedData, {
+          where: { id }
+      });
+
+      const [rowsAffectedStatus] = await db.Status.update(updatedData, {
+        where: { packageId: id }
+    });
+
+    let senderUpdated = {}
+    let receiverUpdated = {}
+    updatedData.receiverName ? receiverUpdated.name = updatedData.receiverName : null
+    updatedData.receiverPhone ? receiverUpdated.phone = updatedData.receiverPhone : null
+    updatedData.receiverAddress ? receiverUpdated.address = updatedData.receiverAddress : null
+
+    updatedData.senderName ? senderUpdated.name = updatedData.senderName : null
+    updatedData.senderPhone ? senderUpdated.phone = updatedData.senderPhone : null
+    updatedData.senderAddress ? senderUpdated.address = updatedData.senderAddress : null
+
+    const [rowsAffectedSender] = await db.Customer.update(senderUpdated,{
+      where: {id: package.senderId}
+    })
+    const [rowsAffectedReceiver] = await db.Customer.update(receiverUpdated,{
+      where: {id: package.receiverId}
+    })
+      const successMessage = 'Update is successful';
+      const errorMessage = 'Update is failed';
+
+      console.log(rowsAffectedPackage + rowsAffectedStatus)
+
+      // Check if any rows were affected
+      const response = {
+          err: rowsAffectedPackage || rowsAffectedStatus || rowsAffectedSender || rowsAffectedReceiver > 0 ? 0 : 2,
+          msg: rowsAffectedPackage || rowsAffectedStatus || rowsAffectedSender || rowsAffectedReceiver > 0 ? successMessage : errorMessage,
+      };
+
+      resolve(response);
+  } catch (error) {
+      reject(error);
+  }
+});
