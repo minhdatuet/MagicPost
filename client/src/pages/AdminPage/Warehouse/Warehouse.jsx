@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
-import all_warehouse from '../../../constants/warehouses';
 import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage} from '../../../utils/table-pagination';
 
 import './style.css';
@@ -11,15 +9,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllWarehouses } from '../../../store/actions';
 
 function Warehouse() {
-    
-
+    const dispatch = useDispatch();
     const [search, setSearch] = useState('');
-    const [warehouses, setWarehouses] = useState(all_warehouse);
+    const { warehouses } = useSelector((state) => state.warehouse);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [isDelete, setIsDelete] = useState(null);
+    const [warehouse, setWarehouse] = useState(warehouses);
     const handleOpenModal = () => {
         setIsModalOpen(true);
     }
@@ -36,30 +34,33 @@ function Warehouse() {
         setIsUpdateModalOpen(false);
     }
     useEffect(() => {
-        setPagination(calculateRange(all_warehouse, 5));
-        setWarehouses(sliceData(all_warehouse, page, 5));
-    }, [page]);
+        dispatch(getAllWarehouses());
+    }, []);
+    console.log(warehouses);
+
+    useEffect(() => {
+        setPagination(calculateRange(warehouses, 5));
+        setWarehouse(sliceData(warehouses, page, 5));
+    }, [page, warehouses]);
 
     // Search
     const handleSearch = (event) => {
         setSearch(event.target.value);
         if (event.target.value !== '') {
-            let searchResults = all_warehouse.filter((item) =>
+            let searchResults = warehouses.filter((item) =>
                 item.name.toLowerCase().includes(search.toLowerCase()) ||
                 item.email.toLowerCase().includes(search.toLowerCase()) ||
                 item.leader.toLowerCase().includes(search.toLowerCase())
             );
-            setWarehouses(searchResults);
+            setWarehouse(searchResults);
             setPagination(calculateRange(searchResults, 5));
             setPage(1); // Reset to the first page when searching
         } else {
-            setWarehouses(sliceData(all_warehouse, page, 5));
-            setPagination(calculateRange(all_warehouse, 5));
+            setWarehouse(sliceData(warehouses, page, 5));
+            setPagination(calculateRange(warehouses, 5));
         }
     };
-
     // Change Page 
-
     const handleChangePage = (newPage) => {
         if (newPage !== page) {
             setPage(newPage);
@@ -149,8 +150,8 @@ function Warehouse() {
                                 <tr key={index}>
                                     <td><span>{warehouse.id}</span></td>
                                     <td><span>{warehouse.name}</span></td>
-                                    <td><span>{warehouse.email}</span></td>
-                                    <td><span>{warehouse.leader}</span></td>
+                                    <td><span>{warehouse.address}</span></td>
+                                    <td><span>{warehouse.warehouseLeader.name}</span></td>
                                     <td>
                                         <ul class="list-inline m-0">
                                             <li class="list-inline-item">
