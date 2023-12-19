@@ -75,7 +75,7 @@ const handleCloseUpdateModal = () => {
     useEffect(() => {
         setPagination(calculateRange(packages, 4));
         setOrders(sliceData(packages, page, 4));
-    }, [page]);
+    }, [page, packages]);
 
     // Search
     const handleSearch = (event) => {

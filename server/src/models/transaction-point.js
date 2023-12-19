@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       TransactionPoint.hasMany(models.Package, {foreignKey: 'transactionPointEndId', sourceKey: 'id'}),
       TransactionPoint.belongsTo(models.Accounts, {foreignKey: 'pointLeaderId', as: 'pointLeader'}),
       TransactionPoint.belongsTo(models.Warehouse, {foreignKey: 'warehouseId'}),
-      TransactionPoint.hasMany(models.Employee, {foreignKey: 'transactionPointId', sourceKey: 'id'})
+      TransactionPoint.hasMany(models.Employee, {foreignKey: 'transactionPointId', sourceKey: 'id', onDelete: 'CASCADE', hooks: true})
     }
   }
   TransactionPoint.init({
