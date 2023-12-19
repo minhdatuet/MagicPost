@@ -57,5 +57,15 @@ const bossRoutes = [
         page: Account
     },
 ]
+const pointLeaderRoutes = [
+  {
+    path: 'pointLeader/account',
+    page: Account
+  },
+  {
+    path: 'pointLeader/package',
+    page: Account
+  }
+]
 
-export {publicRoutes, bossRoutes}
+export {publicRoutes, bossRoutes, pointLeaderRoutes}
