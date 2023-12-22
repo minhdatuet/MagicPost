@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, InputGroup, Row, Col } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
+import { apiGetPublicProvinces, apiGetPublicDistrict } from '../../../../../services/package';
 import './CreateNewWarehouse.scss'
 function CreateNewWarehouseModal(props) {
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [province, setProvince] = useState('');
+  const [district, setDistrict] = useState('');
+  const [reset, setReset] = useState(false);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     id: '',
@@ -10,6 +16,29 @@ function CreateNewWarehouseModal(props) {
     address: '',
     leaderId: '',
   });
+
+  useEffect(() => {
+    const fetchPublicProvince = async () => {
+      const response = await apiGetPublicProvinces();
+      if (response.status === 200) {
+        setProvinces(response?.data.results);
+      }
+    };
+    fetchPublicProvince();
+  }, []);
+
+  useEffect(() => {
+    setDistrict(null);
+    const fetchPublicDistrict = async () => {
+      const response = await apiGetPublicDistrict(province);
+      if (response.status === 200) {
+        setDistricts(response.data?.results);
+      }
+    };
+    province && fetchPublicDistrict();
+    !province ? setReset(true) : setReset(false);
+    !province && setDistricts([]);
+  }, [province]);
 
   const handleInputChange = (event) => {
     const { id, value, type, checked } = event.target;
@@ -71,22 +100,29 @@ function CreateNewWarehouseModal(props) {
             </Form.Group>
           </Row>
           <Row style={{marginTop: '10px'}} className="mb-3">
-          <Form.Group as={Col} md="7" controlId="address">
-            <Form.Label>Địa chỉ</Form.Label>
-            <InputGroup hasValidation>
-              <Form.Control
-                type="text"
-                placeholder="Nhập địa chỉ cụ thể"
-                aria-describedby="inputGroupPrepend"
-                required
-                value={formData.address}
-                onChange={handleInputChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập ID trưởng kho hàng.
-              </Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
+          <Form.Group as={Col} md='6'>
+          <Form.Label>Tỉnh/Thành phố</Form.Label>
+          <Form.Control as="select" value={province} onChange={(e) => setProvince(e.target.value)}>
+            <option value="">Chọn tỉnh</option>
+            {provinces.map((province) => (
+              <option key={province.province_id} value={province.province_id}>
+                {province.province_name}
+              </option>
+            ))}
+          </Form.Control>
+        </Form.Group>
+
+        <Form.Group as={Col} md='6'> 
+          <Form.Label>Quận/Huyện</Form.Label>
+          <Form.Control as="select" value={district} onChange={(e) => setDistrict(e.target.value)}>
+            <option value="">Chọn quận</option>
+            {districts.map((district) => (
+              <option key={district.district_id} value={district.district_id}>
+                {district.district_name}
+              </option>
+            ))}
+          </Form.Control>
+        </Form.Group>
           <Form.Group as={Col} md="5" controlId="leaderId">
               <Form.Label>ID trưởng kho hàng</Form.Label>
               <Form.Control

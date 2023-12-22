@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwr = require('jsonwebtoken');
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
+const { Op } = require('sequelize');
 
 exports.createService = (body) => new Promise(async(resolve, reject) => {
   try {
@@ -42,3 +43,75 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
         reject(error)
     }
 })
+
+exports.deleteService = (id) => new Promise(async(resolve, reject) => {
+    try {
+
+    const points = await db.TransactionPoint.findAll({
+        where: {warehouseId: id}
+      })
+      for (let i = 0; i < points.length; i++) {
+        const responsePointStaff = await db.Employee.destroy({
+            where: {transactionPointId: points[i].id }
+          })
+          const responseStatus = await db.Status.destroy({
+            where: {packageId: id}
+          })
+
+            
+            const responseSender = await db.Customer.destroy({
+              where: {id: package.senderId}
+            })
+            const responseReceiver = await db.Customer.destroy({
+              where: {id: package.receiverId}
+            })
+          const responsePackage = await db.Package.destroy({
+            where: {
+                [Op.or]: [
+                    {
+                      transactionPointStartId: points[i].id,
+                    },
+                    {
+                        transactionPointEndId: points[i].id,
+                    }
+                ],
+                 }
+          })
+      }
+    const responseEmployee = await db.Employee.destroy({
+        where: {warehouseId: id}
+      })
+      const responsePoint = await db.TransactionPoint.destroy({
+        where: {warehouseId: id}
+      })
+        const responseWarehouse = await db.Warehouse.destroy({
+          where: {id}
+        })
+    
+        resolve({
+          err: responsePoint && responseWarehouse && responseEmployee ? 0 : 2,
+          msg: responsePoint && responseWarehouse && responseEmployee ? 'Delete is successfully' : `Can't find this id`,
+        })
+  
+      } catch (error) {
+        reject(error)
+    }
+  })
+  
+  exports.updateService = (id, updatedData) => new Promise(async (resolve, reject) => {
+    try {
+        const [rowsAffected] = await db.Warehouse.update(updatedData, {
+          where: { id }
+      });
+      const successMessage = 'Update is successful';
+      const errorMessage = 'Update is failed';
+        const response = {
+            err: rowsAffected> 0 ? 0 : 2,
+            msg: rowsAffected> 0 ? successMessage : errorMessage,
+        };
+  
+        resolve(response);
+    } catch (error) {
+        reject(error);
+    }
+  });

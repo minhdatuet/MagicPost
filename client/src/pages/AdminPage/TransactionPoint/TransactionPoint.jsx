@@ -1,38 +1,43 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import SearchIcon from '@mui/icons-material/Search';
+import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage } from '../../../utils/table-pagination';
 
-import all_warehouse from '../../../constants/warehouses';
-import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage} from '../../../utils/table-pagination';
-
-// import './style.css';
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
+import { getAllTransactionPoints } from "../../../store/actions";
 
-function Warehouse() {
+function TransactionPoint() {
+    const dispatch = useDispatch();
     const [search, setSearch] = useState('');
-    const [warehouses, setWarehouses] = useState(all_warehouse);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
-
+    const { transactionPoints } = useSelector((state) => state.transactionPoint);
+    const [transactions, setTransactions] = useState(transactionPoints);
     useEffect(() => {
-        setPagination(calculateRange(all_warehouse, 4));
-        setWarehouses(sliceData(all_warehouse, page, 4));
-    }, [page]);
+      dispatch(getAllTransactionPoints());
+    }, []);
+    console.log(transactionPoints);
+  
+    useEffect(() => {
+        setPagination(calculateRange(transactions, 4));
+        setTransactions(sliceData(transactions, page, 4));
+    }, [page, transactions]);
 
     // Search
     const handleSearch = (event) => {
         setSearch(event.target.value);
         if (event.target.value !== '') {
-            let searchResults = all_warehouse.filter((item) =>
+            let searchResults = transactions.filter((item) =>
                 item.name.toLowerCase().includes(search.toLowerCase()) ||
                 item.email.toLowerCase().includes(search.toLowerCase()) ||
                 item.leader.toLowerCase().includes(search.toLowerCase())
             );
-            setWarehouses(searchResults);
+            setTransactions(searchResults);
             setPagination(calculateRange(searchResults, 4));
             setPage(1); // Reset to the first page when searching
         } else {
-            setWarehouses(sliceData(all_warehouse, page, 4));
-            setPagination(calculateRange(all_warehouse, 4));
+            setTransactions(sliceData(transactions, page, 4));
+            setPagination(calculateRange(transactions, 4));
         }
     };
 
@@ -111,21 +116,21 @@ function Warehouse() {
                 <table>
                     <thead>
                         <th>ID</th>
-                        <th>ID KHO HÀNG</th>
-                        <th>ID TRƯỞNG ĐIỂM</th>
+                        <th>TÊN KHO HÀNG</th>
+                        <th>TÊN TRƯỞNG ĐIỂM</th>
                         <th>TÊN ĐIỂM</th>
                         <th>ĐỊA CHỈ</th>
                     </thead>
 
-                    {warehouses.length !== 0 ? (
+                    {transactions.length !== 0 ? (
                         <tbody>
-                            {warehouses.map((warehouse, index) => (
+                            {transactions.map((transaction, index) => (
                                 <tr key={index}>
-                                    <td><span>{warehouse.id}</span></td>
-                                    <td><span>{warehouse.name}</span></td>
-                                    <td><span>{warehouse.email}</span></td>
-                                    <td><span>{warehouse.leader}</span></td>
-                                    <td><span>{warehouse.leader}</span></td>
+                                    <td><span>{transaction.id}</span></td>
+                                    <td><span>{transaction.Warehouse.name}</span></td>
+                                    <td><span>{transaction.pointLeader.name}</span></td>
+                                    <td><span>{transaction.name}</span></td>
+                                    <td><span>{transaction.address}</span></td>
                                     <td>
                                         <ul class="list-inline m-0">
                                             <li class="list-inline-item">
@@ -142,7 +147,7 @@ function Warehouse() {
                     ) : null}
                 </table>
 
-                {warehouses.length !== 0 ? (
+                {transactions.length !== 0 ? (
                     <div className='dashboard-content-footer'>
                         <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
                         <span className="pagination" onClick={handlePrevPage} disabled={page === 1}>{'<'}</span>
@@ -160,4 +165,4 @@ function Warehouse() {
     );
 }
 
-export default Warehouse;
+export default TransactionPoint;
