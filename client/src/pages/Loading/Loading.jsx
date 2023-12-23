@@ -24,12 +24,11 @@ const Loading = () => {
             userData && setTimeout(() => {
 
                 if (!(Object.keys(userData).length === 0) && !(userData.length === 0)) {
-                    console.log(Object.keys(userData[0])[18]);
                     localStorage.setItem('role', userData[0].accountType);
                     localStorage.setItem('id', userData[0].id);
                     localStorage.setItem('name', userData[0].name);
-                    localStorage.setItem('transactionPointId', Object.values(userData[0])[15] || '1')
-                    localStorage.setItem('warehouseId', Object.values(userData[0])[18] || '1')
+                    localStorage.setItem('transactionPointId', userData[0].Employee?.TransactionPoint?.id|| '0')
+                    localStorage.setItem('warehouseId', userData[0].Employee?.TransactionPoint?.Warehouse?.id || '0')
                     navigate('/boss/dashboard');
                     window.location.reload();
                 }

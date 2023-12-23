@@ -7,6 +7,7 @@ import Sidebar from "./conponents/Sidebar/Sidebar";
 import DashBoardAdmin from "./pages/AdminPage/Dashboard/DashBoardAdmin";
 import "./App.css";
 import Loading from "./pages/Loading/Loading";
+import Account from "./pages/AdminPage/Account/Account";
 
 function App() {
   return (
