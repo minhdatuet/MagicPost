@@ -11,6 +11,19 @@ export const apiGetAllPackages = () =>  new Promise(async(resolve, reject) => {
         reject(error)
     }
 })
+
+export const apiDeletePackage = (index) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'delete',
+            url: `/api/v1/package/delete/${index}`,
+        })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
+
 export const apiGetPublicProvinces = () => new Promise(async (resolve, reject) => {
     try {
         const response = await axiosConfig({

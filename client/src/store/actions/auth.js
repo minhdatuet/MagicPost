@@ -1,9 +1,26 @@
 import actionTypes from './actionTypes';
-import { apiRegister, apiLogin } from '../../services/auth';
+import { apiRegister, apiLogin, apiEmployee, apiLeader } from '../../services/auth';
 export const register = (payload) => async(dispatch) => {
     try {
         const response = await apiRegister(payload)
         console.log(response)
+        if (payload.accountType === 'WAREHOUSE_LEADER' || payload.accountType === 'POINT_LEADER') {
+            let leader = {
+                phone: payload.phone,
+                accountType: payload.accountType,
+                positionId: payload.positionId
+            }
+            const responseLeader = await apiLeader(leader)
+            console.log(responseLeader.data.msg)
+        } else {
+            let employee = {
+                phone: payload.phone,
+                accountType: payload.accountType,
+                positionId: payload.positionId
+            }
+            const responseEmployee = await apiEmployee(employee)
+            console.log(responseEmployee.data.msg)
+        }
         if (response?.data.err === 0) {
             dispatch({
                 type: actionTypes.REGISTER_SUCCESS,
