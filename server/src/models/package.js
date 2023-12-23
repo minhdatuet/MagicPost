@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Package.init({
+    packageCode: DataTypes.STRING,
     senderId: DataTypes.INTEGER,
     receiverId: DataTypes.INTEGER,
     transactionPointStartId: DataTypes.INTEGER,

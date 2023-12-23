@@ -2,7 +2,25 @@ const db = require('../models/');
 const bcrypt = require('bcryptjs');
 const jwr = require('jsonwebtoken');
 require('dotenv').config();
+const {v4} = require('uuid');
 const { Sequelize, DataTypes } = require('sequelize');
+
+function taoMaDonHang() {
+  // Tạo một chuỗi ngẫu nhiên cho mã đơn hàng
+  const kyTuNgauNhien = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let maDonHang = '';
+
+  for (let i = 0; i < 4; i++) {
+    const randomIndex = Math.floor(Math.random() * kyTuNgauNhien.length);
+    maDonHang += kyTuNgauNhien.charAt(randomIndex);
+  }
+
+  // Thêm một định danh thời gian để đảm bảo tính duy nhất
+  const thoiGianHienTai = new Date().getTime();
+  maDonHang += thoiGianHienTai.toString();
+
+  return maDonHang;
+}
 
 exports.createService = (body) => new Promise(async(resolve, reject) => {
   try {
@@ -16,22 +34,24 @@ exports.createService = (body) => new Promise(async(resolve, reject) => {
               phone: body.receiverPhone,
               address: body.receiverAddress
         })
-        const responsePacket = await db.Package.create({
+        const responsePackage = await db.Package.create({
+            packageCode: taoMaDonHang(),
             senderId: sender.id,
             receiverId: receiver.id,
             transactionPointStartId: body.transactionPointStartId,
+            warehouseStartId: body.warehouseStartId,
             name: body.name,
             shippingCost: body.shippingCost
         
         })
         const responseStatus = await db.Status.create({
-            packageId: responsePacket.id,
+            packageId: responsePackage.id,
             nameOfStatus: 'DELIVERING',
             dateSendPackage: new Date()
         })
         resolve({
-            err: responsePacket && responseStatus ? 0 : 2,
-            msg: responsePacket && responseStatus ? 'Create package is successfully!' : 'Create package is failed!',
+            err: responsePackage && responseStatus ? 0 : 2,
+            msg: responsePackage && responseStatus ? 'Create package is successfully!' : 'Create package is failed!',
         })
     } catch (error) {
         reject(error)
@@ -41,7 +61,7 @@ exports.createService = (body) => new Promise(async(resolve, reject) => {
 exports.getAllService = () => new Promise(async(resolve, reject) => {
     try {
         const response = await db.Package.findAll({
-            attributes: ['id','name', 'shippingCost'],
+            attributes: ['id','packageCode','name', 'shippingCost'],
             include: [
                 {
                 model: db.Customer,
@@ -106,10 +126,10 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
 
 exports.deleteService = (id) => new Promise(async(resolve, reject) => {
   try {
-    const package = await db.Package.findOne({
+    const order = await db.Package.findOne({
       where: {id}
     })
-    console.log(package)
+    console.log(order)
     const responseStatus = await db.Status.destroy({
       where: {packageId: id}
     })
@@ -118,10 +138,10 @@ exports.deleteService = (id) => new Promise(async(resolve, reject) => {
       })
       
       const responseSender = await db.Customer.destroy({
-        where: {id: package.senderId}
+        where: {id: order.senderId}
       })
       const responseReceiver = await db.Customer.destroy({
-        where: {id: package.receiverId}
+        where: {id: order.receiverId}
       })
       resolve({
         err: responseStatus && responsePackage && responseSender && responseReceiver ? 0 : 2,
@@ -135,7 +155,7 @@ exports.deleteService = (id) => new Promise(async(resolve, reject) => {
 
 exports.updateService = (id, updatedData) => new Promise(async (resolve, reject) => {
   try {
-    const package = await db.Package.findOne({
+    const order = await db.Package.findOne({
       where: {id}
     })
 
@@ -159,10 +179,10 @@ exports.updateService = (id, updatedData) => new Promise(async (resolve, reject)
     updatedData.senderAddress ? senderUpdated.address = updatedData.senderAddress : null
 
     const [rowsAffectedSender] = await db.Customer.update(senderUpdated,{
-      where: {id: package.senderId}
+      where: {id: order.senderId}
     })
     const [rowsAffectedReceiver] = await db.Customer.update(receiverUpdated,{
-      where: {id: package.receiverId}
+      where: {id: order.receiverId}
     })
       const successMessage = 'Update is successful';
       const errorMessage = 'Update is failed';
