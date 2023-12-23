@@ -19,10 +19,11 @@ function HeaderRole ({ btnText, onClick }) {
     const navigate = useNavigate();
 
     const handleClickLogout = () => {
-        // dispatch(actions.logout())
-        // localStorage.setItem('role', '');
-        // localStorage.setItem('id', '');
-        // localStorage.setItem('name', '');
+        localStorage.setItem('role', '');
+        localStorage.setItem('id', '');
+        localStorage.setItem('name', '');
+        localStorage.setItem('transactionPointId', '')
+        localStorage.setItem('warehouseId', '')
         
         // navigate('/');
         // window.location.reload();

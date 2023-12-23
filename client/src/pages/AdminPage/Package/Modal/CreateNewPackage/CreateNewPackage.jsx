@@ -7,11 +7,15 @@ function CreateNewPackageModal(props) {
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     id: '',
-    senderId: '',
-    receiverId: '',
-    transactionPointStartId: '',
+    senderName: '',
+    senderPhone: '',
+    senderPassword: '',
+    receiverName: '',
+    receiverPhone: '',
+    receiverPassword: '',
+    transactionPointStartId: localStorage.getItem('transactionPointId'),
     transactionPointEndId: '',
-    warehouseStartId: '',
+    warehouseStartId: localStorage.getItem('warehouseId'),
     warehouseEndId: '',
     name: '',
     shippingCost: ''
@@ -26,7 +30,7 @@ function CreateNewPackageModal(props) {
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+    if (form.checkValidity() === false) {  
       event.preventDefault();
       event.stopPropagation();
     }
@@ -35,7 +39,7 @@ function CreateNewPackageModal(props) {
 
     if (form.checkValidity()) {
       console.log('Form submitted:', formData);
-      props.onHide();
+      props.onHide()
     }
   };
 
