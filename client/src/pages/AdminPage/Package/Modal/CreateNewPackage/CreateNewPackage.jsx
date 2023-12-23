@@ -97,6 +97,31 @@ function CreateNewPackageModal(props) {
     }
     setValidated(true);
 };
+const handleClose = () => {
+  // Reset all form data and state values
+  setReceiverProvince('');
+  setReceiverDistrict('');
+  setReceiverWard('');
+  setReset(false);
+  setValidated(false);
+  setFormData({
+    senderName: "",
+    senderPhone: "",
+    receiverName: "",
+    receiverPhone: "",
+    receiverAddress: {
+      province: "",
+      district: "",
+      ward: "",
+    },
+    receiverAddress1: "",
+    name: "",
+    weight: "",
+  });
+  setPrice(null);
+
+  props.onHide();
+};
 
   return (
     <Modal
@@ -110,7 +135,7 @@ function CreateNewPackageModal(props) {
         <Modal.Title id="contained-modal-title-vcenter">
           Tạo đơn hàng mới
         </Modal.Title>
-        <CloseIcon onClick={props.onHide}>Đóng</CloseIcon>
+        <CloseIcon onClick={handleClose}>Đóng</CloseIcon>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -320,7 +345,7 @@ function CreateNewPackageModal(props) {
               <Button variant="secondary" type="submit" id="input-submit">
                 Tạo mới
               </Button>
-              <Button variant="secondary" onClick={props.onHide}>
+              <Button variant="secondary" onClick={handleClose}>
                 Đóng
               </Button>
             </div>

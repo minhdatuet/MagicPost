@@ -19,15 +19,15 @@ function TransactionPoint() {
     console.log(transactionPoints);
   
     useEffect(() => {
-        setPagination(calculateRange(transactions, 4));
-        setTransactions(sliceData(transactions, page, 4));
-    }, [page, transactions]);
+        setPagination(calculateRange(transactionPoints, 4));
+        setTransactions(sliceData(transactionPoints, page, 4));
+    }, [page, transactionPoints]);
 
     // Search
     const handleSearch = (event) => {
         setSearch(event.target.value);
         if (event.target.value !== '') {
-            let searchResults = transactions.filter((item) =>
+            let searchResults = transactionPoints.filter((item) =>
                 item.name.toLowerCase().includes(search.toLowerCase()) ||
                 item.email.toLowerCase().includes(search.toLowerCase()) ||
                 item.leader.toLowerCase().includes(search.toLowerCase())
@@ -36,8 +36,8 @@ function TransactionPoint() {
             setPagination(calculateRange(searchResults, 4));
             setPage(1); // Reset to the first page when searching
         } else {
-            setTransactions(sliceData(transactions, page, 4));
-            setPagination(calculateRange(transactions, 4));
+            setTransactions(sliceData(transactionPoints, page, 4));
+            setPagination(calculateRange(transactionPoints, 4));
         }
     };
 
