@@ -55,6 +55,9 @@ nav .menuNav {
     padding-left: 5px;
 }
 
+.search {
+    position: relative;
+}
 
 #header a {
     color: white;
@@ -79,8 +82,11 @@ nav .menuNav {
 
 .searchBox {
     background-color: rgb(215, 215,215);
-    border-radius: 0px 0px 10px 10px;
     padding-left: 5px;
+    position: absolute;
+    top: 70%;
+    width: 250px;
+    border-bottom: 1px solid black;
 }
 
 .searchBox:hover {
@@ -117,7 +123,7 @@ nav .menuNav {
 }
 
 .icon {
-    font-size: 24px; /* Đặt kích thước là 24px (hoặc kích thước mong muốn) */
+    font-size: 24px;
   }
 
 .boxPackage > .flex2 h1 {
@@ -134,9 +140,9 @@ nav .menuNav {
 }
 
 .boxPackage > .flex3 {
-    background-color: transparent;
+    background-color: #ffffff;
     width: 90%;
-    height: 500px;
+    height: 450px;
     position: absolute;
     top: 12%; left: 5%;
     display: flex;
@@ -221,6 +227,9 @@ nav .menuNav {
     .boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
         height: 40px;
     }
+    .searchBox {
+        width: 100px;
+    }
 }
 @media screen and (min-width:768px) {
     .post h1 {
@@ -240,6 +249,9 @@ nav .menuNav {
     }
     .boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
         height: 40px;
+    }
+    .searchBox {
+        width: 200px;
     }
 }
 @media screen and (min-width:1366px) {
@@ -262,5 +274,8 @@ nav .menuNav {
     }
     .boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
         height: 45px;
+    }
+    .searchBox {
+        width: 250px;
     }
 }
