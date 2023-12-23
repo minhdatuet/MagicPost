@@ -78,6 +78,15 @@
       margin-top:10px;
     }
   }
+
+  @media (max-width:360px) {
+    .footer-clean .item.social > a {
+      margin-top:0px;
+    }
+    .footer-clean .rowCenter {
+      gap: 50px;
+  }
+  }
   
   .footer-clean .copyright {
     margin-left: 30px;
@@ -85,3 +94,5 @@
     font-size:13px;
     opacity:0.6;
   }
+
+  

@@ -18,10 +18,48 @@
     margin-top: 5%;
     font-family: "Courier Prime", monospace; 
     text-align: left;
-    font-size:20px;
 }
 
 #imgInstruction {
     width: 900px;
     height: auto;
+}
+
+
+@media screen and (max-width:360px) {
+    #imgInstruction {
+        width: 100%;
+        height: auto;
+    }
+    #construction p {
+        font-size:10px;
+    }
+}
+
+@media screen and (min-width:360px) {
+    #imgInstruction {
+        width: 70%;
+        height: auto;
+    }
+    #construction p {
+        font-size:15px;
+    }
+}
+@media screen and (min-width:768px) {
+    #imgInstruction {
+        width: 70%;
+        height: auto;
+    }
+    #construction p {
+        font-size:15px;
+    }
+}
+@media screen and (min-width:1366px) {
+    #imgInstruction {
+        width: 70%;
+        height: auto;
+    }
+    #construction p {
+        font-size:20px;
+    }
 }

@@ -5,8 +5,10 @@ import * as actions from '../../store/actions'
 import { useNavigate } from 'react-router-dom'
 import car from '../../assets/images/car.png'
 import { useDispatch, useSelector } from 'react-redux'
+import { HashScroll } from "react-hash-scroll";
 
 const Login = () => {
+  const ref = useRef();
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const { isLogged } = useSelector(state => state.auth)
@@ -17,9 +19,13 @@ const Login = () => {
     password: ''
   })
 
+
   useEffect(() => {
+    window.scrollTo({ behavior: 'smooth', top: ref.current.offsetTop })
     isLogged && navigate('/loading')
   }, [isLogged])
+
+
   const [errorPhoneMessage, setErrorPhoneMessage] = useState('');
   const [errorPasswordMessage, setErrorPasswordMessage] = useState('');
 
@@ -65,7 +71,7 @@ const Login = () => {
   }
 
   return (
-    <div id="container">
+    <div id="container" ref={ref}>
       <div id="container-signIn">
         <div id="flex1">
           <div className="flexRow">
@@ -85,7 +91,7 @@ const Login = () => {
             <p style={{ color: 'red', marginTop: '5px' }}>{errorPhoneMessage}</p>
             )}
             <div id="passwordDiv">
-              <label>Mật khẩu</label>
+              <label className='label-login'>Mật khẩu</label>
               <input id='password'
                 type="password"
                 placeholder="Mật khẩu"
