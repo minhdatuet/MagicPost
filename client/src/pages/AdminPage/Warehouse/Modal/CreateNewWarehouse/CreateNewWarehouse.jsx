@@ -110,20 +110,8 @@ function CreateNewWarehouseModal(props) {
               </option>
             ))}
           </Form.Control>
-        </Form.Group>
-
-        <Form.Group as={Col} md='6'> 
-          <Form.Label>Quận/Huyện</Form.Label>
-          <Form.Control as="select" value={district} onChange={(e) => setDistrict(e.target.value)}>
-            <option value="">Chọn quận</option>
-            {districts.map((district) => (
-              <option key={district.district_id} value={district.district_id}>
-                {district.district_name}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-          <Form.Group as={Col} md="5" controlId="leaderId">
+        </Form.Group>      
+        <Form.Group as={Col} md="5" controlId="leaderId">
               <Form.Label>ID trưởng kho hàng</Form.Label>
               <Form.Control
                 type="text"

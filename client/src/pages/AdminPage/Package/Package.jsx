@@ -38,7 +38,6 @@ function Package() {
   useEffect(() => {
     dispatch(getAllPackages());
   }, []);
-  console.log(packages);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
