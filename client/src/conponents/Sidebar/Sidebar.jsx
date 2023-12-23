@@ -29,6 +29,8 @@ export default function Sidebar() {
     localStorage.setItem('role', '');
     localStorage.setItem('id', '');
     localStorage.setItem('name', '');
+    localStorage.setItem('transactionPointId', '')
+    localStorage.setItem('warehouseId', '')
     dispatch(actions.logout())
     navigate('/');
     window.location.reload();
