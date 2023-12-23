@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import './Loading.css'
-import avt1 from '../../assets/images/avt1.jpg'
-import avt3 from '../../assets/images/avt3.jpg'
 import { useSelector, useDispatch } from 'react-redux'
 import * as actions from '../../store/actions'
 import runner from '../../assets/images/runner.gif'
@@ -24,11 +22,13 @@ const Loading = () => {
     let i = 0
     useEffect(() => {
             userData && setTimeout(() => {
-                console.log(userData)
+
                 if (!(Object.keys(userData).length === 0) && !(userData.length === 0)) {
                     localStorage.setItem('role', userData[0].accountType);
                     localStorage.setItem('id', userData[0].id);
                     localStorage.setItem('name', userData[0].name);
+                    localStorage.setItem('transactionPointId', userData[0].Employee?.TransactionPoint?.id|| '0')
+                    localStorage.setItem('warehouseId', userData[0].Employee?.TransactionPoint?.Warehouse?.id || '0')
                     navigate('/boss/dashboard');
                     window.location.reload();
                 }
@@ -43,7 +43,7 @@ const Loading = () => {
                 <div className='loadingPost'>
                   <h1>Bạn có biết?</h1>
                   <br></br>
-                  <p>Magic Post là đơn vị vận chuyển có số lượng người dùng trong năm 2023 cao nhất việt nam</p>
+                  <p>Magic Post là đơn vị vận chuyển có số lượng người dùng trong năm 2023 cao nhất Việt Nam</p>
                 </div>
                 <img src={runner} alt="" />
               </div>

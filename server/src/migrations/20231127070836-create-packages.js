@@ -9,6 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      packageCode: {
+        allowNull: false,
+        type: Sequelize.STRING,
+    },
     senderId: {
         allowNull: false,
         type: Sequelize.INTEGER,

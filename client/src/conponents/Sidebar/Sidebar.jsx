@@ -29,6 +29,8 @@ export default function Sidebar() {
     localStorage.setItem('role', '');
     localStorage.setItem('id', '');
     localStorage.setItem('name', '');
+    localStorage.setItem('transactionPointId', '')
+    localStorage.setItem('warehouseId', '')
     dispatch(actions.logout())
     navigate('/');
     window.location.reload();
@@ -41,7 +43,7 @@ export default function Sidebar() {
 
   const navList = [
     {
-      role: "Boss",
+      role: "BOSS",
       navChild: [
         {
           icon: WarehouseRounded,
@@ -70,18 +72,18 @@ export default function Sidebar() {
       ],
     },
     {
-      role: "Leader",
+      role: "POINT_LEADER",
       navChild: [
         {
           icon: AccountBalanceRounded,
           title: "Giao dịch viên",
-          link: "/leader/account",
+          link: "/pointLeader/account",
           key: 1,
         },
         {
           icon: Inventory2Rounded,
           title: "Hàng hoá",
-          link: "/leader/package",
+          link: "/pointLeader/package",
           key: 2,
         },
       ],
@@ -145,9 +147,9 @@ export default function Sidebar() {
     <nav className="sidebar">
       <div className="sidebarWrapper">
         {navList.map((item) =>
-          "Boss" === item.role ? (
+          localStorage.getItem('role') === item.role ? (
             <div className="sidebarMenu">
-              <Link style={{ textDecoration: "none" }} to={"/boss/dashboard"}>
+              <Link style={{ textDecoration: "none" }} to={'${item.role}'}>
                 <h3 className="sidebarTitle">{item.role}</h3>
               </Link>
               <ul className="sidebarList">

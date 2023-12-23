@@ -11,6 +11,19 @@ export const apiGetAllPackages = () =>  new Promise(async(resolve, reject) => {
         reject(error)
     }
 })
+
+export const apiDeletePackage = (index) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'delete',
+            url: `/api/v1/package/delete/${index}`,
+        })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
+
 export const apiGetPublicProvinces = () => new Promise(async (resolve, reject) => {
     try {
         const response = await axiosConfig({
@@ -27,6 +40,18 @@ export const apiGetPublicDistrict = (provinceId) => new Promise(async (resolve, 
         const response = await axiosConfig({
             method: 'get',
             url: `https://vapi.vnappmob.com/api/province/district/${provinceId}`
+        })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
+
+export const apiGetPublicWard = (districtId) => new Promise(async (resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: `https://vapi.vnappmob.com/api/province/ward/${districtId}`
         })
         resolve(response)
     } catch (error) {

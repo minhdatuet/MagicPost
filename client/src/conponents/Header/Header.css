@@ -44,6 +44,7 @@ nav .menuNav {
     height: 27px;
     width: 250px;
     background-color: rgb(215, 215,215);
+    padding-left: 5px;
 }
 
 #search-input:focus {
@@ -54,6 +55,9 @@ nav .menuNav {
     padding-left: 5px;
 }
 
+.search {
+    position: relative;
+}
 
 #header a {
     color: white;
@@ -75,6 +79,120 @@ nav .menuNav {
     white-space: nowrap;
     overflow: hidden;
 }
+
+.searchBox {
+    background-color: rgb(215, 215,215);
+    padding-left: 5px;
+    position: absolute;
+    top: 70%;
+    width: 250px;
+    border-bottom: 1px solid black;
+}
+
+.searchBox:hover {
+    background-color: #EEEEEE;
+    cursor: pointer;
+}
+
+.boxPackage {
+    background-color: #ffffff;
+    height: 550px;
+    position: fixed;
+    top: 15%;
+    left: 10%;
+    right: 10%;
+    bottom: 5%;
+}
+.boxPackage > .flex2 {
+    background-color: #3b3a3a;
+    width: 100%;
+    height: 90px;
+    position: absolute;
+    top: 0; left: 0;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10%;
+}
+
+.boxPackage > .close {
+    background-color: transparent;
+    position: absolute;
+    top: 0; right: 0;
+    padding-right: 5%;
+    color: white;
+}
+
+.icon {
+    font-size: 24px;
+  }
+
+.boxPackage > .flex2 h1 {
+    margin-top: 2%;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.boxPackage > .flex2 p {
+    margin-top: -10px;
+    font-size: 15px;
+    color: #ffffff;
+    font-style: italic;
+}
+
+.boxPackage > .flex3 {
+    background-color: #ffffff;
+    width: 90%;
+    height: 450px;
+    position: absolute;
+    top: 12%; left: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.boxPackage > .flex3 > .info {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    gap:5px;
+}
+
+.boxPackage > .flex3 > .info > .flex3-1 {
+    width: 50%;
+}
+
+.boxPackage > .flex3 > .info > .flex3-2 {
+    width: 50%;
+}
+
+.boxPackage > .flex3 > .info > .flex3-1 > .flex1 {
+    height: 50px;
+}
+
+.boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
+    height: 50px;
+}
+.boxPackage > .flex3 > .info > .flex3-1 > .flex4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 10%;
+}
+
+.boxPackage > .flex3 > .info > .flex3-2 > .flex4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 10%;
+}
+
+ .flex4 > .flex5 {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 
 @keyframes typing{
     0%{ width: 0ch} 
@@ -98,6 +216,20 @@ nav .menuNav {
     nav .menuNav {
         gap: 5px
     }
+    .boxPackage {
+        width: 80%;
+        left: 10%;
+        right: 10%;
+    }
+    .boxPackage > .flex3 > .info > .flex3-1 > .flex1 {
+        height: 40px;
+    }
+    .boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
+        height: 40px;
+    }
+    .searchBox {
+        width: 100px;
+    }
 }
 @media screen and (min-width:768px) {
     .post h1 {
@@ -109,6 +241,18 @@ nav .menuNav {
     nav .menuNav {
         gap: 20px
     }
+    .boxPackage {
+        width: 80%;
+    }
+    .boxPackage > .flex3 > .info > .flex3-1 > .flex1 {
+        height: 40px;
+    }
+    .boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
+        height: 40px;
+    }
+    .searchBox {
+        width: 200px;
+    }
 }
 @media screen and (min-width:1366px) {
     .post h1 {
@@ -116,5 +260,22 @@ nav .menuNav {
     }
     #search-input {
         width: 250px
+    }
+    .boxPackage {
+        width: 70%;
+        left: 15%;
+        right: 15%;
+    }
+    .flex1 {
+        height: 60px;
+    }
+    .boxPackage > .flex3 > .info > .flex3-1 > .flex1 {
+        height: 45px;
+    }
+    .boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
+        height: 45px;
+    }
+    .searchBox {
+        width: 250px;
     }
 }

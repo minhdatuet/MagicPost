@@ -18,9 +18,10 @@ const Login = () => {
   })
 
   useEffect(() => {
-    isLogged && navigate('/')
+    isLogged && navigate('/loading')
   }, [isLogged])
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorPhoneMessage, setErrorPhoneMessage] = useState('');
+  const [errorPasswordMessage, setErrorPasswordMessage] = useState('');
 
   const passwordRef = useRef(null);
 
@@ -35,22 +36,31 @@ const Login = () => {
 
   const handleSubmit = async () => {
     try {
-      if (!payload.phone || !payload.password) {
-        setErrorMessage('Vui lòng điền đầy đủ thông tin đăng nhập!');
-        return;
-      }
-      const response = dispatch(actions.login(payload))
-      console.log(response);
-
-
-
-      if (response && response.error) {
-        setErrorMessage('Tên đăng nhập hoặc mật khẩu không chính xác!');
+      if (!payload.phone) {
+        setErrorPhoneMessage('Vui lòng nhập số điện thoại!');
+      } else if (payload.phone[0] !== '0' || !(payload.phone.match('[0-9]{10}'))) {
+        setErrorPhoneMessage('Số điện thoại không hợp lệ!');
       } else {
-        navigate(`/loading`);
+        setErrorPhoneMessage('');
       }
+      if (!payload.password) {
+        setErrorPasswordMessage('Vui lòng nhập mật khẩu!');
+      } else {
+        setErrorPasswordMessage('');
+      }
+      if (!payload.phone || !payload.password) return;
+      const response = dispatch(actions.login(payload))
+
+      setTimeout(() => {
+        if (!window.localStorage.getItem('persist:auth').isLogged ) {
+          setErrorPasswordMessage('Số điện thoại hoặc mật khẩu không chính xác!');
+        } else {
+          setErrorPasswordMessage('');
+        }
+      }, 500)
+      
     } catch (error) {
-      setErrorMessage('Đã xảy ra lỗi khi đăng nhập!');
+      setErrorPasswordMessage('Đã xảy ra lỗi khi đăng nhập!');
     }
   }
 
@@ -71,6 +81,9 @@ const Login = () => {
                 onKeyDown={handleKeyDown}
                 onChange={(e) => setPayload(prev => ({ ...prev, phone: e.target.value }))} />
             </div>
+            {errorPhoneMessage && (
+            <p style={{ color: 'red', marginTop: '5px' }}>{errorPhoneMessage}</p>
+            )}
             <div id="passwordDiv">
               <label>Mật khẩu</label>
               <input id='password'
@@ -80,13 +93,14 @@ const Login = () => {
                 ref={passwordRef}
                 onChange={(e) => setPayload(prev => ({ ...prev, password: e.target.value }))} />
             </div>
+            {errorPasswordMessage && (
+            <p style={{ color: 'red', marginTop: '5px' }}>{errorPasswordMessage}</p>
+            )}
           </form>
           <br></br>
           <button className="btnSignIn" onClick={handleSubmit}>Xác nhận</button>
           <br></br>
-          {errorMessage && (
-            <p style={{ color: 'red', marginTop: '5px' }}>{errorMessage}</p>
-          )}
+          
         </div>
       </div>
       <div id="poster">

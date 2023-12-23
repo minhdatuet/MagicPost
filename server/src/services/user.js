@@ -10,17 +10,17 @@ exports.getUser = (phone) => new Promise(async(resolve, reject) => {
             where: {
               phone
             },
-            raw: true,
+            // raw: true,
             attributes: ['id','name', 'phone', 'address', 'accountType'],
             include: [
             {
                 model: db.Warehouse,
-                attributes: ['name', 'address'],
+                attributes: ['id','name', 'address'],
                 required: false,
             },
             {
                 model: db.TransactionPoint,
-                attributes: ['name', 'address'],
+                attributes: ['id','name', 'address'],
                 required: false,
             },
             {
@@ -29,7 +29,15 @@ exports.getUser = (phone) => new Promise(async(resolve, reject) => {
                 attributes: ['id'],
                 include: [{
                     model: db.Warehouse,
-                    attributes: ['name', 'address']
+                    attributes: ['id','name', 'address']
+                },
+                {
+                    model: db.TransactionPoint,
+                    attributes: ['id','name', 'address'],
+                    include: [{
+                        model: db.Warehouse,
+                        attributes: ['id','name', 'address']
+                    }]
                 }]
             }]
 
@@ -44,3 +52,21 @@ exports.getUser = (phone) => new Promise(async(resolve, reject) => {
         reject(error)
     }
 })
+  
+  exports.updateService = (id, updatedData) => new Promise(async (resolve, reject) => {
+    try {
+        const [rowsAffected] = await db.Accounts.update(updatedData, {
+            where: { id }
+        });
+        const successMessage = 'Update is successful';
+        const errorMessage = 'Update is failed';
+        const response = {
+            err: rowsAffected> 0 ? 0 : 2,
+            msg: rowsAffected> 0 ? successMessage : errorMessage,
+        };
+  
+        resolve(response);
+    } catch (error) {
+        reject(error);
+    }
+  });
