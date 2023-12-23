@@ -55,6 +55,9 @@ nav .menuNav {
     padding-left: 5px;
 }
 
+.search {
+    position: relative;
+}
 
 #header a {
     color: white;
@@ -80,6 +83,10 @@ nav .menuNav {
 .searchBox {
     background-color: rgb(215, 215,215);
     padding-left: 5px;
+    position: absolute;
+    top: 70%;
+    width: 250px;
+    border-bottom: 1px solid black;
 }
 
 .searchBox:hover {
@@ -220,6 +227,9 @@ nav .menuNav {
     .boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
         height: 40px;
     }
+    .searchBox {
+        width: 100px;
+    }
 }
 @media screen and (min-width:768px) {
     .post h1 {
@@ -239,6 +249,9 @@ nav .menuNav {
     }
     .boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
         height: 40px;
+    }
+    .searchBox {
+        width: 200px;
     }
 }
 @media screen and (min-width:1366px) {
@@ -261,5 +274,8 @@ nav .menuNav {
     }
     .boxPackage > .flex3 > .info > .flex3-2 > .flex1 {
         height: 45px;
+    }
+    .searchBox {
+        width: 250px;
     }
 }

@@ -23,7 +23,7 @@ export const Home = () => {
   // console.log(packages);
 
   const handleSearch = async () => {
-    const foundPackage = packages.find(packageItem => packageItem.id === Number(packageID));
+    const foundPackage = packages.find(packageItem => packageItem.packageCode === packageID);
     if(foundPackage) {
       const statusTimes = [
         [foundPackage.Status.datePointEndReceived,
@@ -128,7 +128,7 @@ export const Home = () => {
                 <div className="flex4">
                   <div className="flex5">
                     <p className='pLabel'>Mã đơn hàng: </p>
-                    <p>{packageItem.id}</p>
+                    <p>{packageItem.packageCode}</p>
                     <p></p>
                   </div>
                   <div className="flex5">

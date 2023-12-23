@@ -52,6 +52,8 @@ const Header = () => {
     };
   }, []);
 
+  // console.log(packages)
+
   const onChangeHandler = (text) => {
     let matches = []
     var input = document.querySelector('#nav input');
@@ -233,7 +235,7 @@ const Header = () => {
                 <div className="flex4">
                   <div className="flex5">
                     <p className='pLabel'>Mã đơn hàng: </p>
-                    <p>{packageItem.id}</p>
+                    <p>{packageItem.packageCode}</p>
                     <p></p>
                   </div>
                   <div className="flex5">
