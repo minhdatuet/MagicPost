@@ -5,6 +5,7 @@ module.exports = {
     await queryInterface.bulkInsert('Packages', [
       {
         // Sample data for the first record
+        packageCode: 'ABC123',
         senderId: '1',
         receiverId: '2',
         transactionPointStartId: '1',
