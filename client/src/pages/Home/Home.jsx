@@ -20,39 +20,41 @@ export const Home = () => {
     dispatch(getAllPackages());
   }, []);
 
-  console.log(packages);
+  // console.log(packages);
 
   const handleSearch = async () => {
     const foundPackage = packages.find(packageItem => packageItem.id === Number(packageID));
-    const statusTimes = [
-      [foundPackage.Status.datePointEndReceived,
-      foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? foundPackage.transactionPointEnd.name + " đang chuyển đơn hàng." : null],
-      [foundPackage.Status.dateReceiverReturn, 'Người nhận trả lại hàng'],
-      [foundPackage.Status.dateSendPackage, 'Người gửi gửi đơn hàng'],
-      [foundPackage.Status.dateSendToPointEnd,
-      foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? "Đơn hàng đang chuyển tới " + foundPackage.transactionPointEnd.name : null],
-      [foundPackage.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận"],
-      [foundPackage.Status.dateSendToWarehouseEnd, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? "Đơn hàng đang chuyển tới " + foundPackage.warehouseEnd.name : null],
-      [foundPackage.Status.dateSendToWarehouseStart, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? "Đơn hàng đang chuyển tới " + foundPackage.warehouseStart.name : null],
-      [foundPackage.Status.dateWarehouseEndReceived, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? foundPackage.warehouseEnd.name + " đang chuyển đơn hàng" : null],
-      [foundPackage.Status.dateWarehouseStartReceived, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? foundPackage.warehouseStart.name + " đang chuyển đơn hàng" : null],
-      [foundPackage.Status.receivedDate, "Ngày trả lại hàng"]
-    ];
-    const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
-
-    const currentDateTime = new Date();
-    let closestTime = null;
-    let closestDiff = Infinity;
-
-    for (const statusTime of filteredStatusTimes) {
-      const time = statusTime[0];
-      const diff = Math.abs(currentDateTime - new Date(time)); 
-      if (diff < closestDiff) {
-        closestTime = statusTime;
-        closestDiff = diff;
+    if(foundPackage) {
+      const statusTimes = [
+        [foundPackage.Status.datePointEndReceived,
+        foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? foundPackage.transactionPointEnd.name + " đang chuyển đơn hàng." : null],
+        [foundPackage.Status.dateReceiverReturn, 'Người nhận trả lại hàng'],
+        [foundPackage.Status.dateSendPackage, 'Người gửi gửi đơn hàng'],
+        [foundPackage.Status.dateSendToPointEnd,
+        foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? "Đơn hàng đang chuyển tới " + foundPackage.transactionPointEnd.name : null],
+        [foundPackage.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận"],
+        [foundPackage.Status.dateSendToWarehouseEnd, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? "Đơn hàng đang chuyển tới " + foundPackage.warehouseEnd.name : null],
+        [foundPackage.Status.dateSendToWarehouseStart, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? "Đơn hàng đang chuyển tới " + foundPackage.warehouseStart.name : null],
+        [foundPackage.Status.dateWarehouseEndReceived, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? foundPackage.warehouseEnd.name + " đang chuyển đơn hàng" : null],
+        [foundPackage.Status.dateWarehouseStartReceived, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? foundPackage.warehouseStart.name + " đang chuyển đơn hàng" : null],
+        [foundPackage.Status.receivedDate, "Ngày trả lại hàng"]
+      ];
+      const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
+  
+      const currentDateTime = new Date();
+      let closestTime = null;
+      let closestDiff = Infinity;
+  
+      for (const statusTime of filteredStatusTimes) {
+        const time = statusTime[0];
+        const diff = Math.abs(currentDateTime - new Date(time)); 
+        if (diff < closestDiff) {
+          closestTime = statusTime;
+          closestDiff = diff;
+        }
       }
+      setStatusPackage(closestTime);
     }
-    setStatusPackage(closestTime);
     setSearchedPackage(foundPackage);
     setShowPackageInfo(!!foundPackage);
   };
