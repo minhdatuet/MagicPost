@@ -79,7 +79,6 @@ nav .menuNav {
 
 .searchBox {
     background-color: rgb(215, 215,215);
-    border-radius: 0px 0px 10px 10px;
     padding-left: 5px;
 }
 
@@ -117,7 +116,7 @@ nav .menuNav {
 }
 
 .icon {
-    font-size: 24px; /* Đặt kích thước là 24px (hoặc kích thước mong muốn) */
+    font-size: 24px;
   }
 
 .boxPackage > .flex2 h1 {
@@ -134,9 +133,9 @@ nav .menuNav {
 }
 
 .boxPackage > .flex3 {
-    background-color: transparent;
+    background-color: #ffffff;
     width: 90%;
-    height: 500px;
+    height: 450px;
     position: absolute;
     top: 12%; left: 5%;
     display: flex;

@@ -105,6 +105,10 @@ const Header = () => {
     }
     setStatusPackage(closestTime);
     setShowModal(true);
+    setText("");
+    setSuggestions("");
+    var input = document.querySelector('#nav input');
+    input.style.borderRadius = '15px';
   };
 
   const closeModal = () => {
