@@ -3,7 +3,7 @@
 #header {
     position: relative;
     background: url(../../assets/images/bg_1-1.jpg) no-repeat;
-    height: 100vh;
+    height: 80vh;
     background-size: cover;
     background-position: center;
 }
@@ -208,7 +208,7 @@ nav .menuNav {
 
 @media screen and (min-width:360px) {
     .post h1 {
-        font-size: 30px;
+        font-size: 25px;
     }
     #search-input {
         width: 100px
@@ -229,6 +229,24 @@ nav .menuNav {
     }
     .searchBox {
         width: 100px;
+    }
+}
+
+@media screen and (max-width:360px) {
+    .post h1 {
+        font-size: 13px;
+    }
+    #search-input {
+        display: none;
+    }
+    nav .menuNav {
+        gap: 0px
+    }
+    .menuNav li {
+        font-size: 10px;
+    }
+    .menuNav li h2{
+        font-size: 15px;
     }
 }
 @media screen and (min-width:768px) {

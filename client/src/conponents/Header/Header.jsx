@@ -132,7 +132,7 @@ const Header = () => {
               </Link>
             </div>
           </li>
-          <span className='header-span'></span>
+          {/* <span className='header-span'></span> */}
           <li>
             <Link to='/aboutUs'>
               Giới thiệu

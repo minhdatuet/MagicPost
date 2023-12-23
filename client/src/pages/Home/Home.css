@@ -164,10 +164,35 @@ div.packageForm {
     border-top: 2px solid #ccc; 
     margin: 20px 0; 
   }
+  @media screen and (max-width:360px) {
+    #home input {
+        width: 100%;
+    }
+    div.packageForm {
+        width: 90%;
+    }
+    .flex1 {
+        height: 50px;
+    }
+    .packageForm > .flex3 > .info > .flex3-1 > .flex1 {
+        height: 40px;
+    }
+    .packageForm > .flex3 > .info > .flex3-2 > .flex1 {
+        height: 40px;
+    }
+    .packageForm > .flex2 {
+        height: 90px;
+    }
+    #tem {
+        margin-left: 25%;
+        width: 250px;
+    }
+    
+}
 
 @media screen and (min-width:360px) {
     #home input {
-        width: 400px;
+        width: 100%;
     }
     div.packageForm {
         width: 90%;
@@ -192,7 +217,7 @@ div.packageForm {
 }
 @media screen and (min-width:768px) {
     #home input {
-        width: 550px;
+        width: 100%;
     }
     div.packageForm {
         width: 80%;
@@ -215,7 +240,7 @@ div.packageForm {
 }
 @media screen and (min-width:1366px) {
     #home input {
-        width: 700px;
+        width: 100%;
     }
     div.packageForm {
         width: 70%;

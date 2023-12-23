@@ -12,7 +12,7 @@
     border-radius: 20px 0px 0px 20px;
     align-items: center;
     background-color: white;
-    width: 700px;
+    width: 50%;
     height: 600px;
     opacity: 0.85;
     box-shadow: 0.4rem 0.4rem 0.45rem rgba(0,0,30,0.3);
@@ -55,7 +55,6 @@
 }
 
 
-
 #container-signIn input::placeholder {
     padding-left: 5px;
 }
@@ -69,7 +68,7 @@
     position: relative;
     border-radius: 0px 20px 20px 0px;
     background-image: url(https://media.istockphoto.com/id/1299083810/vi/anh/b%C6%B0u-ki%E1%BB%87n-tr%C3%AAn-b%C4%83ng-t%E1%BA%A3i-trong-nh%C3%A0-kho.jpg?s=612x612&w=0&k=20&c=BAQefYe9vrqWQyNwAvsKHlyf99qqQdvPiStprLXED8s=);
-    width: 700px;
+    width: 50%;
     height: 600px;
     opacity: 0.8;
     box-shadow: 0.4rem 0.4rem 0.45rem rgba(0,0,30,0.3);
@@ -127,4 +126,83 @@
 
 .label-login {
     font-size:20px;
+}
+
+
+@media screen and (max-width:360px) {
+    #imgSignIn {
+        display: none;
+    }
+    #poster {
+        display: none;
+    }
+    #container-signIn {
+        width: 100%;
+    }
+    #container-signIn input {
+        width: 100%;
+    }
+    .btnSignIn {
+        width: 70%;
+    }
+}
+
+@media screen and (min-width:360px) {
+    #imgSignIn {
+        display: none;
+    }
+    #poster {
+        display: none;
+    }
+    #container-signIn {
+        width: 100%;
+    }
+}
+@media screen and (min-width:768px) {
+    #imgSignIn {
+        display: block;
+    }
+    #imgSignIn {
+        width: 8vw;
+        height:70px;
+        margin-top: 10%;
+        margin-bottom:15%;
+    }
+    #container-signIn {
+        width: 50%;
+    }
+    #poster {
+        display: block;
+    }
+    #poster {
+        position: relative;
+        border-radius: 0px 20px 20px 0px;
+        background-image: url(https://media.istockphoto.com/id/1299083810/vi/anh/b%C6%B0u-ki%E1%BB%87n-tr%C3%AAn-b%C4%83ng-t%E1%BA%A3i-trong-nh%C3%A0-kho.jpg?s=612x612&w=0&k=20&c=BAQefYe9vrqWQyNwAvsKHlyf99qqQdvPiStprLXED8s=);
+        width: 50%;
+        height: 600px;
+        opacity: 0.8;
+        box-shadow: 0.4rem 0.4rem 0.45rem rgba(0,0,30,0.3);
+        opacity: 0.8;
+    }
+}
+@media screen and (min-width:1366px) {
+    #imgSignIn {
+        display: block;
+    }
+    #container-signIn {
+        width: 50%;
+    }
+    #poster {
+        display: block;
+    }
+    #poster {
+        position: relative;
+        border-radius: 0px 20px 20px 0px;
+        background-image: url(https://media.istockphoto.com/id/1299083810/vi/anh/b%C6%B0u-ki%E1%BB%87n-tr%C3%AAn-b%C4%83ng-t%E1%BA%A3i-trong-nh%C3%A0-kho.jpg?s=612x612&w=0&k=20&c=BAQefYe9vrqWQyNwAvsKHlyf99qqQdvPiStprLXED8s=);
+        width: 50%;
+        height: 600px;
+        opacity: 0.8;
+        box-shadow: 0.4rem 0.4rem 0.45rem rgba(0,0,30,0.3);
+        opacity: 0.8;
+    }
 }
