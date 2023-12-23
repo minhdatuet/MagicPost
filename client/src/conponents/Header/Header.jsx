@@ -59,7 +59,7 @@ const Header = () => {
       input.style.borderRadius = '15px 15px 0px 0px';
       matches = packages.filter(usr => {
         const regex = new RegExp(`${text}`, "gi");
-        return usr.name.match(regex)
+        return usr.packageCode.match(regex)
       })
     } else {
       input.style.borderRadius = '15px';
@@ -153,7 +153,7 @@ const Header = () => {
             {suggestions && suggestions.map((suggestions, i) =>
               <div key={i} className="searchBox"
               onClick={() => openModal(suggestions)}>
-                {suggestions.name}
+                {suggestions.packageCode}
               </div>
             )}
           </li>
