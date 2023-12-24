@@ -16,6 +16,18 @@ exports.getUser = async (req, res) => {
     }
 }
 
+exports.getAll = async (req, res) => {
+    try {
+        const response = await userService.getAllService()
+        return res.status(200).json(response)
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: 'Fail at user controller' + error
+        })
+    }
+}
+
 exports.updateById = async (req, res) => {
     const {name, phone, address, accountType} = req.body
     try{

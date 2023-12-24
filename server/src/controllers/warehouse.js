@@ -36,7 +36,7 @@ exports.deleteById = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: 'Fail at package controller' + error
+            msg: 'Fail at warehouse controller' + error
         })
     }
 }
@@ -50,7 +50,20 @@ exports.updateById = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: 'Fail at package controller' + error
+            msg: 'Fail at warehouse controller' + error
+        })
+    }
+}
+
+exports.getPackagesInWarehouse = async (req, res) => {
+    try {
+        const id = req.params.id
+        const response = await warehouseService.getPackagesService(id)
+        return res.status(200).json(response)
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: 'Fail at warehouse controller' + error
         })
     }
 }

@@ -37,6 +37,19 @@ export const apiCreatePackage = (payload) =>  new Promise(async(resolve, reject)
     }
 })
 
+export const apiUpdatePackageById = (payload) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'put',
+            url: `/api/v1/package/update/${payload.id}`,
+            data: payload
+        })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
+
 export const apiGetPublicProvinces = () => new Promise(async (resolve, reject) => {
     try {
         const response = await axiosConfig({
