@@ -5,7 +5,6 @@ import * as actions from '../../store/actions'
 import { useNavigate } from 'react-router-dom'
 import car from '../../assets/images/car.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { HashScroll } from "react-hash-scroll";
 
 const Login = () => {
   const ref = useRef();
