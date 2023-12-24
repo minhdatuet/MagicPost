@@ -53,11 +53,11 @@ function Package() {
   const handleCloseUpdateModal = () => {
     setIsUpdateModalOpen(false);
 
-}
-    useEffect(() => {
-        setPagination(calculateRange(packages, 4));
-        setOrders(sliceData(packages, page, 4));
-    }, [page, packages]);
+  }
+  useEffect(() => {
+    setPagination(calculateRange(packages, 4));
+    setOrders(sliceData(packages, page, 4));
+  }, [page, packages]);
 
   // Search
   const handleSearch = (event) => {
@@ -106,29 +106,29 @@ function Package() {
     console.log(isDelete);
   };
   const handleDelete = (id) => {
-      apiDeletePackage(id)
-      window.location.reload();
-  /*  if (setIsDelete) {
-
-      // Tìm vị trí của đối tượng trong danh sách orders
-      const index = orders.findIndex((order) => order.id === setIsDelete.id);
-      console.log(isDelete)
-      if (index !== -1) {
-        // Tạo một bản sao của danh sách orders để tránh thay đổi trực tiếp state
-        const updatedOrders = [...orders];
-        // Xóa đối tượng khỏi danh sách
-        apiDeletePackage(index);
-        // Cập nhật state orders
-        setOrders(updatedOrders);
-      }
-      // Đặt lại selectedOrderToDelete về null
-      setIsDelete(null);
-    } */
+    apiDeletePackage(id)
+    window.location.reload();
+    /*  if (setIsDelete) {
+  
+        // Tìm vị trí của đối tượng trong danh sách orders
+        const index = orders.findIndex((order) => order.id === setIsDelete.id);
+        console.log(isDelete)
+        if (index !== -1) {
+          // Tạo một bản sao của danh sách orders để tránh thay đổi trực tiếp state
+          const updatedOrders = [...orders];
+          // Xóa đối tượng khỏi danh sách
+          apiDeletePackage(index);
+          // Cập nhật state orders
+          setOrders(updatedOrders);
+        }
+        // Đặt lại selectedOrderToDelete về null
+        setIsDelete(null);
+      } */
   };
   const handleViewAllClick = (filterId) => {
     // navigate(`/boss/package?id=${filterId}`)
   };
-  
+
 
   return (
     <div className="dashboard-content">
@@ -207,19 +207,19 @@ function Package() {
                   </td>
                   <td>
                     <ul class="list-inline m-0">
-                    <li className="list-inline-item">
-                    <button
-                      className="btn btn-secondary btn-sm rounded-0"
-                      type="button"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="View All"
-                      onClick= {() => handleViewAllClick(1)}
-                    >
-                    <i className="fa fa-eye"></i>
-                    {/* Use the appropriate icon class here */}
-                    </button>
-                  </li>
+                      <li className="list-inline-item">
+                        <button
+                          className="btn btn-secondary btn-sm rounded-0"
+                          type="button"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="View All"
+                          onClick={() => handleViewAllClick(1)}
+                        >
+                          <i className="fa fa-eye"></i>
+                          {/* Use the appropriate icon class here */}
+                        </button>
+                      </li>
                       <li class="list-inline-item">
                         <button
                           class="btn btn-secondary btn-sm rounded-0"
@@ -239,7 +239,7 @@ function Package() {
                           data-toggle="tooltip"
                           data-placement="top"
                           title="Delete"
-                          onClick={() => {handleDelete(order.id)}}
+                          onClick={() => { handleDelete(order.id) }}
                         >
                           <i class="fa fa-trash"></i>
                         </button>

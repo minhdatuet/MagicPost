@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage} from '../../../utils/table-pagination';
+import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage } from '../../../utils/table-pagination';
 
 import './style.css';
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import CreateNewWarehouseModal from './Modal/CreateNewWarehouse/CreateNewWarehouse';
 import UpdateWarehouseModal from './Modal/UpdateWarehouse/UpdateWarehouse';
+import ShowInfoWarehouse from './Modal/ShowInfoWarehouse/ShowInfoWarehouse';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllWarehouses } from '../../../store/actions';
 
@@ -18,12 +19,15 @@ function Warehouse() {
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [isDelete, setIsDelete] = useState(null);
     const [warehouse, setWarehouse] = useState(warehouses);
+    const [showInfoWarehouse, setShowInfoWarehouse] = useState(false);
+    const [selectedWarehouse, setSelectedWarehouse] = useState(null);
     const handleOpenModal = () => {
         setIsModalOpen(true);
     }
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        setShowInfoWarehouse(false);
     }
 
     const handleOpenUpdateModal = () => {
@@ -32,6 +36,10 @@ function Warehouse() {
 
     const handleCloseUpdateModal = () => {
         setIsUpdateModalOpen(false);
+    }
+
+    const handleCloseShowInfoModal = () => {
+        setShowInfoWarehouse(false);
     }
     useEffect(() => {
         dispatch(getAllWarehouses());
@@ -42,6 +50,11 @@ function Warehouse() {
         setPagination(calculateRange(warehouses, 5));
         setWarehouse(sliceData(warehouses, page, 5));
     }, [page, warehouses]);
+
+    const onHandlerShowInfoWarehouse = (warehouse) => {
+        setShowInfoWarehouse(true);
+        setSelectedWarehouse(warehouse);
+    }
 
     // Search
     const handleSearch = (event) => {
@@ -83,6 +96,8 @@ function Warehouse() {
         firstPage(page, setPage);
     };
 
+    console.log(showInfoWarehouse);
+
     const renderPagination = () => {
         const totalButtons = 3; // Number of buttons to display
         const halfButtons = Math.floor(totalButtons / 2);
@@ -114,14 +129,14 @@ function Warehouse() {
 
     return (
         <div className='dashboard-content'>
-        <HeaderRole
-            btnText="Thêm kho hàng" onClick={setIsModalOpen}/>
+            <HeaderRole
+                btnText="Thêm kho hàng" onClick={setIsModalOpen} />
             <CreateNewWarehouseModal
-            // dialogClassName="modal-dialog-custom"
-            show={isModalOpen}
-            onHide={handleCloseModal}
-            style={{ zIndex: 9999 }} // Add this line
-        />
+                // dialogClassName="modal-dialog-custom"
+                show={isModalOpen}
+                onHide={handleCloseModal}
+                style={{ zIndex: 9999 }} // Add this line
+            />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     <h2>Kho hàng</h2>
@@ -153,12 +168,19 @@ function Warehouse() {
                                     <td><span>{warehouse.address}</span></td>
                                     <td><span>{warehouse.warehouseLeader.name}</span></td>
                                     <td>
-                                        <ul class="list-inline m-0">
-                                            <li class="list-inline-item">
-                                                <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" onClick={setIsUpdateModalOpen}><i class="fa fa-edit"></i></button>
+                                        <ul className="list-inline m-0">
+                                            <li className="list-inline-item">
+                                                <button className="btn btn-secondary btn-sm rounded-0"
+                                                    type="button" data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Eye"
+                                                    onClick={(e) => onHandlerShowInfoWarehouse(warehouse)}><i class="fa fa-eye"></i></button>
                                             </li>
-                                            <li class="list-inline-item">
-                                                <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                            <li className="list-inline-item">
+                                                <button className="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" onClick={setIsUpdateModalOpen}><i class="fa fa-edit"></i></button>
+                                            </li>
+                                            <li className="list-inline-item">
+                                                <button className="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
                                             </li>
                                         </ul>
                                     </td>
@@ -166,10 +188,15 @@ function Warehouse() {
                             ))}
                         </tbody>
                     ) : null}
+                    <ShowInfoWarehouse
+                        show={showInfoWarehouse}
+                        onHide={handleCloseShowInfoModal}
+                        warehouse={selectedWarehouse}
+                    />
                     <UpdateWarehouseModal
-                    show={isUpdateModalOpen}
-                    onHide={handleCloseUpdateModal}
-                />
+                        show={isUpdateModalOpen}
+                        onHide={handleCloseUpdateModal}
+                    />
                 </table>
 
                 {warehouses.length !== 0 ? (
@@ -179,7 +206,7 @@ function Warehouse() {
                         {renderPagination()}
                         <span className="pagination" onClick={handleNextPage} disabled={page === pagination.length}>{'>'}</span>
                         <span className="pagination" onClick={handleLastPage} disabled={page === pagination.length}>{'>>'}</span>
-                        </div>
+                    </div>
                 ) : (
                     <div className='dashboard-content-footer'>
                         <span className='empty-table'>No data</span>
