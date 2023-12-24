@@ -18,7 +18,7 @@ const PackageForm = () => {
                     <p>Magic Post</p>
                 </div>
                 <button className="btnCloseForm"
-                onClick={handleClickClose}>
+                    onClick={handleClickClose}>
                     <i class="fa fa-times icon"></i>
                 </button>
             </div>
@@ -94,7 +94,7 @@ const PackageForm = () => {
                             <ul>
                                 {statusPackage.map((item, i) => (
                                     <li key={i}>
-                                        <p className='pStatus'>
+                                        <p className={i === statusPackage.length - 1 ? 'pStatus' : ''}>
                                             {item[1]}
                                         </p>
                                     </li>
