@@ -15,7 +15,7 @@ import RefundedIcon from "../../../assets/icons/refunded.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
 import UpdatePackageModal from "./Modal/UpdatePackage/UpdatePackage";
-import { apiGetAllPackages } from "../../../services/package";
+import { apiDeletePackage, apiGetAllPackages } from "../../../services/package";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
 import {
@@ -33,12 +33,11 @@ function Package() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   // const [packages, setAllOrders] = useState([]);
-  const [isDelete, setIsDelete] = useState(null);
+  const [isDelete, setIsDelete] = useState();
   const [orders, setOrders] = useState(packages);
   useEffect(() => {
     dispatch(getAllPackages());
   }, []);
-  console.log(packages);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -101,23 +100,30 @@ function Package() {
   };
 
   const handleOpenDeleteModal = (order) => {
+    console.log('YES')
     setIsDelete(order);
+    console.log(order);
+    console.log(isDelete);
   };
-  const handleDelete = () => {
-    if (setIsDelete) {
+  const handleDelete = (id) => {
+      apiDeletePackage(id)
+      window.location.reload();
+  /*  if (setIsDelete) {
+
       // Tìm vị trí của đối tượng trong danh sách orders
       const index = orders.findIndex((order) => order.id === setIsDelete.id);
+      console.log(isDelete)
       if (index !== -1) {
         // Tạo một bản sao của danh sách orders để tránh thay đổi trực tiếp state
         const updatedOrders = [...orders];
         // Xóa đối tượng khỏi danh sách
-        updatedOrders.splice(index, 1);
+        apiDeletePackage(index);
         // Cập nhật state orders
         setOrders(updatedOrders);
       }
       // Đặt lại selectedOrderToDelete về null
       setIsDelete(null);
-    }
+    } */
   };
   const handleViewAllClick = (filterId) => {
     // navigate(`/boss/package?id=${filterId}`)
@@ -168,26 +174,26 @@ function Package() {
                   </td>
                   <td>
                     <div>
-                      {order.Status.nameOfStatus === "DELIVERING" ? (
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
                         <img
                           src={DoneIcon}
                           alt="paid-icon"
                           className="dashboard-content-icon"
                         />
-                      ) : order.Status.nameOfStatus === "FAILED" ? (
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
                         <img
                           src={CancelIcon}
                           alt="canceled-icon"
                           className="dashboard-content-icon"
                         />
-                      ) : order.Status.nameOfStatus === "Refunded" ? (
+                      ) : order?.Status?.nameOfStatus === "Refunded" ? (
                         <img
                           src={RefundedIcon}
                           alt="refunded-icon"
                           className="dashboard-content-icon"
                         />
                       ) : null}
-                      <span>{order.Status.nameOfStatus}</span>
+                      <span>{order?.Status?.nameOfStatus}</span>
                     </div>
                   </td>
                   <td>
@@ -233,6 +239,7 @@ function Package() {
                           data-toggle="tooltip"
                           data-placement="top"
                           title="Delete"
+                          onClick={() => {handleDelete(order.id)}}
                         >
                           <i class="fa fa-trash"></i>
                         </button>

@@ -10,7 +10,7 @@ exports.getUser = (phone) => new Promise(async(resolve, reject) => {
             where: {
               phone
             },
-            raw: true,
+            // raw: true,
             attributes: ['id','name', 'phone', 'address', 'accountType'],
             include: [
             {

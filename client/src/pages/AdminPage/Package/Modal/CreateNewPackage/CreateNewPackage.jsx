@@ -1,25 +1,82 @@
-import React, { useState } from 'react';
-import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
-import CloseIcon from '@mui/icons-material/Close';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './CreateNewPackage.scss'
+import React, { useState, useEffect } from 'react';
+import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import CloseIcon from "@mui/icons-material/Close";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { apiGetPublicProvinces, apiGetPublicDistrict, apiGetPublicWard } from '../../../../../services/package';
+import "./CreateNewPackage.scss";
+
 function CreateNewPackageModal(props) {
+  const [receiverProvinces, setReceiverProvinces] = useState([]);
+  const [receiverDistricts, setReceiverDistricts] = useState([]);
+  const [receiverWards, setReceiverWards] = useState([]);
+
+  const [receiverProvince, setReceiverProvince] = useState('');
+  const [receiverDistrict, setReceiverDistrict] = useState('');
+  const [receiverWard, setReceiverWard] = useState('');
+
+  const [reset, setReset] = useState(false);
   const [validated, setValidated] = useState(false);
+
   const [formData, setFormData] = useState({
-    id: '',
-    senderName: '',
-    senderPhone: '',
-    senderPassword: '',
-    receiverName: '',
-    receiverPhone: '',
-    receiverPassword: '',
-    transactionPointStartId: localStorage.getItem('transactionPointId'),
-    transactionPointEndId: '',
-    warehouseStartId: localStorage.getItem('warehouseId'),
-    warehouseEndId: '',
-    name: '',
-    shippingCost: ''
+    senderName: "",
+    senderPhone: "",
+    receiverName: "",
+    receiverPhone: "",
+    receiverAddress: {
+      province: "",
+      district: "",
+      ward: "",
+    },
+    receiverAddress1: "",
+    name: "",
+    weight: "",
   });
+  const [price, setPrice] = useState();
+
+
+  useEffect(() => {
+    const calculatedPrice = 3000 * parseFloat(formData.weight) || 0;
+    if (calculatedPrice > 10000) {
+      setPrice(calculatedPrice);
+    }
+    else { setPrice(10000)}
+  }, [formData.weight]);
+
+  useEffect(() => {
+    const fetchPublicProvince = async () => {
+      const response = await apiGetPublicProvinces();
+      if (response.status === 200) {
+        setReceiverProvinces(response?.data.results);
+      }
+    };
+    fetchPublicProvince();
+  }, []);
+  useEffect(() => {
+    setReceiverDistrict(null);
+    const fetchPublicDistrict = async () => {
+      const response = await apiGetPublicDistrict(receiverProvince);
+      if (response.status === 200) {
+        setReceiverDistricts(response.data?.results);
+      }
+    };
+    receiverProvince && fetchPublicDistrict();
+    !receiverProvince ? setReset(true) : setReset(false);
+    !receiverProvince && setReceiverDistricts([]);
+  }, [receiverProvince]);
+
+  useEffect(() => {
+    setReceiverWard(null);
+    const fetchPublicWard = async () => {
+      const response = await apiGetPublicWard(receiverDistrict);
+      if (response.status === 200) {
+        setReceiverWards(response.data?.results);
+      }
+    };
+    receiverDistrict && fetchPublicWard();
+    !receiverDistrict ? setReset(true) : setReset(false);
+    !receiverDistrict && setReceiverWards([]);
+  }, [receiverDistrict]);
+
   const handleInputChange = (event) => {
     const { id, value } = event.target;
     setFormData((prevData) => ({
@@ -30,124 +87,224 @@ function CreateNewPackageModal(props) {
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {  
+    if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
-
-    setValidated(true);
-
     if (form.checkValidity()) {
-      console.log('Form submitted:', formData);
-      props.onHide()
+    const receiverAddress = `${formData.receiverAddress1}, ${formData.receiverAddress.ward}, ${formData.receiverAddress.district}, ${formData.receiverAddress.province}`;
+    console.log(receiverAddress);
     }
-  };
+    setValidated(true);
+};
+const handleClose = () => {
+  // Reset all form data and state values
+  setReceiverProvince('');
+  setReceiverDistrict('');
+  setReceiverWard('');
+  setReset(false);
+  setValidated(false);
+  setFormData({
+    senderName: "",
+    senderPhone: "",
+    receiverName: "",
+    receiverPhone: "",
+    receiverAddress: {
+      province: "",
+      district: "",
+      ward: "",
+    },
+    receiverAddress1: "",
+    name: "",
+    weight: "",
+  });
+  setPrice(null);
+
+  props.onHide();
+};
 
   return (
-    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static" size='lg'>
+    <Modal
+      {...props}
+      aria-labelledby="contained-modal-title-vcenter"
+      className="custom-modal"
+      backdrop="static"
+      size="lg"
+    >
       <Modal.Header>
-        <Modal.Title id="contained-modal-title-vcenter">Tạo đơn hàng mới</Modal.Title>
-        <CloseIcon onClick={props.onHide}>Đóng</CloseIcon>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Tạo đơn hàng mới
+        </Modal.Title>
+        <CloseIcon onClick={handleClose}>Đóng</CloseIcon>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row style={{ marginTop: '10px' }} className="mb-3">
-            <Form.Group as={Col} md="4" controlId="id">
-              <Form.Label>ID người gửi</Form.Label>
+          {/* Sender Information */}
+          <Row className="mb-3">
+            <Form.Group as={Col} md="6" controlId="senderName">
+              <Form.Label>Tên người gửi</Form.Label>
               <Form.Control
                 required
                 type="text"
-                placeholder="Nhập ID đơn hàng"
-                value={formData.id}
+                placeholder="Nhập tên người gửi"
+                value={formData.senderName}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập ID đơn hàng.
+                Vui lòng nhập tên người gửi.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="4" controlId="senderId">
-            <Form.Label>ID người gửi</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Nhập ID người gửi"
-              value={formData.senderId}
-              onChange={handleInputChange}
-            />
-            <Form.Control.Feedback type="invalid">
-              Vui lòng nhập ID người gửi.
-            </Form.Control.Feedback>
-          </Form.Group>
-            <Form.Group as={Col} md="4" controlId="receiverId">
-              <Form.Label>ID người nhận</Form.Label>
+            <Form.Group as={Col} md="6" controlId="senderPhone">
+              <Form.Label>Số điện thoại người gửi</Form.Label>
               <Form.Control
                 required
                 type="text"
-                placeholder="Nhập ID người nhận"
-                value={formData.receiverId}
+                placeholder="Nhập số điện thoại người gửi"
+                value={formData.senderPhone}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập ID người nhận.
+                Vui lòng nhập số điện thoại người gửi.
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
-          <Row style={{ marginTop: '10px' }} className="mb-3">
-          <Form.Group as={Col} md="3" controlId="transactionPointStartId">
-          <Form.Label>ID điểm giao dịch đầu</Form.Label>
-          <Form.Control
+          <Row className="mb-3">
+            <Form.Group as={Col} md="6" controlId="receiverName">
+              <Form.Label>Tên người nhận</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập tên người nhận"
+                value={formData.receiverName}
+                onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập tên người nhận.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="6" controlId="receiverPhone">
+              <Form.Label>Số điện thoại người nhận</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập số điện thoại người nhận"
+                value={formData.receiverPhone}
+                onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập số điện thoại người nhận.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          <Row className="mb-3">
+          <Form.Group as={Col} md='4' controlId="receiverAddressProvince">
+    <Form.Label>Địa chỉ nhận</Form.Label>
+    <Form.Control
+      required
+      as="select"
+      value={receiverProvince}
+      onChange={(e) => {
+        const selectedProvinceId = e.target.value;
+        const selectedProvince = receiverProvinces.find(
+          (province) => province.province_id === selectedProvinceId
+        );
+
+        setReceiverProvince(selectedProvinceId);
+        setFormData((prevData) => ({
+          ...prevData,
+          receiverAddress: {
+            ...prevData.receiverAddress,
+            province: selectedProvince ? selectedProvince.province_name : "",
+          },
+        }));
+      }}
+      isInvalid={!receiverProvince && validated}  
+    >
+      <option value="">Chọn tỉnh</option>
+      {receiverProvinces.map((province) => (
+        <option key={province.province_id} value={province.province_id}>
+          {province.province_name}
+        </option>
+      ))}
+    </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} md="4" controlId="receiverAddressDistrict">
+              <Form.Label></Form.Label>
+              <Form.Control as="select" value={receiverDistrict} 
+              required
+              onChange={(e) => {
+                const selectedDistrictId = e.target.value;
+                const selectedDistrict = receiverDistricts.find(
+                  (district) => district.district_id === selectedDistrictId
+                );
+          
+                setReceiverDistrict(selectedDistrictId);
+                setFormData((prevData) => ({
+                  ...prevData,
+                  receiverAddress: {
+                    ...prevData.receiverAddress,
+                    district: selectedDistrict ? selectedDistrict.district_name : "",
+                  },
+                }));
+              }}
+                style={{ marginTop: '8px' }}>
+                <option value="">Chọn quận</option>
+                {receiverDistricts.map((district) => (
+                  <option key={district.district_id} value={district.district_id}>
+                    {district.district_name}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} md="4" controlId="receiverAddressWard">
+            <Form.Label></Form.Label>
+            <Form.Control
             required
-            type="text"
-            placeholder="Nhập ID"
-            value={formData.transactionPointStartId}
-            onChange={handleInputChange}
-          />
-          <Form.Control.Feedback type="invalid">
-            Vui lòng nhập ID điểm giao dịch đầu.
-          </Form.Control.Feedback>
-          </Form.Group>
-            <Form.Group as={Col} md="3" controlId="transactionPointEndId">
-            <Form.Label>ID điểm giao dịch cuối</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Nhập ID"
-              value={formData.transactionPointEndId}
-              onChange={handleInputChange}
-            />
-            <Form.Control.Feedback type="invalid">
-              Vui lòng nhập ID điểm giao dịch cuối.
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="3" controlId="warehouseStartId">
-            <Form.Label>ID kho hàng đầu</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Nhập ID"
-              value={formData.warehouseStartId}
-              onChange={handleInputChange}
-            />
-            <Form.Control.Feedback type="invalid">
-              Vui lòng nhập ID kho hàng đầu
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="3" controlId="warehouseEndId">
-            <Form.Label>ID kho hàng đầu</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Nhập ID"
-              value={formData.warehouseEndId}
-              onChange={handleInputChange}
-            />
-            <Form.Control.Feedback type="invalid">
-              Vui lòng nhập ID kho hàng cuối.
-            </Form.Control.Feedback>
+              as="select"
+              value={receiverWard}
+              onChange={(e) => {
+                const selectedWardId = e.target.value;
+                const selectedWard = receiverWards.find(
+                  (ward) => ward.ward_id === selectedWardId
+                );
+          
+                setReceiverWard(selectedWardId);
+                setFormData((prevData) => ({
+                  ...prevData,
+                  receiverAddress: {
+                    ...prevData.receiverAddress,
+                    ward: selectedWard ? selectedWard.ward_name : "",
+                  },
+                }));
+              }}
+              style={{ marginTop: '8px' }}
+            >
+              <option value="">Chọn phường/xã</option>
+              {receiverWards.map((ward) => (
+                <option key={ward.ward_id} value={ward.ward_id}>
+                  {ward.ward_name}
+                </option>
+              ))}
+            </Form.Control>
           </Form.Group>
           </Row>
-          <Row style={{ marginTop: '10px' }} className="mb-3">
-          <Form.Group as={Col} md="6" controlId="name">
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="receiverAddress1">
+              <Form.Label>Số nhà, đường</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập số nhà, đường cụ thể"
+                value={formData.receiverAddress1}
+                onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập số nhà, đường người nhận.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          <Row className="mb-3">
+          <Form.Group as={Col} controlId="name">
           <Form.Label>Tên đơn hàng</Form.Label>
           <Form.Control
             required
@@ -160,26 +317,35 @@ function CreateNewPackageModal(props) {
             Vui lòng nhập tên đơn hàng.
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="6" controlId="shippingCost">
-        <Form.Label>Giá vận chuyển</Form.Label>
+        <Form.Group as={Col} controlId="weight">
+        <Form.Label>Kích thước đơn hàng (kg)</Form.Label>
         <Form.Control
           required
           type="text"
-          placeholder="Nhập giá vận chuyển"
-          value={formData.shippingCost}
+          placeholder="kg"
+          value={formData.weight}
           onChange={handleInputChange}
         />
         <Form.Control.Feedback type="invalid">
-          Vui lòng nhập giá vận chuyển.
+          Vui lòng nhập kích thước đơn hàng.
         </Form.Control.Feedback>
       </Form.Group>
+      <Form.Group as={Col} controlId="price">
+      <Form.Label>Giá vận chuyển (VND)</Form.Label>
+      <Form.Control
+        type="text"
+        placeholder="Giá vận chuyển"
+        value={price}
+        readOnly
+      />
+    </Form.Group>
           </Row>
-          <Row style={{ marginTop: '10px' }}>
-            <div className="text-center mt-3" style={{ marginTop: '50px' }}>
+          <Row>
+            <div className="text-center mt-3">
               <Button variant="secondary" type="submit" id="input-submit">
                 Tạo mới
               </Button>
-              <Button variant="secondary" onClick={props.onHide}>
+              <Button variant="secondary" onClick={handleClose}>
                 Đóng
               </Button>
             </div>
