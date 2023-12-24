@@ -5,7 +5,9 @@ exports.create = async (req, res) => {
         if(!senderPhone || !senderName || !senderAddress || !receiverPhone || !receiverName || !receiverAddress 
             || !transactionPointStartId || !warehouseStartId || !name || !shippingCost) return res.status(400).json({
             err: 1,
-            msg: 'Missing inputs!' 
+            msg: 'Missing inputs!' + (!senderPhone?"SenderPhone":"") + (!senderName?"SenderName":"")+ (!senderAddress?"SenderAddress":"")+ (!receiverPhone?"ReceiverPhone":"")
+            + (!receiverAddress?"receiverAddress":"")+ (!receiverName?"receiverName":"")+ (!transactionPointStartId?"pointId":"")+ (!warehouseStartId?"warehouseId":"")
+            + (!name?"name":"")+ (!shippingCost?"ShippingCost":"")
         })
         const response = await packageService.createService(req.body)
         return res.status(200).json(response)    

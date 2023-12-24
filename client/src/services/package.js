@@ -24,6 +24,19 @@ export const apiDeletePackage = (index) =>  new Promise(async(resolve, reject) =
     }
 })
 
+export const apiCreatePackage = (payload) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'post',
+            url: `/api/v1/package/create`,
+            data: payload
+        })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
+
 export const apiGetPublicProvinces = () => new Promise(async (resolve, reject) => {
     try {
         const response = await axiosConfig({
