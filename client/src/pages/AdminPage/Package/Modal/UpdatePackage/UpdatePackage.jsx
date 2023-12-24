@@ -20,16 +20,21 @@ function UpdatePackageModal(props) {
   const [formData, setFormData] = useState({
     senderName: "",
     senderPhone: "",
+    senderAddress: " ",
     receiverName: "",
     receiverPhone: "",
-    receiverAddress: {
+    transactionPointStartId: localStorage.getItem("transactionPointId"),
+    warehouseStartId: localStorage.getItem("warehouseId"),
+    receiverAddress1: {
       province: "",
       district: "",
       ward: "",
+      street: "",
     },
-    receiverAddress1: "",
     name: "",
     weight: "",
+    shippingCost: "",
+    receiverAddress: "",
   });
   const [price, setPrice] = useState();
 
@@ -38,8 +43,13 @@ function UpdatePackageModal(props) {
     const calculatedPrice = 3000 * parseFloat(formData.weight) || 0;
     if (calculatedPrice > 10000) {
       setPrice(calculatedPrice);
+      formData.shippingCost = String(calculatedPrice) 
+      console.log(formData.shippingCost)
     }
-    else { setPrice(10000)}
+    else { 
+      setPrice(10000);
+    formData.shippingCost = String(price)
+  }
   }, [formData.weight]);
 
   useEffect(() => {
@@ -79,6 +89,16 @@ function UpdatePackageModal(props) {
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
+    if (id === "receiverAddressTitle") {
+      setFormData((prevData) => ({
+        ...prevData,
+        receiverAddress1: {
+          ...prevData.receiverAddress1,
+          street: value,
+        },
+        receiverAddress: `${value}, ${prevData.receiverAddress1.ward}, ${prevData.receiverAddress1.district}, ${prevData.receiverAddress1.province}`,
+      }));
+    }
     setFormData((prevData) => ({
       ...prevData,
       [id]: value,
@@ -87,15 +107,19 @@ function UpdatePackageModal(props) {
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
+    console.log(formData)
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      return
     }
     if (form.checkValidity()) {
-    const receiverAddress = `${formData.receiverAddress1}, ${formData.receiverAddress.ward}, ${formData.receiverAddress.district}, ${formData.receiverAddress.province}`;
-    console.log(receiverAddress);
+      
     }
     setValidated(true);
+    if (validated) {
+      // apiCreatePackage(formData)
+    }
 };
 const handleClose = () => {
   // Reset all form data and state values
@@ -107,16 +131,21 @@ const handleClose = () => {
   setFormData({
     senderName: "",
     senderPhone: "",
+    senderAddress: " ",
     receiverName: "",
     receiverPhone: "",
-    receiverAddress: {
+    transactionPointStartId: localStorage.getItem("transactionPointId"),
+    warehouseStartId: localStorage.getItem("warehouseId"),
+    receiverAddress1: {
       province: "",
       district: "",
       ward: "",
+      street: "",
     },
-    receiverAddress1: "",
     name: "",
     weight: "",
+    shippingCost: "",
+    receiverAddress: "",
   });
   setPrice(null);
 
@@ -133,7 +162,7 @@ const handleClose = () => {
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Chỉnh sửa đơn hàng
+          Tạo đơn hàng mới
         </Modal.Title>
         <CloseIcon onClick={handleClose}>Đóng</CloseIcon>
       </Modal.Header>
@@ -144,6 +173,7 @@ const handleClose = () => {
             <Form.Group as={Col} md="6" controlId="senderName">
               <Form.Label>Tên người gửi</Form.Label>
               <Form.Control
+                required
                 type="text"
                 placeholder="Nhập tên người gửi"
                 value={formData.senderName}
@@ -211,8 +241,8 @@ const handleClose = () => {
         setReceiverProvince(selectedProvinceId);
         setFormData((prevData) => ({
           ...prevData,
-          receiverAddress: {
-            ...prevData.receiverAddress,
+          receiverAddress1: {
+            ...prevData.receiverAddress1,
             province: selectedProvince ? selectedProvince.province_name : "",
           },
         }));
@@ -240,8 +270,8 @@ const handleClose = () => {
                 setReceiverDistrict(selectedDistrictId);
                 setFormData((prevData) => ({
                   ...prevData,
-                  receiverAddress: {
-                    ...prevData.receiverAddress,
+                  receiverAddress1: {
+                    ...prevData.receiverAddress1,
                     district: selectedDistrict ? selectedDistrict.district_name : "",
                   },
                 }));
@@ -270,8 +300,8 @@ const handleClose = () => {
                 setReceiverWard(selectedWardId);
                 setFormData((prevData) => ({
                   ...prevData,
-                  receiverAddress: {
-                    ...prevData.receiverAddress,
+                  receiverAddress1: {
+                    ...prevData.receiverAddress1,
                     ward: selectedWard ? selectedWard.ward_name : "",
                   },
                 }));
@@ -288,13 +318,13 @@ const handleClose = () => {
           </Form.Group>
           </Row>
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="receiverAddress1">
+            <Form.Group as={Col} controlId="receiverAddressTitle">
               <Form.Label>Số nhà, đường</Form.Label>
               <Form.Control
                 required
                 type="text"
                 placeholder="Nhập số nhà, đường cụ thể"
-                value={formData.receiverAddress1}
+                value={formData.receiverAddress1.street}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -341,7 +371,7 @@ const handleClose = () => {
           </Row>
           <Row>
             <div className="text-center mt-3">
-              <Button variant="secondary" type="submit" id="input-submit">
+              <Button variant="secondary" onClick={handleSubmit} id="input-submit">
                 Tạo mới
               </Button>
               <Button variant="secondary" onClick={handleClose}>

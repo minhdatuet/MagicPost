@@ -7,5 +7,6 @@ router.post('/create', warehouseController.create);
 router.get('/get/all', warehouseController.getAll);
 router.delete('/delete/:id', warehouseController.deleteById);
 router.put('/update/:id', warehouseController.updateById);
+router.get('/get/packages/:id', warehouseController.getPackagesInWarehouse);
 
 module.exports = router;

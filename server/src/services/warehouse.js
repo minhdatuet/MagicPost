@@ -115,3 +115,87 @@ exports.deleteService = (id) => new Promise(async(resolve, reject) => {
         reject(error);
     }
   });
+
+  exports.getPackagesService = (id) => new Promise(async(resolve, reject) => {
+    try {
+      const response = await db.Package.findAll({
+        where: {
+            [Op.or]: [
+                {
+                  warehouseStartId: id,
+                },
+                {
+                    warehouseEndId: id,
+                }
+            ],
+        },
+        attributes: ['id','packageCode','name', 'warehouseStartId', 'warehouseEndId', 'shippingCost'],
+            include: [
+                {
+                model: db.Customer,
+                as: 'sender',
+                attributes: ['id', 'name', 'phone', 'address'],
+                required: false,
+              },
+              {
+                model: db.Customer,
+                as: 'receiver',
+                attributes: ['id', 'name', 'phone', 'address'],
+                required: false,
+              },
+              {
+                model: db.TransactionPoint,
+                as: 'transactionPointStart',
+                attributes: ['id', 'name'],
+                required: false,
+              },
+              {
+                model: db.TransactionPoint,
+                as: 'transactionPointEnd',
+                attributes: ['id', 'name'],
+                required: false,
+              },
+              {
+                model: db.Warehouse,
+                as: 'warehouseStart',
+                attributes: ['id', 'name'],
+                required: false,
+              },
+              {
+                model: db.Warehouse,
+                as: 'warehouseEnd',
+                attributes: ['id', 'name'],
+                required: false,
+              },
+              {
+                model: db.Status,
+                attributes: ['nameOfStatus', 'dateSendPackage',
+                'dateSendToWarehouseStart',
+                'dateWarehouseStartReceived',
+                'dateSendToWarehouseEnd',
+                'dateWarehouseEndReceived',
+                'dateSendToPointEnd',
+                'datePointEndReceived',
+                'dateSendToReceiver',
+                'dateReceiverReturn', 'receivedDate'],
+                required: false
+              }]
+      })
+      console.log(response)
+      console.log(id)
+      const filteredResponse = response.filter(item => (
+        (item.warehouseStartId == id && item.Status.dateSendToWarehouseEnd === null && item.Status.dateWarehouseStartReceived !== null)  ||
+        (item.warehouseEndId == id && item.Status.dateSendToPointEnd === null && item.Status.dateWarehouseEndReceived !== null)
+      ));
+      console.log(filteredResponse.length);
+
+      resolve({
+        err: filteredResponse.length > 0 ? 0 : 2,
+        msg: filteredResponse.length > 0 ? 'Get Packages is successfully' : `Can't find this id or no matching items`,
+        response: filteredResponse
+      });
+  
+      } catch (error) {
+        reject(error)
+    }
+  })
