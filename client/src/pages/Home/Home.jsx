@@ -50,7 +50,7 @@ export const Home = () => {
 
         [foundPackage.Status.dateSendToPointEnd,
         foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? 
-        "Đơn hàng chuyển tới điểm giao dịch " + foundPackage.transactionPointEnd.name + "lúc " +  foundPackage.transactionPointEnd: null],
+        "Đơn hàng chuyển tới điểm giao dịch " + foundPackage.transactionPointEnd.name + " lúc " +  foundPackage.transactionPointEnd: null],
 
         [foundPackage.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + foundPackage.Status.dateSendToReceiver],
 
@@ -71,18 +71,6 @@ export const Home = () => {
       const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
 
       filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
-      // const currentDateTime = new Date();
-      // let closestTime = null;
-      // let closestDiff = Infinity;
-
-      // for (const statusTime of filteredStatusTimes) {
-      //   const time = statusTime[0];
-      //   const diff = Math.abs(currentDateTime - new Date(time)); 
-      //   if (diff < closestDiff) {
-      //     closestTime = statusTime;
-      //     closestDiff = diff;
-      //   }
-      // }
       setStatusPackage(filteredStatusTimes);
     }
     setSearchedPackage(foundPackage);

@@ -102,7 +102,7 @@ const Header = () => {
 
       [suggestions.Status.dateSendToPointEnd,
       suggestions.transactionPointEnd && suggestions.transactionPointEnd.name ? 
-      "Đơn hàng chuyển tới điểm giao dịch " + suggestions.transactionPointEnd.name + "lúc " +  suggestions.transactionPointEnd: null],
+      "Đơn hàng chuyển tới điểm giao dịch " + suggestions.transactionPointEnd.name + " lúc " +  suggestions.transactionPointEnd: null],
 
       [suggestions.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + suggestions.Status.dateSendToReceiver],
 
