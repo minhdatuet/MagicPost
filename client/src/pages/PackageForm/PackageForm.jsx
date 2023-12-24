@@ -95,7 +95,7 @@ const PackageForm = () => {
                                 {statusPackage.map((item, i) => (
                                     <li key={i}>
                                         <p className='pStatus'>
-                                            {item[1]} lúc {item[0]}
+                                            {item[1]}
                                         </p>
                                     </li>
                                 ))}

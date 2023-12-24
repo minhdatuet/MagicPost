@@ -95,19 +95,33 @@ const Header = () => {
     const statusTimes = [
       [suggestions.Status.datePointEndReceived,
       suggestions.transactionPointEnd && suggestions.transactionPointEnd.name ? suggestions.transactionPointEnd.name + " đang chuyển đơn hàng." : null],
-      [suggestions.Status.dateReceiverReturn, 'Người nhận trả lại hàng'],
-      [suggestions.Status.dateSendPackage, 'Người gửi gửi đơn hàng'],
+
+      [suggestions.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + suggestions.Status.dateReceiverReturn],
+
+      [suggestions.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + suggestions.transactionPointStart.name + " lúc " + suggestions.Status.dateSendPackage],
+
       [suggestions.Status.dateSendToPointEnd,
-      suggestions.transactionPointEnd && suggestions.transactionPointEnd.name ? "Đơn hàng đang chuyển tới " + suggestions.transactionPointEnd.name : null],
-      [suggestions.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận"],
-      [suggestions.Status.dateSendToWarehouseEnd, suggestions.warehouseEnd && suggestions.warehouseEnd.name ? "Đơn hàng đang chuyển tới " + suggestions.warehouseEnd.name : null],
-      [suggestions.Status.dateSendToWarehouseStart, suggestions.warehouseStart && suggestions.warehouseStart.name ? "Đơn hàng đang chuyển tới " + suggestions.warehouseStart.name : null],
-      [suggestions.Status.dateWarehouseEndReceived, suggestions.warehouseEnd && suggestions.warehouseEnd.name ? suggestions.warehouseEnd.name + " đang chuyển đơn hàng" : null],
-      [suggestions.Status.dateWarehouseStartReceived, suggestions.warehouseStart && suggestions.warehouseStart.name ? suggestions.warehouseStart.name + " đang chuyển đơn hàng" : null],
-      [suggestions.Status.receivedDate, "Ngày trả lại hàng"]
+      suggestions.transactionPointEnd && suggestions.transactionPointEnd.name ? 
+      "Đơn hàng chuyển tới điểm giao dịch " + suggestions.transactionPointEnd.name + "lúc " +  suggestions.transactionPointEnd: null],
+
+      [suggestions.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + suggestions.Status.dateSendToReceiver],
+
+      [suggestions.Status.dateSendToWarehouseEnd, suggestions.warehouseEnd && suggestions.warehouseEnd.name ? 
+      "Đơn hàng rời khỏi kho " + suggestions.warehouseStart.name +  " lúc " + suggestions.Status.dateSendToWarehouseEnd : null],
+
+      [suggestions.Status.dateSendToWarehouseStart, suggestions.warehouseStart && suggestions.warehouseStart.name ? 
+      "Đơn hàng rời khỏi điểm giao dịch " + suggestions.transactionPointStart.name +  " lúc " + suggestions.Status.dateSendToWarehouseStart : null],
+
+      [suggestions.Status.dateWarehouseEndReceived, suggestions.warehouseEnd && suggestions.warehouseEnd.name ? 
+      "Đơn hàng nhập kho " + suggestions.warehouseEnd.name + " lúc " + suggestions.Status.dateWarehouseEndReceived: null],
+
+      [suggestions.Status.dateWarehouseStartReceived, suggestions.warehouseStart && suggestions.warehouseStart.name ? 
+      "Đơn hàng nhập kho " + suggestions.warehouseStart.name + " lúc " + suggestions.Status.dateWarehouseStartReceived : null],
+
+      [suggestions.Status.receivedDate, "Đơn hàng được trả lại lúc " + suggestions.Status.receivedDate]
     ];
     const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
-    filteredStatusTimes.sort((a, b) => new Date(b[0]) - new Date(a[0]));
+    filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
     setStatusPackage(filteredStatusTimes);
     setText("");
     setSuggestions("");

@@ -43,20 +43,34 @@ export const Home = () => {
       const statusTimes = [
         [foundPackage.Status.datePointEndReceived,
         foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? foundPackage.transactionPointEnd.name + " đang chuyển đơn hàng." : null],
-        [foundPackage.Status.dateReceiverReturn, 'Người nhận trả lại hàng'],
-        [foundPackage.Status.dateSendPackage, 'Người gửi gửi đơn hàng'],
+
+        [foundPackage.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + foundPackage.Status.dateReceiverReturn],
+
+        [foundPackage.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + foundPackage.transactionPointStart.name + " lúc " + foundPackage.Status.dateSendPackage],
+
         [foundPackage.Status.dateSendToPointEnd,
-        foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? "Đơn hàng đang chuyển tới " + foundPackage.transactionPointEnd.name : null],
-        [foundPackage.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận"],
-        [foundPackage.Status.dateSendToWarehouseEnd, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? "Đơn hàng đang chuyển tới " + foundPackage.warehouseEnd.name : null],
-        [foundPackage.Status.dateSendToWarehouseStart, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? "Đơn hàng đang chuyển tới " + foundPackage.warehouseStart.name : null],
-        [foundPackage.Status.dateWarehouseEndReceived, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? foundPackage.warehouseEnd.name + " đang chuyển đơn hàng" : null],
-        [foundPackage.Status.dateWarehouseStartReceived, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? foundPackage.warehouseStart.name + " đang chuyển đơn hàng" : null],
-        [foundPackage.Status.receivedDate, "Ngày trả lại hàng"]
+        foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? 
+        "Đơn hàng chuyển tới điểm giao dịch " + foundPackage.transactionPointEnd.name + "lúc " +  foundPackage.transactionPointEnd: null],
+
+        [foundPackage.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + foundPackage.Status.dateSendToReceiver],
+
+        [foundPackage.Status.dateSendToWarehouseEnd, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? 
+        "Đơn hàng rời khỏi kho " + foundPackage.warehouseStart.name +  " lúc " + foundPackage.Status.dateSendToWarehouseEnd : null],
+
+        [foundPackage.Status.dateSendToWarehouseStart, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? 
+        "Đơn hàng rời khỏi điểm giao dịch " + foundPackage.transactionPointStart.name +  " lúc " + foundPackage.Status.dateSendToWarehouseStart : null],
+
+        [foundPackage.Status.dateWarehouseEndReceived, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? 
+        "Đơn hàng nhập kho " + foundPackage.warehouseEnd.name + " lúc " + foundPackage.Status.dateWarehouseEndReceived: null],
+
+        [foundPackage.Status.dateWarehouseStartReceived, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? 
+        "Đơn hàng nhập kho " + foundPackage.warehouseStart.name + " lúc " + foundPackage.Status.dateWarehouseStartReceived : null],
+
+        [foundPackage.Status.receivedDate, "Đơn hàng được trả lại lúc " + foundPackage.Status.receivedDate]
       ];
       const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
 
-      filteredStatusTimes.sort((a, b) => new Date(b[0]) - new Date(a[0]));
+      filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
       // const currentDateTime = new Date();
       // let closestTime = null;
       // let closestDiff = Infinity;
