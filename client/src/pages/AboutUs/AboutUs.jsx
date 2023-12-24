@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef} from 'react'
 import './AboutUs.css'
 import avt1 from '../../assets/images/avt1.jpg'
 import avt3 from '../../assets/images/avt3.jpg'
@@ -6,8 +6,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as actions from '../../store/actions'
 
 const AboutUs = () => {    
+    const ref = useRef();
+    useEffect(() => {
+        window.scrollTo({ behavior: 'smooth', top: ref.current.offsetTop })
+      }, []);
+    
     return(
-        <div id = "list">
+        <div id = "list" ref={ref}>
             <div id = "student">
                 <img id ="avt1" src = {avt1} alt = ""></img>
                 <p>Ngô Yến Vi</p>
