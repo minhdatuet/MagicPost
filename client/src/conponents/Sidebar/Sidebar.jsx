@@ -14,6 +14,8 @@ import {
   FactoryRounded,
   Inventory2Rounded,
   AccountBalanceRounded,
+  AccountBalanceOutlined,
+  AccessAlarmSharp,
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -44,6 +46,7 @@ export default function Sidebar() {
   const navList = [
     {
       role: "BOSS",
+      name_role: "Lãnh đạo",
       navChild: [
         {
           icon: WarehouseRounded,
@@ -73,6 +76,7 @@ export default function Sidebar() {
     },
     {
       role: "POINT_LEADER",
+      name_role: "Trưởng điểm",
       navChild: [
         {
           icon: AccountBalanceRounded,
@@ -89,51 +93,83 @@ export default function Sidebar() {
       ],
     },
     {
-      role: "Store",
+      role: "POINT_STAFF",
+      name_role: "Giao dịch viên",
       navChild: [
         {
           icon: Home,
-          title: "Home",
-          link: "/",
+          title: "Đơn chờ gửi đến kho",
+          link: "/pointStaff/sendToWarehouse",
           key: 1,
         },
         {
           icon: Storefront,
-          title: "Store",
-          link: "/store/products",
+          title: "Đơn chờ nhận từ kho",
+          link: "/pointStaff/receiveFromWarehouse",
           key: 2,
         },
         {
-          icon: Settings,
-          title: "Import",
-          link: "/store/import",
+          icon: AccessAlarmSharp,
+          title: "Đơn gửi người nhận",
+          link: "/pointStaff/sendToAccount",
           key: 3,
         },
-        // {
-        //   icon: WorkOutline,
-        //   title: "Warranty",
-        //   link: "/store/warranty",
-        //   key: 4,
-        // },
+        {
+          icon: WorkOutline,
+          title: "Đơn hoàn trả",
+          link: "/pointStaff/refund",
+          key: 4,
+        },
       ],
     },
     {
-      role: "ServiceCenter",
+      role: "WAREHOUSE_LEADER",
+      name_role: "Trưởng kho",
       navChild: [
         {
-          icon: Home,
-          title: "Home",
-          link: "/",
+          icon: AccountBalanceRounded,
+          title: "Nhân viên",
+          link: "/warehouseLeader/account",
           key: 1,
         },
         {
-          icon: Settings,
-          title: "Request",
-          link: "/servicecenter/request",
-          key: 3,
+          icon: Inventory2Rounded,
+          title: "Hàng hoá",
+          link: "/warehouseLeader/package",
+          key: 2,
         },
       ],
     },
+    {
+      role: "WAREHOUSE_STAFF",
+      name_role: "Nhân viên kho",
+      navChild: [
+        {
+          icon: Home,
+          title: "Đơn chờ gửi đến kho",
+          link: "/warehouseStaff/sendToWarehouse",
+          key: 1,
+        },
+        {
+          icon: Storefront,
+          title: "Đơn chờ nhận từ kho",
+          link: "/warehouseStaff/receiveFromWarehouse",
+          key: 2,
+        },
+        {
+          icon: AccessAlarmSharp,
+          title: "Đơn chờ gửi từ DGD",
+          link: "/warehouseStaff/sendToTransaction",
+          key: 3,
+        },
+        {
+          icon: WorkOutline,
+          title: "Đơn chờ nhận từ DGD",
+          link: "/warehouseStaff/receiveFromTransaction",
+          key: 4,
+        },
+      ],
+    }
   ];
   const [isActive, setIsActive] = useState(() => {
     const storedActiveKey = parseInt(localStorage.getItem('activeKey'));
@@ -150,7 +186,7 @@ export default function Sidebar() {
           localStorage.getItem('role') === item.role ? (
             <div className="sidebarMenu">
               <Link style={{ textDecoration: "none" }} to={'${item.role}'}>
-                <h3 className="sidebarTitle">{item.role}</h3>
+                <h3 className="sidebarTitle">{item.name_role}</h3>
               </Link>
               <ul className="sidebarList">
                 {item.navChild.map((child) => (
