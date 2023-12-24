@@ -26,8 +26,8 @@ function CreateNewPackageModal(props) {
       province: "",
       district: "",
       ward: "",
+      street: "",
     },
-    receiverAddress1: "",
     name: "",
     weight: "",
   });
@@ -79,6 +79,15 @@ function CreateNewPackageModal(props) {
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
+    if (id === "receiverAddress1") {
+      setFormData((prevData) => ({
+        ...prevData,
+        receiverAddress: {
+          ...prevData.receiverAddress,
+          street: value,
+        },
+      }));
+    }
     setFormData((prevData) => ({
       ...prevData,
       [id]: value,
@@ -113,8 +122,8 @@ const handleClose = () => {
       province: "",
       district: "",
       ward: "",
+      street: "",
     },
-    receiverAddress1: "",
     name: "",
     weight: "",
   });
@@ -295,7 +304,7 @@ const handleClose = () => {
                 required
                 type="text"
                 placeholder="Nhập số nhà, đường cụ thể"
-                value={formData.receiverAddress1}
+                value={formData.receiverAddress.street}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
