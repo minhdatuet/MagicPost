@@ -27,8 +27,8 @@ const Loading = () => {
                     localStorage.setItem('role', userData[0].accountType);
                     localStorage.setItem('id', userData[0].id);
                     localStorage.setItem('name', userData[0].name);
-                    localStorage.setItem('transactionPointId', userData[0].Employee?.TransactionPoint?.id|| '0')
-                    localStorage.setItem('warehouseId', userData[0].Employee?.TransactionPoint?.Warehouse?.id || '0')
+                    localStorage.setItem('transactionPointId', userData[0].Employee?.TransactionPoint?.id|| '1')
+                    localStorage.setItem('warehouseId', userData[0].Employee?.TransactionPoint?.Warehouse?.id || '1')
                     navigate('/boss/dashboard');
                     window.location.reload();
                 }
