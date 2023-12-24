@@ -8,6 +8,7 @@ import * as actions from '../../store/actions'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { getAllPackages } from "../../store/actions/package";
 import tem from '../../assets/images/tem.png'
+import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
@@ -20,7 +21,7 @@ const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const [packageItem, setSearchedPackage] = useState(null);
   const [statusPackage, setStatusPackage] = useState('');
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllPackages());
@@ -74,7 +75,21 @@ const Header = () => {
     setText(text)
   }
 
+  useEffect(() => {
+    if (showModal && packageItem && statusPackage.length > 0) {
+      console.log("Chuyển trang")
+      navigate('/packageForm', {
+        state: {
+          packageItem: packageItem,
+          statusPackage: statusPackage
+        }
+      })
+    }
+  }, [statusPackage, showModal, packageItem]);
+
   const openModal = (suggestions) => {
+
+    setShowModal(true);
     console.log("hi");
     setSearchedPackage(suggestions)
     const statusTimes = [
@@ -92,35 +107,13 @@ const Header = () => {
       [suggestions.Status.receivedDate, "Ngày trả lại hàng"]
     ];
     const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
-
-    const currentDateTime = new Date();
-    let closestTime = null;
-    let closestDiff = Infinity;
-
-    for (const statusTime of filteredStatusTimes) {
-      const time = statusTime[0];
-      const diff = Math.abs(currentDateTime - new Date(time)); 
-      if (diff < closestDiff) {
-        closestTime = statusTime;
-        closestDiff = diff;
-      }
-    }
-    setStatusPackage(closestTime);
-    setShowModal(true);
+    filteredStatusTimes.sort((a, b) => new Date(b[0]) - new Date(a[0]));
+    setStatusPackage(filteredStatusTimes);
     setText("");
     setSuggestions("");
     var input = document.querySelector('#nav input');
     input.style.borderRadius = '15px';
   };
-
-  const closeModal = () => {
-    setShowModal(false);
-    setText("");
-    setSuggestions("");
-    var input = document.querySelector('#nav input');
-    input.style.borderRadius = '15px';
-  };
-
   return (
     <div id='header'>
       <nav id="nav">
@@ -176,99 +169,6 @@ const Header = () => {
       <div className="post">
         <h1>Welcome to Magic Post</h1>
       </div>
-      {showModal && packageItem && (
-        <div className="boxPackage">
-          <div className="flex2">
-            <h1>BIỂU MẪU ĐƠN HÀNG</h1>
-            <p>Magic Post</p>
-          </div>
-          <button className = "close"
-          onClick={() => closeModal()}>
-            <i class="fa fa-times icon"></i>
-          </button>
-          <div className="flex3">
-            <div className='info'>
-              <div className='flex3-1'>
-                <div className="flex1">
-                  <p>THÔNG TIN NGƯỜI DÙNG</p>
-                </div>
-                <div className="flex4">
-                  <div className="flex5">
-                    <p className='pLabel'><strong>(*) Người gửi</strong></p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Họ và tên: </p>
-                    <p>{packageItem.sender.name}</p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Số điện thoại: </p>
-                    <p>{packageItem.sender.phone}</p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Địa chỉ: </p>
-                    <p>{packageItem.sender.address}</p>
-                  </div>
-                </div>
-                <hr></hr>
-                <div className="flex4">
-                  <div className="flex5">
-                    <p className='pLabel'><strong>(*) Người nhận</strong></p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Họ và tên: </p>
-                    <p>{packageItem.receiver.name}</p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Số điện thoại: </p>
-                    <p>{packageItem.receiver.phone}</p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Địa chỉ: </p>
-                    <p>{packageItem.receiver.address}</p>
-                  </div>
-                </div>
-              </div>
-              <div className='flex3-2'>
-                <div className="flex1">
-                  <p>THÔNG TIN ĐƠN HÀNG</p>
-                </div>
-                <div className="flex4">
-                  <div className="flex5">
-                    <p className='pLabel'>Mã đơn hàng: </p>
-                    <p>{packageItem.packageCode}</p>
-                    <p></p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Tên sản phẩm: </p>
-                    <p>{packageItem.name}</p>
-                    <p></p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Giá vận chuyển: </p>
-                    <p>{packageItem.shippingCost}</p>
-                    <p></p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Điểm gửi hàng: </p>
-                    <p>{packageItem.transactionPointStart.name}</p>
-                    <p></p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Điểm nhận hàng: </p>
-                    <p>{packageItem.transactionPointEnd ? packageItem.transactionPointEnd.name : null}</p>
-                    <p></p>
-                  </div>
-                  <div className="flex5">
-                    <p className='pLabel'>Thông tin vận chuyển: </p>
-                    <p className='pStatus'>{statusPackage[1]} lúc {statusPackage[0]}</p>
-                    <p></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

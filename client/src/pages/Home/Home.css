@@ -25,7 +25,7 @@
     height: 60px;
     border-radius: 30px;
     font-size: 30px;
-    font-family: "Courier Prime", monospace; 
+    font-family: "Courier Prime", monospace;
 }
 
 #home input::placeholder {
@@ -36,26 +36,63 @@
     height: 60px;
     width: 90px;
     background-color: #333333;
-    color:white;
-    font-family: "Courier Prime", monospace; 
+    color: white;
+    font-family: "Courier Prime", monospace;
     border-radius: 25px;
     font-size: 15px;
     font-weight: bolder;
 }
 
-div.packageForm {
-    background-color: #ffffff;
-    width: 70%;
-    height: 900px;
-    position: relative;
+@media screen and (min-width:360px) {
+    #home input {
+        width: 100%;
+    }
 }
 
-.flex1 {
+@media screen and (min-width:768px) {
+    #home input {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width:1366px) {
+    #home input {
+        width: 80%;
+    }
+}
+
+
+.packageForm {
+    background-color: white;
+    width: 100%;
+    height: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+}
+
+.headerPackage {
+    display: flex;
+    justify-content: space-between;
+    background-color: #3b3a3a;
+    width: 100%;
+    height: 90px;
+}
+
+
+.flex1 {
     background-color: #cfb48b;
-    width: auto;
+    width: 100%;
     height: 50px;
+}
+
+.btnCloseForm {
+    background-color: transparent;
+    padding-right: 10%;
+}
+
+.icon {
+    color: white;
+    font-size: 30px;
 }
 
 .flex1 p {
@@ -64,84 +101,59 @@ div.packageForm {
     font-weight: bold;
 }
 
-.packageForm > .flex2 {
-    background-color: #3b3a3a;
-    width: 50%;
-    height: 90px;
-    position: absolute;
-    top: 0; left: 0;
+
+.packageForm > .headerPackage > .flex2 {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     padding-left: 10%;
 }
 
-.packageForm > .flex2 h1 {
-    margin-top: 3%;
+
+.packageForm > .headerPackage > .flex2 h1 {
     font-size: 20px;
     color: #ffffff;
 }
 
-.packageForm > .flex2 p {
-    margin-top: -10px;
+
+.packageForm > .headerPackage > .flex2 p {
     font-size: 15px;
     color: #ffffff;
     font-style: italic;
 }
 
+
+
 .packageForm > .flex3 {
-    background-color: transparent;
     width: 90%;
-    height: 500px;
-    position: absolute;
-    top: 8%; left: 5%;
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    margin-left: 5%;
+}
+
+.flex3 > .infoPerson {
+    width: 30%;
     display: flex;
     flex-direction: column;
 }
 
-.packageForm > .flex3 > .info {
-    width: 100%;
-    height: auto;
+.flex3 > .infoPackage {
+    width: 70%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+}
+
+
+
+.flex4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top:5%;
     gap:5px;
 }
 
-#tem {
-    margin-left: 30%;
-    /* padding-left: 30%; */
-    height: auto;
-}
-
-.packageForm > .flex3 > .info > .flex3-1 {
-    width: 50%;
-}
-
-.packageForm > .flex3 > .info > .flex3-2 {
-    width: 50%;
-}
-
-.packageForm > .flex3 > .info > .flex3-1 > .flex1 {
-    height: 50px;
-}
-
-.packageForm > .flex3 > .info > .flex3-2 > .flex1 {
-    height: 50px;
-}
-
-.packageForm > .flex3 > .info > .flex3-1 > .flex4 {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-top: 10%;
-}
-
-.packageForm > .flex3 > .info > .flex3-2 > .flex4 {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 10px;
-    margin-top: 10%;
-}
 
  .flex4 > .flex5 {
     display: flex;
@@ -163,102 +175,31 @@ div.packageForm {
     border: none;
     border-top: 2px solid #ccc; 
     margin: 20px 0; 
-  }
-  @media screen and (max-width:360px) {
-    #home input {
-        width: 100%;
-    }
-    div.packageForm {
-        width: 90%;
-    }
-    .flex1 {
-        height: 50px;
-    }
-    .packageForm > .flex3 > .info > .flex3-1 > .flex1 {
-        height: 40px;
-    }
-    .packageForm > .flex3 > .info > .flex3-2 > .flex1 {
-        height: 40px;
-    }
-    .packageForm > .flex2 {
-        height: 90px;
-    }
-    #tem {
-        margin-left: 25%;
-        width: 250px;
-    }
-    
 }
 
-@media screen and (min-width:360px) {
-    #home input {
-        width: 100%;
-    }
-    div.packageForm {
-        width: 90%;
-    }
-    .flex1 {
-        height: 50px;
-    }
-    .packageForm > .flex3 > .info > .flex3-1 > .flex1 {
-        height: 40px;
-    }
-    .packageForm > .flex3 > .info > .flex3-2 > .flex1 {
-        height: 40px;
-    }
-    .packageForm > .flex2 {
-        height: 90px;
-    }
-    #tem {
-        margin-left: 25%;
-        width: 250px;
-    }
-    
-}
-@media screen and (min-width:768px) {
-    #home input {
-        width: 100%;
-    }
-    div.packageForm {
-        width: 80%;
-    }
-    .flex1 {
-        height: 50px;
-    }
-    .packageForm > .flex3 > .info > .flex3-1 > .flex1 {
-        height: 40px;
-    }
-    .packageForm > .flex3 > .info > .flex3-2 > .flex1 {
-        height: 40px;
-    }
-    .packageForm > .flex2 {
-        height: 100px;
-    }
-    #tem {
-        width: 350px;
-    }
-}
-@media screen and (min-width:1366px) {
-    #home input {
-        width: 100%;
-    }
-    div.packageForm {
-        width: 70%;
-    }
-    .flex1 {
-        height: 60px;
-    }
-    .packageForm > .flex3 > .info > .flex3-1 > .flex1 {
-        height: 45px;
-    }
-    .packageForm > .flex3 > .info > .flex3-2 > .flex1 {
-        height: 45px;
-    }
-    .packageForm > .flex2 {
-        height: 110px;
-    }
-    #tem {
-        width: 400px;
-    }
+.footerPackage {
+    width: 90%;
+    margin-left: 5%;
 }
 
+
+@media screen and (max-width:360px) {
+    #home input {
+        width: 100%;
+    }
+    .flex5 p {
+        font-size:9px;
+    }
+    .footerPackage p {
+        font-size:9px;
+    }
+    .packageForm > .headerPackage > .flex2 h1 {
+        font-size: 15px;
+    }
+    .packageForm > .headerPackage > .flex2 p {
+        font-size: 12px;
+    }
+    .icon {
+        font-size: 20px;
+    }
+}

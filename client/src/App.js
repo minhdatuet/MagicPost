@@ -7,6 +7,7 @@ import Sidebar from "./conponents/Sidebar/Sidebar";
 import DashBoardAdmin from "./pages/AdminPage/Dashboard/DashBoardAdmin";
 import "./App.css";
 import Loading from "./pages/Loading/Loading";
+import PackageForm from "./pages/PackageForm/PackageForm"
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
         />
       }
       <Route path="/loading" element={<Loading />} />
+      <Route path="/packageForm" element={<PackageForm />} />
     </Routes>
   );
 }

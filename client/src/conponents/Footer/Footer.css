@@ -84,6 +84,15 @@
       margin-top:0px;
     }
     .footer-clean .rowCenter {
+      gap: 30px;
+  }
+  }
+
+  @media (min-width:360px) {
+    .footer-clean .item.social > a {
+      margin-top:0px;
+    }
+    .footer-clean .rowCenter {
       gap: 50px;
   }
   }
