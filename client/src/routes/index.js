@@ -8,7 +8,18 @@ import Warehouse from "../pages/AdminPage/Warehouse/Warehouse";
 import Construction from "../pages/Construction/Construction"
 import AboutUs from "../pages//AboutUs//AboutUs"
 import DashBoardAdmin from "../pages/AdminPage/Dashboard/DashBoardAdmin"
-
+import PointLeaderPackage from "../pages/PointLeaderPage/Package/PointLeaderPackage";
+import PointLeaderAccount from "../pages/PointLeaderPage/Account/PointLeaderAccount";
+import pointStaffSendToWarehouse from "../pages/PointStaffPage/SendToWarehouse/SendToWarehouse";
+import pointStaffReceiveFromWarehouse from "../pages/PointStaffPage/ReceiveFromWarehouse/ReceiveFromWarehouse";
+import pointStaffSendToAccount from "../pages/PointStaffPage/SendToAccount/SendToAccount";
+import Refund from "../pages/PointStaffPage/RefundPackage/Refund";
+import WarehouseLeaderAccount from "../pages/WarehouseLeaderPage/Account/WarehouseLeaderAccount";
+import WarehouseLeaderPackage from "../pages/WarehouseLeaderPage/Package/WarehouseLeaderPackage";
+import warehouseStaffSendToWarehouse from "../pages/WarehouseStaffPage/SendToWarehouse/SendToWarehouse";
+import warehouseStaffReceiveFromWarehouse from "../pages/WarehouseStaffPage/ReceiveFromWarehouse/ReceiveFromWarehouse";
+import warehouseStaffSendToTransaction from "../pages/WarehouseStaffPage/SendToTransaction/SendToTransaction";
+import warehouseStaffReceiveFromTransaction from "../pages/WarehouseStaffPage/ReceiveFromTransaction/ReceiveFromTransaction";
 const publicRoutes = [
     {
       path: '/login',
@@ -60,12 +71,58 @@ const bossRoutes = [
 const pointLeaderRoutes = [
   {
     path: 'pointLeader/account',
-    page: Account
+    page: PointLeaderAccount
   },
   {
     path: 'pointLeader/package',
-    page: Account
+    page: PointLeaderPackage
+  }
+]
+const pointStaffRoutes = [
+  {
+    path: 'pointStaff/sendToWarehouse',
+    page: pointStaffSendToWarehouse
+  },
+  {
+    path: 'pointStaff/receiveFromWarehouse',
+    page: pointStaffReceiveFromWarehouse
+  },
+  {
+    path: 'pointStaff/sendToAccount',
+    page: pointStaffSendToAccount
+  },
+  {
+    path: 'pointStaff/refund',
+    page: Refund
+  }
+]
+const warehouseLeaderRoutes = [
+  {
+    path: 'warehouseLeader/account',
+    page: WarehouseLeaderAccount
+  },
+  {
+    path: 'warehouseLeader/package',
+    page: WarehouseLeaderPackage
+  }
+]
+const warehouseStaffRoutes = [
+  {
+    path: 'warehouseStaff/sendToWarehouse',
+    page: warehouseStaffSendToWarehouse
+  },
+  {
+    path: 'warehouseStaff/receiveFromWarehouse',
+    page: warehouseStaffReceiveFromWarehouse
+  },
+  {
+    path: 'warehouseStaff/sendToTransaction',
+    page: warehouseStaffSendToTransaction
+  },
+  {
+    path: 'warehouseStaff/receiveFromTransaction',
+    page: warehouseStaffReceiveFromTransaction
   }
 ]
 
-export {publicRoutes, bossRoutes, pointLeaderRoutes}
+export {publicRoutes, bossRoutes, pointLeaderRoutes, pointStaffRoutes, warehouseLeaderRoutes, warehouseStaffRoutes}
