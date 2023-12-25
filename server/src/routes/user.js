@@ -8,6 +8,7 @@ router.use(verifyToken)
 router.get('/get/user', userController.getUser);
 router.put('/update/:id', userController.updateById);
 router.get('/get/all', userController.getAll);
+router.get('/get/leaders/:type', userController.getLeaders);
 
 
 module.exports = router;

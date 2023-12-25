@@ -39,3 +39,17 @@ export const apiGetPackagesOfWarehouse = (id) =>  new Promise(async(resolve, rej
         reject(error)
     }
 })
+
+
+export const apiCreateNewWarehouse = (payload) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/v1/warehouse/create',
+            data: payload
+        })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})

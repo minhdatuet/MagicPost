@@ -38,7 +38,6 @@ function ShowInfoWarehouse(props) {
   ];
 
 
-
   useEffect(() => {
     const fetchPackages = async () => {
       try {
@@ -59,7 +58,6 @@ function ShowInfoWarehouse(props) {
     };
     fetchPackages();
   }, [warehouse]);
-
   useEffect(() => {
     const fetchPoints = async () => {
       try {

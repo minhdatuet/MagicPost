@@ -3,6 +3,8 @@ import { Modal, Button, Form, InputGroup, Row, Col } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import { apiGetPublicProvinces, apiGetPublicDistrict } from '../../../../../services/package';
 import './CreateNewWarehouse.scss'
+import { apiLeader } from '../../../../../services/auth';
+import { apiGetLeaders } from '../../../../../services/user';
 function CreateNewWarehouseModal(props) {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -47,6 +49,18 @@ function CreateNewWarehouseModal(props) {
     }
   };
 
+
+  useEffect(() => {
+    const fetchWarehouseLeader = async () => {
+      const response = await apiGetLeaders('warehouse')
+      if (response.status === 200) {
+        console.log(response.data.response)
+      } else {
+        console.log(response.data.msg)
+      }
+    };
+    fetchWarehouseLeader();
+  }, []);
 
   useEffect(() => {
     setDistrict(null);
