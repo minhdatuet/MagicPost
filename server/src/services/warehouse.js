@@ -199,3 +199,42 @@ exports.deleteService = (id) => new Promise(async(resolve, reject) => {
         reject(error)
     }
   })
+
+  exports.getPointsService = (id) => new Promise(async(resolve, reject) => {
+    try {
+      const response = await db.TransactionPoint.findAll({
+        where: {
+          warehouseId: id
+        },
+        attributes: ['id','name', 'address'],
+        include: [
+            {
+            model: db.Warehouse,
+            attributes: ['id', 'name'],
+            required: false,
+            include: [{
+                model: db.Accounts,
+                as: 'warehouseLeader',
+                attributes: ['id', 'name', 'phone', 'address'],
+                required: false,
+            }]
+          },
+          {
+            model: db.Accounts,
+            as: 'pointLeader',
+            attributes: ['id', 'name', 'phone', 'address'],
+            required: false,
+          },
+        ]
+    })
+  
+      resolve({
+        err: response.length > 0 ? 0 : 2,
+        msg: response.length > 0 ? 'Get points is successfully' : `Can't find this id or no matching items`,
+        response
+      });
+  
+      } catch (error) {
+        reject(error)
+    }
+  })

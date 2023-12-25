@@ -3,59 +3,62 @@ import "./ShowInfoWarehouse.css"
 import { Modal, Tabs, Tab, ModalBody } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import avt from "../../../../../assets/images/avt.jpg"
+import { apiGetAllPackages } from '../../../../../services/package';
+import { apiGetPackagesOfWarehouse, apiGetPointsOfWarehouse } from '../../../../../services/warehouse';
 
 
 function ShowInfoWarehouse(props) {
   const [activeTab, setActiveTab] = useState('tab1');
   const { warehouse } = props;
+  const [packages, setPackages] = useState([]);
+  const [warehousePoint, setWarehousePoint] = useState([]);
   const handleTabSelect = (tab) => {
     setActiveTab(tab);
   };
 
-  const warehousePoint = [
-    { id: 1, pointLeaderId: 101, name: 'Warehouse A', address: '123 Street, City A' },
-    { id: 2, pointLeaderId: 102, name: 'Warehouse B', address: '456 Road, City B' },
-    { id: 3, pointLeaderId: 103, name: 'Warehouse C', address: '789 Avenue, City C' }
-  ];
 
-  const packages = [
-    {
-      packageCode: 'ABC123',
-      senderId: 'S001',
-      receiverId: 'R001',
-      transactionPointStartId: 'TP001',
-      warehouseStartId: 'W001',
-      transactionPointEndId: 'TP002',
-      warehouseEndId: 'W002',
-      name: 'Package 1',
-      shippingCost: 50,
-      status: 'In Transit'
-    },
-    {
-      packageCode: 'DEF456',
-      senderId: 'S002',
-      receiverId: 'R002',
-      transactionPointStartId: 'TP003',
-      warehouseStartId: 'W003',
-      transactionPointEndId: 'TP004',
-      warehouseEndId: 'W004',
-      name: 'Package 2',
-      shippingCost: 75,
-      status: 'Delivered'
-    },
-    {
-      packageCode: 'GHI789',
-      senderId: 'S003',
-      receiverId: 'R003',
-      transactionPointStartId: 'TP005',
-      warehouseStartId: 'W005',
-      transactionPointEndId: 'TP006',
-      warehouseEndId: 'W006',
-      name: 'Package 3',
-      shippingCost: 100,
-      status: 'Pending'
-    }
-  ];
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const response = await apiGetPackagesOfWarehouse(warehouse.id);
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setPackages(data);
+        } else {
+          console.log(msg)
+        }
+        
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+    fetchPackages();
+  }, []);
+  
+  useEffect(() => {
+    const fetchPoints = async () => {
+      try {
+        const response = await apiGetPointsOfWarehouse(warehouse.id);
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setWarehousePoint(data);
+        } else {
+          console.log(msg)
+        }
+        
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+    fetchPoints();
+  }, []);
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static" size="x0.1">
@@ -123,26 +126,26 @@ function ShowInfoWarehouse(props) {
                   <div>
                     <div style={{ display: 'flex', gap: '10px' }}>
                       <label>
-                        <strong>Mã điểm giao dịch:</strong>
-                      </label>
-                      <p>
-                        {item.id}
-                      </p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <label>
-                        <strong>Mã trưởng kho:</strong>
-                      </label>
-                      <p>
-                        {item.pointLeaderId}
-                      </p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <label>
                         <strong>Tên điểm giao dịch:</strong>
                       </label>
                       <p>
                         {item.name}
+                      </p>
+                    </div>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <label>
+                        <strong>Tên trưởng kho:</strong>
+                      </label>
+                      <p>
+                        {item.pointLeader.name}
+                      </p>
+                    </div>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <label>
+                        <strong>Số điện thoại trưởng kho:</strong>
+                      </label>
+                      <p>
+                        {item.pointLeader.phone}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -176,18 +179,18 @@ function ShowInfoWarehouse(props) {
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
                       <label>
-                        <strong>Mã người gửi: </strong>
+                        <strong>Tên người gửi: </strong>
                       </label>
                       <p>
-                        {packageItem.senderId}
+                        {packageItem.sender.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
                       <label>
-                        <strong>Mã người nhận: </strong>
+                        <strong>Tên người nhận: </strong>
                       </label>
                       <p>
-                        {packageItem.receiverId}
+                        {packageItem.receiver.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -204,6 +207,14 @@ function ShowInfoWarehouse(props) {
                       </label>
                       <p>
                         {packageItem.shippingCost}
+                      </p>
+                    </div>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <label>
+                        <strong>Trạng thái:</strong>
+                      </label>
+                      <p>
+                        {packageItem.Status.nameOfStatus}
                       </p>
                     </div>
                     <hr></hr>

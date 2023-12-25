@@ -12,3 +12,30 @@ export const apiGetAllWarehouses = () =>  new Promise(async(resolve, reject) => 
         reject(error)
     }
 })
+
+
+export const apiGetPointsOfWarehouse = (id) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: `/api/v1/warehouse/get/transactionpoints/${id}`
+        })
+        console.log(response)
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
+
+export const apiGetPackagesOfWarehouse = (id) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: `/api/v1/warehouse/get/packages/${id}`
+        })
+        console.log(response)
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
