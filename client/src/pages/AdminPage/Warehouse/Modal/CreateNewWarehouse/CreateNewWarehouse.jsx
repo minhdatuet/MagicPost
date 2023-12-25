@@ -3,6 +3,8 @@ import { Modal, Button, Form, InputGroup, Row, Col } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import { apiGetPublicProvinces, apiGetPublicDistrict } from '../../../../../services/package';
 import './CreateNewWarehouse.scss'
+import { apiLeader } from '../../../../../services/auth';
+import { apiGetLeaders } from '../../../../../services/user';
 function CreateNewWarehouseModal(props) {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -11,7 +13,6 @@ function CreateNewWarehouseModal(props) {
   const [reset, setReset] = useState(false);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
-    id: '',
     name: '',
     address: '',
     leaderId: '',
@@ -25,6 +26,18 @@ function CreateNewWarehouseModal(props) {
       }
     };
     fetchPublicProvince();
+  }, []);
+
+  useEffect(() => {
+    const fetchWarehouseLeader = async () => {
+      const response = await apiGetLeaders('warehouse')
+      if (response.status === 200) {
+        console.log(response.data.response)
+      } else {
+        console.log(response.data.msg)
+      }
+    };
+    fetchWarehouseLeader();
   }, []);
 
   useEffect(() => {
@@ -73,17 +86,8 @@ function CreateNewWarehouseModal(props) {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
             <Form.Group as={Col} md="6" controlId="id">
-              <Form.Label>ID kho hàng</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Nhập ID kho hàng"
-                value={formData.id}
-                onChange={handleInputChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập tên kho hàng.
-              </Form.Control.Feedback>
+
+
             </Form.Group>
             <Form.Group as={Col} controlId="name">
               <Form.Label>Tên kho hàng</Form.Label>
@@ -95,7 +99,7 @@ function CreateNewWarehouseModal(props) {
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập ID kho hàng.
+                Vui lòng nhập tên kho hàng.
               </Form.Control.Feedback>
             </Form.Group>
           </Row>

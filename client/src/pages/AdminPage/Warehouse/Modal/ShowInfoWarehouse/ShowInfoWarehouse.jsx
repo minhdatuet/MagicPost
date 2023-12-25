@@ -38,7 +38,6 @@ function ShowInfoWarehouse(props) {
   ];
 
 
-
   useEffect(() => {
     const fetchPackages = async () => {
       try {
@@ -58,7 +57,8 @@ function ShowInfoWarehouse(props) {
       }
     };
     fetchPackages();
-  }, []);
+  }, [warehouse]);
+  
 
   useEffect(() => {
     const fetchPoints = async () => {
@@ -79,7 +79,7 @@ function ShowInfoWarehouse(props) {
       }
     };
     fetchPoints();
-  }, []);
+  }, [warehouse]);
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static" size="lg">
