@@ -58,7 +58,7 @@ function ShowInfoWarehouse(props) {
   ];
 
   return (
-    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static" size="x0.1">
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static" size="x0.15">
       <Modal.Header>
         <Tabs activeKey={activeTab} onSelect={handleTabSelect}>
           <Tab eventKey="tab1" title="Trưởng kho">
@@ -66,6 +66,8 @@ function ShowInfoWarehouse(props) {
           <Tab eventKey="tab2" title="Điểm giao dịch">
           </Tab>
           <Tab eventKey="tab3" title="Đơn hàng">
+          </Tab>
+          <Tab eventKey="tab4" title="Nhân viên">
           </Tab>
         </Tabs>
         <CloseIcon onClick={props.onHide}>Đóng</CloseIcon>
@@ -212,6 +214,9 @@ function ShowInfoWarehouse(props) {
               ))}
             </ul>
           </div>
+        }
+        {activeTab === 'tab4' &&
+          <div></div>
         }
       </Modal.Body>
     </Modal>
