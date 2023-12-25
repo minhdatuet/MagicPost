@@ -77,7 +77,7 @@ function ShowInfoWarehouse(props) {
           <div>
             {warehouse && warehouse.warehouseLeader && (
               <div style={{ display: 'flex', gap: '70px' }}>
-                <div style={{ marginLeft: '10%' }}>
+                <div style={{ marginLeft: '10%', marginRight: '10%' }}>
                   <div style={{ display: 'flex', gap: '10px' }}>
                     <label>
                       <strong>Mã nhân viên:</strong>
