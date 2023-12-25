@@ -11,11 +11,20 @@ function CreateNewWarehouseModal(props) {
   const [reset, setReset] = useState(false);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
-    id: '',
     name: '',
     address: '',
-    leaderId: '',
+    warehouseLeader: '',
   });
+
+  const [formDataSubmit, setFormDataSubmit] = useState({
+    name: '',
+    address: '',
+    warehouseLeader: '',
+  });
+
+  const { warehouses } = props;
+
+  // console.log(warehouses);
 
   useEffect(() => {
     const fetchPublicProvince = async () => {
@@ -26,6 +35,18 @@ function CreateNewWarehouseModal(props) {
     };
     fetchPublicProvince();
   }, []);
+
+  const handleHide = () => {
+    setFormData({
+      name: '',
+      address: '',
+      warehouseLeader: '',
+    });
+    if (props.onHide) {
+      props.onHide();
+    }
+  };
+
 
   useEffect(() => {
     setDistrict(null);
@@ -49,42 +70,47 @@ function CreateNewWarehouseModal(props) {
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault(); 
+  
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
-    }
-
-    setValidated(true);
-
-    if (form.checkValidity()) {
-      console.log('Form submitted:', formData);
-      props.onHide();
+      setValidated(true);
+    } else {
+      setFormData({
+        name: form.elements.name.value,
+        address: form.elements.address.value,
+        warehouseLeader: form.elements.warehouseLeader.value,
+      });
+      setFormDataSubmit(formData)
+      console.log(formDataSubmit)
+      props.onHide(); 
+      setFormData({
+        name: '',
+        address: '',
+        warehouseLeader: '',
+      });
     }
   };
+
+
+
+  const setWarehouseLeader = (value) => {
+    setFormData(prevData => ({
+      ...prevData,
+      warehouseLeader: value
+    }));
+  }
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static">
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">Tạo kho hàng mới</Modal.Title>
-        <CloseIcon onClick={props.onHide}>Đóng</CloseIcon>
+        <CloseIcon onClick={handleHide}>Đóng</CloseIcon>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
-            <Form.Group as={Col} md="6" controlId="id">
-              <Form.Label>ID kho hàng</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Nhập ID kho hàng"
-                value={formData.id}
-                onChange={handleInputChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập tên kho hàng.
-              </Form.Control.Feedback>
-            </Form.Group>
             <Form.Group as={Col} controlId="name">
               <Form.Label>Tên kho hàng</Form.Label>
               <Form.Control
@@ -95,45 +121,47 @@ function CreateNewWarehouseModal(props) {
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập ID kho hàng.
+                Vui lòng nhập tên kho hàng.
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
-          <Row style={{marginTop: '10px'}} className="mb-3">
-          <Form.Group as={Col} md='6'>
-          <Form.Label>Tỉnh/Thành phố</Form.Label>
-          <Form.Control as="select" value={province} onChange={(e) => setProvince(e.target.value)}>
-            <option value="">Chọn tỉnh</option>
-            {provinces.map((province) => (
-              <option key={province.province_id} value={province.province_id}>
-                {province.province_name}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>      
-        <Form.Group as={Col} md="5" controlId="leaderId">
-              <Form.Label>ID trưởng kho hàng</Form.Label>
+          <Row style={{ marginTop: '10px' }} className="mb-3">
+            <Form.Group as={Col} controlId="address">
+              <Form.Label>Tỉnh/Thành phố</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="ID trưởng kho"
                 required
-                value={formData.leaderId}
+                type="text"
+                placeholder="Nhập tên thành phố"
+                value={formData.address}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập ID trưởng kho.
+                Vui lòng nhập tên thành phố.
               </Form.Control.Feedback>
             </Form.Group>
+            <Form.Group as={Col} md="5" controlId="warehouseLeader">
+              <Form.Label>Trưởng kho hàng</Form.Label>
+              <Form.Control as="select" value={formData.warehouseLeader} onChange={(e) => setWarehouseLeader(e.target.value)}>
+                <option>Chọn trưởng kho</option>
+                {warehouses.map((item) => (
+                  <option key={item.id} value={item.warehouseLeader.name}>
+                    {item.warehouseLeader.name}
+                  </option>
+                ))}
+                <option>lê Minh Đạt</option>
+                <option>Ngô Thảo Hương</option>
+              </Form.Control>
+            </Form.Group>
           </Row>
-          <Row style={{marginTop: '10px'}}>
-            <div className="text-center mt-3" style={{marginTop: '50px'}}>
-            <Button variant="secondary" type="submit" id="input-submit">
-              Tạo mới
-            </Button>
-            <Button variant="secondary" onClick={props.onHide}>
+          <Row style={{ marginTop: '10px' }}>
+            <div className="text-center mt-3" style={{ marginTop: '50px' }}>
+              <Button variant="secondary" id="input-submit" type = "submit">
+                Tạo mới
+              </Button>
+              <Button variant="secondary" onClick={handleHide}>
                 Đóng
               </Button>
-          </div>
+            </div>
           </Row>
         </Form>
       </Modal.Body>

@@ -135,6 +135,7 @@ function Warehouse() {
                 // dialogClassName="modal-dialog-custom"
                 show={isModalOpen}
                 onHide={handleCloseModal}
+                warehouses = {warehouses}
                 style={{ zIndex: 9999 }} // Add this line
             />
             <div className='dashboard-content-container'>
