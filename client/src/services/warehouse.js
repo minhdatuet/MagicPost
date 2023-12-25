@@ -44,7 +44,7 @@ export const apiGetPackagesOfWarehouse = (id) =>  new Promise(async(resolve, rej
 export const apiCreateNewWarehouse = (payload) =>  new Promise(async(resolve, reject) => {
     try {
         const response = await axiosConfig({
-            method: 'get',
+            method: 'post',
             url: '/api/v1/warehouse/create',
             data: payload
         })

@@ -73,13 +73,15 @@ exports.updateEmployee = async (req, res) => {
 }
 
 exports.getEmployees = async (req, res) => {
-    const {positionId, type} = req.body
     try {
+        const type = req.params.type
+        const positionId = req.params.id
+
         if(!positionId || !type) return res.status(400).json({
             err: 1,
             msg: 'Missing inputs!' + (!positionId ? "positionId " : " ") + (!type ? "type " : " ")
         })
-        const response = await authService.getEmployees(req.body)
+        const response = await authService.getEmployees(positionId, type)
         return res.status(200).json(response)
     } catch (error) {
         return res.status(500).json({

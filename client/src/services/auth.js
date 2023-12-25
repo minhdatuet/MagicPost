@@ -26,6 +26,20 @@ export const apiEmployee = (payload) =>  new Promise(async(resolve, reject) => {
     }
 })
 
+export const apiGetEmployees = (payload) =>  new Promise(async(resolve, reject) => {
+    try {
+        console.log(payload)
+        const response = await axiosConfig({
+            method: 'get',
+            url: `/api/v1/auth/get/employees/${payload.type}/${payload.positionId}`,
+            data: payload
+        })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
+
 export const apiLeader = (payload) =>  new Promise(async(resolve, reject) => {
     try {
         const response = await axiosConfig({

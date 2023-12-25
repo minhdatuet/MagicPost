@@ -202,6 +202,16 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
                 
             });
         } 
+        const responseWarehouse = await db.Warehouse.findAll();
+        console.log(responseWarehouse)
+        const responsePoint = await db.TransactionPoint.findAll();
+         // Filter out leaders based on warehouse or pointLeaderId
+         if (type === 'warehouse' && responseWarehouse.length > 0) {
+            console.log('YES')
+            response = response.filter(leader => !responseWarehouse.some(warehouse => warehouse.leaderId === leader.id));
+        } else if (type === 'point' && responsePoint.length > 0) {
+            response = response.filter(leader => !responsePoint.some(point => point.pointLeaderId === leader.id));
+        }
         resolve({
             err: response ? 0 : 2,
             msg: response ? "Successfully" : "Unsuccessfully",
