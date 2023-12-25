@@ -8,5 +8,6 @@ router.get('/get/all', warehouseController.getAll);
 router.delete('/delete/:id', warehouseController.deleteById);
 router.put('/update/:id', warehouseController.updateById);
 router.get('/get/packages/:id', warehouseController.getPackagesInWarehouse);
+router.get('/get/transactionpoints/:id', warehouseController.getPointsOfWarehouse);
 
 module.exports = router;

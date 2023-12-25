@@ -17,40 +17,40 @@ function UpdatePackageModal(props) {
   const [reset, setReset] = useState(false);
   const [validated, setValidated] = useState(false);
 
-  const [formData, setFormData] = useState({
-    senderName: "",
-    senderPhone: "",
-    senderAddress: " ",
-    receiverName: "",
-    receiverPhone: "",
-    transactionPointStartId: localStorage.getItem("transactionPointId"),
-    warehouseStartId: localStorage.getItem("warehouseId"),
-    receiverAddress1: {
-      province: "",
-      district: "",
-      ward: "",
-      street: "",
-    },
-    name: "",
-    weight: "",
-    shippingCost: "",
-    receiverAddress: "",
-  });
-  const [price, setPrice] = useState();
-
+  console.log(props)
+  const { order } = props
+  console.log(order)
+  const [price, setPrice] = useState('')
+  const [formData, setFormData] = useState({})
+  useEffect(() => {
+    console.log('YES')
+      setFormData({
+        ...order,
+        receiverAddress1: {
+          province: "",
+          district: "",
+          ward: "",
+          street: "",
+        },
+        weight: "",
+      });
+      setPrice(order?.shippingCost);
+    
+  }, [order])
+  
 
   useEffect(() => {
-    const calculatedPrice = 3000 * parseFloat(formData.weight) || 0;
+    const calculatedPrice = 3000 * parseFloat(formData?.weight) || 0;
     if (calculatedPrice > 10000) {
       setPrice(calculatedPrice);
       formData.shippingCost = String(calculatedPrice) 
-      console.log(formData.shippingCost)
+      console.log(formData?.shippingCost)
     }
     else { 
       setPrice(10000);
     formData.shippingCost = String(price)
   }
-  }, [formData.weight]);
+  }, [formData?.weight]);
 
   useEffect(() => {
     const fetchPublicProvince = async () => {
@@ -103,6 +103,7 @@ function UpdatePackageModal(props) {
       ...prevData,
       [id]: value,
     }));
+    console.log(formData)
   };
 
   const handleSubmit = (event) => {
@@ -162,7 +163,7 @@ const handleClose = () => {
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Tạo đơn hàng mới
+          Cập nhật thông tin đơn hàng
         </Modal.Title>
         <CloseIcon onClick={handleClose}>Đóng</CloseIcon>
       </Modal.Header>
@@ -176,7 +177,7 @@ const handleClose = () => {
                 required
                 type="text"
                 placeholder="Nhập tên người gửi"
-                value={formData.senderName}
+                value={formData?.sender?.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -189,7 +190,7 @@ const handleClose = () => {
                 required
                 type="text"
                 placeholder="Nhập số điện thoại người gửi"
-                value={formData.senderPhone}
+                value={formData?.sender?.phone}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -204,7 +205,7 @@ const handleClose = () => {
                 required
                 type="text"
                 placeholder="Nhập tên người nhận"
-                value={formData.receiverName}
+                value={formData?.receiver?.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -217,7 +218,7 @@ const handleClose = () => {
                 required
                 type="text"
                 placeholder="Nhập số điện thoại người nhận"
-                value={formData.receiverPhone}
+                value={formData?.receiver?.phone}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -319,12 +320,12 @@ const handleClose = () => {
           </Row>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="receiverAddressTitle">
-              <Form.Label>Số nhà, đường</Form.Label>
+              <Form.Label>Địa chỉ</Form.Label>
               <Form.Control
                 required
                 type="text"
                 placeholder="Nhập số nhà, đường cụ thể"
-                value={formData.receiverAddress1.street}
+                value={formData?.receiver?.address}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -339,7 +340,7 @@ const handleClose = () => {
             required
             type="text"
             placeholder="Nhập tên đơn hàng"
-            value={formData.name}
+            value={formData?.name}
             onChange={handleInputChange}
           />
           <Form.Control.Feedback type="invalid">
@@ -352,7 +353,7 @@ const handleClose = () => {
           required
           type="text"
           placeholder="kg"
-          value={formData.weight}
+          value={formData?.weight}
           onChange={handleInputChange}
         />
         <Form.Control.Feedback type="invalid">

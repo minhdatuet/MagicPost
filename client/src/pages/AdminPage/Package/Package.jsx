@@ -34,6 +34,7 @@ function Package() {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   // const [packages, setAllOrders] = useState([]);
   const [isDelete, setIsDelete] = useState();
+  const [selectedPackage, setSelectedPackage] = useState(null);
   const [orders, setOrders] = useState(packages);
   useEffect(() => {
     dispatch(getAllPackages());
@@ -46,8 +47,10 @@ function Package() {
     setIsModalOpen(false);
   };
 
-  const handleOpenUpdateModal = () => {
+  const handleOpenUpdateModal = (order) => {
     setIsUpdateModalOpen(true);
+    console.log(order)
+    setSelectedPackage(order)
   };
 
   const handleCloseUpdateModal = () => {
@@ -227,7 +230,7 @@ function Package() {
                           data-toggle="tooltip"
                           data-placement="top"
                           title="Edit"
-                          onClick={handleOpenUpdateModal}
+                          onClick={() => handleOpenUpdateModal(order)}
                         >
                           <i class="fa fa-edit"></i>
                         </button>
@@ -252,6 +255,7 @@ function Package() {
           ) : null}
           <UpdatePackageModal
             show={isUpdateModalOpen}
+            order = {selectedPackage}
             onHide={handleCloseUpdateModal}
           />
         </table>
