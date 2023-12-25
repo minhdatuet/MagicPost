@@ -5,6 +5,7 @@ import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage } fr
 
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import { getAllTransactionPoints } from "../../../store/actions";
+import ShowInfoTransactionPoint from "./ShowInfoTransactionPoint/ShowInfoTransactionPoint"
 
 function TransactionPoint() {
     const dispatch = useDispatch();
@@ -13,11 +14,13 @@ function TransactionPoint() {
     const [pagination, setPagination] = useState([]);
     const { transactionPoints } = useSelector((state) => state.transactionPoint);
     const [transactions, setTransactions] = useState(transactionPoints);
+    const [showInfoTransactionPoint, setShowInfoTransactionPoint] = useState(false);
+    const [selectedTransactionPoint, setSelectedTransactionPoint] = useState(null);
     useEffect(() => {
-      dispatch(getAllTransactionPoints());
+        dispatch(getAllTransactionPoints());
     }, []);
     console.log(transactionPoints);
-  
+
     useEffect(() => {
         setPagination(calculateRange(transactionPoints, 4));
         setTransactions(sliceData(transactionPoints, page, 4));
@@ -65,6 +68,15 @@ function TransactionPoint() {
         firstPage(page, setPage);
     };
 
+    const handleCloseShowInfoModal = () => {
+        setShowInfoTransactionPoint(false);
+    }
+
+    const onHandlerShowInfoTransactionPoint = (transaction) => {
+        setShowInfoTransactionPoint(true);
+        setSelectedTransactionPoint(transaction)
+    }
+
     const renderPagination = () => {
         const totalButtons = 3; // Number of buttons to display
         const halfButtons = Math.floor(totalButtons / 2);
@@ -96,20 +108,20 @@ function TransactionPoint() {
 
     return (
         <div className='dashboard-content'>
-        <HeaderRole
-            btnText="Thêm điểm giao dịch" />
+            <HeaderRole
+                btnText="Thêm điểm giao dịch" />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    
+
                     <h2>Điểm giao dịch</h2>
                     <div className='dashboard-content-search'>
-                      <input
+                        <input
                             type='text'
                             value={search}
                             placeholder='Search..'
                             className='dashboard-content-input'
                             onChange={handleSearch}
-                        /> 
+                        />
                     </div>
                 </div>
 
@@ -133,6 +145,13 @@ function TransactionPoint() {
                                     <td><span>{transaction.address}</span></td>
                                     <td>
                                         <ul class="list-inline m-0">
+                                            <li className="list-inline-item">
+                                                <button className="btn btn-secondary btn-sm rounded-0"
+                                                    type="button" data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Eye"
+                                                    onClick={(e) => onHandlerShowInfoTransactionPoint(transaction)}><i class="fa fa-eye"></i></button>
+                                            </li>
                                             <li class="list-inline-item">
                                                 <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" ><i class="fa fa-edit"></i></button>
                                             </li>
@@ -147,6 +166,12 @@ function TransactionPoint() {
                     ) : null}
                 </table>
 
+                <ShowInfoTransactionPoint
+                        show={showInfoTransactionPoint}
+                        onHide={handleCloseShowInfoModal}
+                        transactionPoint ={selectedTransactionPoint}
+                />
+
                 {transactions.length !== 0 ? (
                     <div className='dashboard-content-footer'>
                         <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
@@ -154,7 +179,7 @@ function TransactionPoint() {
                         {renderPagination()}
                         <span className="pagination" onClick={handleNextPage} disabled={page === pagination.length}>{'>'}</span>
                         <span className="pagination" onClick={handleLastPage} disabled={page === pagination.length}>{'>>'}</span>
-                        </div>
+                    </div>
                 ) : (
                     <div className='dashboard-content-footer'>
                         <span className='empty-table'>No data</span>
