@@ -114,3 +114,101 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
         reject(error);
     }
   });
+
+  exports.getLeadersService = (type) => new Promise(async (resolve, reject) => {
+    try {
+        let response;
+
+        if (type === 'warehouse') {
+            response = await db.Accounts.findAll({
+                attributes: ['id', 'name', 'phone', 'address', 'accountType'],
+                where: {
+                    accountType: 'WAREHOUSE_LEADER'
+                },
+                include: [
+                    {
+                        model: db.Warehouse,
+                        attributes: ['id', 'name', 'address'],
+                        required: false,
+                    },
+                    {
+                        model: db.TransactionPoint,
+                        attributes: ['id', 'name', 'address'],
+                        required: false,
+                    },
+                    {
+                        model: db.Employee,
+                        required: false,
+                        attributes: ['id'],
+                        include: [
+                            {
+                                model: db.Warehouse,
+                                attributes: ['id', 'name', 'address']
+                            },
+                            {
+                                model: db.TransactionPoint,
+                                attributes: ['id', 'name', 'address'],
+                                include: [
+                                    {
+                                        model: db.Warehouse,
+                                        attributes: ['id', 'name', 'address']
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                
+            });
+        } else if (type === 'point') {
+            response = await db.Accounts.findAll({
+                attributes: ['id', 'name', 'phone', 'address', 'accountType'],
+                where: {
+                    accountType: 'POINT_LEADER'
+                },
+                include: [
+                    {
+                        model: db.Warehouse,
+                        attributes: ['id', 'name', 'address'],
+                        required: false,
+                    },
+                    {
+                        model: db.TransactionPoint,
+                        attributes: ['id', 'name', 'address'],
+                        required: false,
+                    },
+                    {
+                        model: db.Employee,
+                        required: false,
+                        attributes: ['id'],
+                        include: [
+                            {
+                                model: db.Warehouse,
+                                attributes: ['id', 'name', 'address']
+                            },
+                            {
+                                model: db.TransactionPoint,
+                                attributes: ['id', 'name', 'address'],
+                                include: [
+                                    {
+                                        model: db.Warehouse,
+                                        attributes: ['id', 'name', 'address']
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                
+            });
+        } 
+        resolve({
+            err: response ? 0 : 2,
+            msg: response ? "Successfully" : "Unsuccessfully",
+            response
+        });
+    } catch (error) {
+        reject(error);
+    }
+});
+  
