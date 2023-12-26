@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
 import UpdateSendToWarehouse from "./Modal/UpdateSendToWarehouse/UpdateSendToWarehouse";
 import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
+
 import PrintPackageInfo from "./Modal/PrintPackageInfo/PrintPackageInfo";
 function PointStaffReceiveFromWarehouse() {
   const dispatch = useDispatch();
@@ -273,4 +274,4 @@ function PointStaffReceiveFromWarehouse() {
   );
 }
 
-export default PointStaffReceiveFromWarehouse;
+export default PointStaffSendToWarehouse;

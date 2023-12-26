@@ -158,7 +158,7 @@ export default function Sidebar() {
         },
         {
           icon: AccessAlarmSharp,
-          title: "Đơn chờ gửi từ DGD",
+          title: "Đơn chờ gửi đến DGD",
           link: "/warehouseStaff/sendToTransaction",
           key: 3,
         },
