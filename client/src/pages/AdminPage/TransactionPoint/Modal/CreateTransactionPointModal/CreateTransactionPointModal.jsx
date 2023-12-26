@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, InputGroup, Row, Col } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
-import { apiGetPublicProvinces, apiGetPublicDistrict } from '../../../../../services/package';
-import './CreateNewWarehouse.scss'
-import { apiLeader } from '../../../../../services/auth';
-import { apiGetLeaders } from '../../../../../services/user';
-function CreateNewWarehouseModal(props) {
+function CreateTransactionPointModal(props) {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [province, setProvince] = useState('');
@@ -15,65 +11,33 @@ function CreateNewWarehouseModal(props) {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
-    warehouseLeader: '',
+    warehouse: '',
+    transactionPointLeader: '',
   });
 
   const [formDataSubmit, setFormDataSubmit] = useState({
     name: '',
     address: '',
-    warehouseLeader: '',
+    warehouse: '',
+    transactionPointLeader: '',
   });
 
-  const { warehouses } = props;
+  const { transactionPoints } = props;
+  const {warehouses} = props;
 
-  // console.log(warehouses);
-
-  useEffect(() => {
-    const fetchPublicProvince = async () => {
-      const response = await apiGetPublicProvinces();
-      if (response.status === 200) {
-        setProvinces(response?.data.results);
-      }
-    };
-    fetchPublicProvince();
-  }, []);
 
   const handleHide = () => {
     setFormData({
-      name: '',
-      address: '',
-      warehouseLeader: '',
+        name: '',
+        address: '',
+        warehouse: '',
+        transactionPointLeader: '',
     });
     if (props.onHide) {
       props.onHide();
     }
   };
 
-
-  useEffect(() => {
-    const fetchWarehouseLeader = async () => {
-      const response = await apiGetLeaders('warehouse')
-      if (response.status === 200) {
-        console.log(response.data.response)
-      } else {
-        console.log(response.data.msg)
-      }
-    };
-    fetchWarehouseLeader();
-  }, []);
-
-  useEffect(() => {
-    setDistrict(null);
-    const fetchPublicDistrict = async () => {
-      const response = await apiGetPublicDistrict(province);
-      if (response.status === 200) {
-        setDistricts(response.data?.results);
-      }
-    };
-    province && fetchPublicDistrict();
-    !province ? setReset(true) : setReset(false);
-    !province && setDistricts([]);
-  }, [province]);
 
   const handleInputChange = (event) => {
     const { id, value, type, checked } = event.target;
@@ -94,13 +58,15 @@ function CreateNewWarehouseModal(props) {
       setFormDataSubmit({
         name: form.elements.name.value,
         address: form.elements.address.value,
-        warehouseLeader: form.elements.warehouseLeader.value,
+        warehouse: form.elements.warehouse.value,
+        transactionPointLeader: form.elements.transactionPointLeader.value,
       });
       props.onHide(); 
       setFormData({
         name: '',
         address: '',
-        warehouseLeader: '',
+        warehouse: '',
+        transactionPointLeader: '',
       });
     }
   };
@@ -108,24 +74,34 @@ function CreateNewWarehouseModal(props) {
   console.log(formDataSubmit)
 
 
-  const setWarehouseLeader = (value) => {
+
+
+
+  const setWarehouse = (value) => {
     setFormData(prevData => ({
       ...prevData,
-      warehouseLeader: value
+      warehouse: value
+    }));
+  }
+
+  const setTransactionPointLeader = (value) => {
+    setFormData(prevData => ({
+      ...prevData,
+      transactionPointLeader: value
     }));
   }
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static">
       <Modal.Header>
-        <Modal.Title id="contained-modal-title-vcenter">Tạo kho hàng mới</Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">Tạo điểm giao dịch mới</Modal.Title>
         <CloseIcon onClick={handleHide}>Đóng</CloseIcon>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="name">
-              <Form.Label>Tên kho hàng</Form.Label>
+              <Form.Label>Tên điểm giao dịch</Form.Label>
               <Form.Control
                 required
                 type="text"
@@ -134,13 +110,13 @@ function CreateNewWarehouseModal(props) {
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập tên kho hàng.
+                Vui lòng nhập tên điểm giao dịch.
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
           <Row style={{ marginTop: '10px' }} className="mb-3">
             <Form.Group as={Col} controlId="address">
-              <Form.Label>Tỉnh/Thành phố</Form.Label>
+              <Form.Label>Địa chỉ điểm giao dịch</Form.Label>
               <Form.Control
                 required
                 type="text"
@@ -149,21 +125,32 @@ function CreateNewWarehouseModal(props) {
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập tên thành phố.
+                Vui lòng nhập địa chỉ.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="5" controlId="warehouseLeader">
-              <Form.Label>Trưởng kho hàng</Form.Label>
-              <Form.Control as="select" value={formData.warehouseLeader} onChange={(e) => setWarehouseLeader(e.target.value)}>
-                <option>Chọn trưởng kho</option>
+            <Form.Group as={Col} md="5" controlId="warehouse">
+              <Form.Label>Thuộc kho hàng</Form.Label>
+              <Form.Control as="select" value={formData.warehouse} onChange={(e) => setWarehouse(e.target.value)}>
+                <option>Chọn kho hàng</option>
                 {warehouses.map((item) => (
-                  <option key={item.id} value={item.warehouseLeader.name}>
-                    {item.warehouseLeader.name}
+                  <option key={item.id} value={item.name}>
+                    {item.name}
                   </option>
                 ))}
               </Form.Control>
             </Form.Group>
           </Row>
+          <Form.Group as={Col} md="5" controlId="transactionPointLeader">
+              <Form.Label>Trưởng điểm</Form.Label>
+              <Form.Control as="select" value={formData.transactionPointLeader} onChange={(e) => setTransactionPointLeader(e.target.value)}>
+                <option>Chọn trưởng điểm</option>
+                {transactionPoints.map((item) => (
+                  <option key={item.id} value={item.pointLeader.name}>
+                    {item.pointLeader.name}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
           <Row style={{ marginTop: '10px' }}>
             <div className="text-center mt-3" style={{ marginTop: '50px' }}>
               <Button variant="secondary" id="input-submit" type = "submit">
@@ -180,4 +167,4 @@ function CreateNewWarehouseModal(props) {
   );
 }
 
-export default CreateNewWarehouseModal;
+export default CreateTransactionPointModal;

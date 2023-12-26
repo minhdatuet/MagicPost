@@ -6,6 +6,7 @@ import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import CreateNewWarehouseModal from './Modal/CreateNewWarehouse/CreateNewWarehouse';
 import UpdateWarehouseModal from './Modal/UpdateWarehouse/UpdateWarehouse';
 import ShowInfoWarehouse from './Modal/ShowInfoWarehouse/ShowInfoWarehouse';
+import DeleteWarehouseModal from './Modal/DeleteWarehouseModal/DeleteWarehouseModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllWarehouses } from '../../../store/actions';
 
@@ -17,6 +18,7 @@ function Warehouse() {
     const [pagination, setPagination] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isDelete, setIsDelete] = useState(null);
     const [warehouse, setWarehouse] = useState(warehouses);
     const [showInfoWarehouse, setShowInfoWarehouse] = useState(false);
@@ -30,8 +32,9 @@ function Warehouse() {
         setShowInfoWarehouse(false);
     }
 
-    const handleOpenUpdateModal = () => {
+    const handleOpenUpdateModal = (warehouse) => {
         setIsUpdateModalOpen(true);
+        setSelectedWarehouse(warehouse)
     }
 
     const handleCloseUpdateModal = () => {
@@ -41,6 +44,17 @@ function Warehouse() {
     const handleCloseShowInfoModal = () => {
         setShowInfoWarehouse(false);
     }
+
+    const handleCloseDeleteModal = () => {
+        setIsDeleteModalOpen(false);
+    }
+
+    const handleDeleteModalOpen = (warehouse) => {
+        setIsDeleteModalOpen(true);
+        setSelectedWarehouse(warehouse)
+    }
+
+
     useEffect(() => {
         dispatch(getAllWarehouses());
     }, []);
@@ -178,10 +192,10 @@ function Warehouse() {
                                                     onClick={(e) => onHandlerShowInfoWarehouse(warehouse)}><i class="fa fa-eye"></i></button>
                                             </li>
                                             <li className="list-inline-item">
-                                                <button className="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" onClick={setIsUpdateModalOpen}><i class="fa fa-edit"></i></button>
+                                                <button className="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" onClick={(e) => handleOpenUpdateModal(warehouse)}><i class="fa fa-edit"></i></button>
                                             </li>
                                             <li className="list-inline-item">
-                                                <button className="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                                <button className="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onClick={(e) => handleDeleteModalOpen(warehouse)}><i class="fa fa-trash"></i></button>
                                             </li>
                                         </ul>
                                     </td>
@@ -197,6 +211,13 @@ function Warehouse() {
                     <UpdateWarehouseModal
                         show={isUpdateModalOpen}
                         onHide={handleCloseUpdateModal}
+                        warehouses = {warehouses}
+                        warehouse={selectedWarehouse}
+                    />
+                    <DeleteWarehouseModal
+                        show={isDeleteModalOpen}
+                        onHide={handleCloseDeleteModal}
+                        warehouse = {selectedWarehouse}
                     />
                 </table>
 

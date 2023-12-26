@@ -6,20 +6,54 @@ import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage } fr
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import { getAllTransactionPoints } from "../../../store/actions";
 import ShowInfoTransactionPoint from "./ShowInfoTransactionPoint/ShowInfoTransactionPoint"
+import CreateTransactionPointModal from './Modal/CreateTransactionPointModal/CreateTransactionPointModal';
+import UpdateTransactionPoint from './Modal/UpdateTransactionPointModal/UpdateTransactionPoint';
+import DeleteTransactionPointModal from './Modal/DeleteTransactionPointModal/DeleteTransactionPointModal';
+
 
 function TransactionPoint() {
     const dispatch = useDispatch();
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { transactionPoints } = useSelector((state) => state.transactionPoint);
+    const { warehouses } = useSelector((state) => state.warehouse);
     const [transactions, setTransactions] = useState(transactionPoints);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [showInfoTransactionPoint, setShowInfoTransactionPoint] = useState(false);
     const [selectedTransactionPoint, setSelectedTransactionPoint] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     useEffect(() => {
         dispatch(getAllTransactionPoints());
     }, []);
     console.log(transactionPoints);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    }
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    }
+
+    
+    const handleOpenUpdateModal = (transaction) => {
+        setIsUpdateModalOpen(true);
+        setSelectedTransactionPoint(transaction)
+    }
+
+    const handleCloseUpdateModal = () => {
+        setIsUpdateModalOpen(false);
+    }
+
+    const handleCloseDeleteModal = () => {
+        setIsDeleteModalOpen(false);
+    }
+
+    const handleOpenDeleteModal = (transaction) => {
+        setIsDeleteModalOpen(true);
+    }
 
     useEffect(() => {
         setPagination(calculateRange(transactionPoints, 4));
@@ -108,8 +142,16 @@ function TransactionPoint() {
 
     return (
         <div className='dashboard-content'>
+            <CreateTransactionPointModal
+                show={isModalOpen}
+                onHide={handleCloseModal}
+                transactionPoints = {transactionPoints}
+                warehouses = {warehouses}
+                style={{ zIndex: 9999 }}     
+            />
             <HeaderRole
-                btnText="Thêm điểm giao dịch" />
+                btnText="Thêm điểm giao dịch"
+                onClick={setIsModalOpen} />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
 
@@ -153,10 +195,10 @@ function TransactionPoint() {
                                                     onClick={(e) => onHandlerShowInfoTransactionPoint(transaction)}><i class="fa fa-eye"></i></button>
                                             </li>
                                             <li class="list-inline-item">
-                                                <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" ><i class="fa fa-edit"></i></button>
+                                                <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" onClick = {(e) =>handleOpenUpdateModal(transaction)} ><i class="fa fa-edit"></i></button>
                                             </li>
                                             <li class="list-inline-item">
-                                                <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                                <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onClick = {(e) =>handleOpenDeleteModal(transaction)} ><i class="fa fa-trash"></i></button>
                                             </li>
                                         </ul>
                                     </td>
@@ -165,13 +207,23 @@ function TransactionPoint() {
                         </tbody>
                     ) : null}
                 </table>
-
                 <ShowInfoTransactionPoint
                         show={showInfoTransactionPoint}
                         onHide={handleCloseShowInfoModal}
                         transactionPoint ={selectedTransactionPoint}
                 />
-
+                <UpdateTransactionPoint
+                        show={isUpdateModalOpen}
+                        onHide={handleCloseUpdateModal}
+                        transactionPoints = {transactionPoints}
+                        warehouses = {warehouses}
+                        transactionPoint ={selectedTransactionPoint}
+                />
+                <DeleteTransactionPointModal
+                        show={isDeleteModalOpen}
+                        onHide={handleCloseDeleteModal}
+                        transaction ={selectedTransactionPoint}
+                />
                 {transactions.length !== 0 ? (
                     <div className='dashboard-content-footer'>
                         <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
