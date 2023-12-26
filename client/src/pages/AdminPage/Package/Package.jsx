@@ -134,7 +134,7 @@ function Package() {
       } */
   };
   const handleShowInfoPackage = (order) => {
-    console.log(order);
+    // console.log(order);
     setSelectedPackage(order)
     const statusTimes = [
       [order.Status.datePointEndReceived,

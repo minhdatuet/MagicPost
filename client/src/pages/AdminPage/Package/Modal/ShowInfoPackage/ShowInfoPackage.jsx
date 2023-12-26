@@ -89,13 +89,13 @@ const {statusPackage} = props;
                       <p className='pLabel'>Thông tin vận chuyển: </p>
                       <br></br>
                       <ul>
-                          {statusPackage.map((item, i) => (
+                  {/*      {statusPackage.map((item, i) => (
                               <li key={i}>
                                   <p className={i === statusPackage.length - 1 ? 'pStatus' : ''}>
                                       {item[1]}
                                   </p>
                               </li>
-                          ))}
+                          ))} */}  
                       </ul>
                   </div>
               </div>
