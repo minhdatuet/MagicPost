@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { apiGetAllPackages } from '../../../services/package';
-import { apiCreateNewWarehouse } from '../../../services/warehouse';
+import { apiCreateNewWarehouse, apiUpdateWarehouseById } from '../../../services/warehouse';
 import { apiCreateNewPoint } from '../../../services/transactionpoint';
+import { apiGetAllUsers } from '../../../services/user';
 
 const Account = () => {
-  const [packages, setPackages] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
 
   const payload = {
-    name: 'Pho Yen 1',
-    address: 'Pho Yen, Thai Nguyen',
-    pointLeaderId: '3',
-    warehouseId: '3'
+    id: '4',
+    // name: 'Song Cong',
+    // address: 'Song Công, Thai Nguyen',
+    // pointLeaderId: '3',
+    // warehouseId: '3'
+    leaderId: '3'
   }
 
   useEffect(() => {
@@ -20,14 +23,14 @@ const Account = () => {
   const handleSubmit = async () => {
     // Trong hàm này, bạn có thể sử dụng state packages đã được cập nhật.
     
-    const fetchPackages = async () => {
+    const fetchUsers = async () => {
       try {
-        const response = await apiCreateNewPoint(payload);
+        const response = await apiGetAllUsers();
         const data = response?.data.response;
         const err = response?.data.err;
         const msg = response?.data.msg;
         if (err === 0) {
-          setPackages(data);
+          setAllUsers(data);
 
         } else {
           console.log(msg)
@@ -37,12 +40,12 @@ const Account = () => {
         console.error('Error fetching packages:', error);
       }
     };
-    fetchPackages();
+    fetchUsers();
 
     // Tiếp tục xử lý dữ liệu hoặc gọi các hàm khác tại đây...
   };
 
-  console.log(packages);
+  console.log(allUsers);
   return (
     <div>
       <h1 style={{ textAlign: 'center', margin: 'auto' }}>Account</h1>

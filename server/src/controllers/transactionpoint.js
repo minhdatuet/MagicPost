@@ -2,7 +2,7 @@ const transactionPointService = require('../services/transactionpoint.js');
 exports.create = async (req, res) => {
     const {warehouseId, pointLeaderId, name, address} = req.body
     try{
-        if(!warehouseId || !pointLeaderId || !name || !address) return res.status(400).json({
+        if(!warehouseId || !name || !address) return res.status(400).json({
             err: 1,
             msg: 'Missing inputs!' 
         })

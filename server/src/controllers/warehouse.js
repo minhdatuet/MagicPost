@@ -2,7 +2,7 @@ const warehouseService = require('../services/warehouse.js');
 exports.create = async (req, res) => {
     const {name, address, leaderId} = req.body
     try{
-        if(!name || !address || !leaderId) return res.status(400).json({
+        if(!name || !address) return res.status(400).json({
             err: 1,
             msg: 'Missing inputs!' 
         })

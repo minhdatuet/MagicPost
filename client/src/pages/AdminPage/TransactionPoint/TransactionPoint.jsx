@@ -31,7 +31,7 @@ function TransactionPoint() {
         setSearch(event.target.value);
         if (event.target.value !== '') {
             let searchResults = transactionPoints.filter((item) =>
-                item.name.toLowerCase().includes(search.toLowerCase()) ||
+                item?.name.toLowerCase().includes(search.toLowerCase()) ||
                 item.email.toLowerCase().includes(search.toLowerCase()) ||
                 item.leader.toLowerCase().includes(search.toLowerCase())
             );
@@ -139,9 +139,9 @@ function TransactionPoint() {
                             {transactions.map((transaction, index) => (
                                 <tr key={index}>
                                     <td><span>{transaction.id}</span></td>
-                                    <td><span>{transaction.Warehouse.name}</span></td>
-                                    <td><span>{transaction.pointLeader.name}</span></td>
-                                    <td><span>{transaction.name}</span></td>
+                                    <td><span>{transaction.Warehouse?.name}</span></td>
+                                    <td><span>{transaction.pointLeader?.name}</span></td>
+                                    <td><span>{transaction?.name}</span></td>
                                     <td><span>{transaction.address}</span></td>
                                     <td>
                                         <ul class="list-inline m-0">
