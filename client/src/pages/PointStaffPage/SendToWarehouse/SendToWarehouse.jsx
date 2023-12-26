@@ -18,9 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
 import UpdateSendToWarehouse from "./Modal/UpdateSendToWarehouse/UpdateSendToWarehouse";
 import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
-
 import PrintPackageInfo from "./Modal/PrintPackageInfo/PrintPackageInfo";
-function PointStaffReceiveFromWarehouse() {
+function PointStaffSendToWarehouse() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { packages } = useSelector((state) => state.package);
