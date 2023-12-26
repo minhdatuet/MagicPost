@@ -19,11 +19,11 @@ function UpdatePackageModal(props) {
 
   // console.log(props)
   const { order } = props
-  console.log(order)
+  // console.log(order)
   const [price, setPrice] = useState('')
   const [formData, setFormData] = useState({})
   useEffect(() => {
-    console.log('YES')
+    // console.log('YES')
       setFormData({
         ...order,
         receiverAddress1: {
@@ -44,7 +44,7 @@ function UpdatePackageModal(props) {
     if (calculatedPrice > 10000) {
       setPrice(calculatedPrice);
       formData.shippingCost = String(calculatedPrice) 
-      console.log(formData?.shippingCost)
+      // console.log(formData?.shippingCost)
     }
     else { 
       setPrice(10000);
@@ -89,33 +89,24 @@ function UpdatePackageModal(props) {
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
-    if (id === "receiverAddressTitle") {
-      setFormData((prevData) => ({
-        ...prevData,
-        receiverAddress1: {
-          ...prevData.receiverAddress1,
-          street: value,
-        },
-        receiverAddress: `${value}, ${prevData.receiverAddress1.ward}, ${prevData.receiverAddress1.district}, ${prevData.receiverAddress1.province}`,
-      }));
-    }
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData({
+      ...formData,
       [id]: value,
-    }));
+    });
   };
+  
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    console.log(formData)
+    // console.log(formData)
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
       return
     }
-    console.log(formData);
     if (form.checkValidity()) {
       apiUpdatePackageById(formData);
+      console.log(formData);
     }
     setValidated(true);
     if (validated) {
@@ -158,26 +149,25 @@ const handleClose = () => {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           {/* Sender Information */}
           <Row className="mb-3">
-            <Form.Group as={Col} md="6" controlId="senderName">
-              <Form.Label>Tên người gửi</Form.Label>
-              <Form.Control
-                type="text"
-                // placeholder="Nhập tên người gửi"
-                placeholder={formData?.sender?.name}
-                onChange={handleInputChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập tên người gửi.
-              </Form.Control.Feedback>
-            </Form.Group>
+          <Form.Group as={Col} md="6" controlId="senderName">
+            <Form.Label>Tên người gửi</Form.Label>
+            <Form.Control
+              type="text"
+              defaultValue={formData?.sender?.name}
+              onChange={handleInputChange}
+            />
+            <Form.Control.Feedback type="invalid">
+              Vui lòng nhập tên người gửi.
+            </Form.Control.Feedback>
+          </Form.Group>
             <Form.Group as={Col} md="6" controlId="senderPhone">
               <Form.Label>Số điện thoại người gửi</Form.Label>
               <Form.Control
                 // required
                 type="text"
-                value={formData?.sender?.phone}
+                defaultValue={formData?.sender?.phone}
                 // placeholder="Nhập số điện thoại người gửi"
-                placeholder={formData?.sender?.phone}
+                // defaultValue={formData?.sender?.phone}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -191,9 +181,9 @@ const handleClose = () => {
               <Form.Control
                 // required
                 type="text"
-                value={formData?.receiver?.name}
+                // defaultValue={formData?.receiver?.name}
                 // placeholder="Nhập tên người nhận"
-                placeholder={formData?.receiver?.name}
+                defaultValue={formData?.receiver?.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -206,7 +196,7 @@ const handleClose = () => {
                 // required
                 type="text"
                 // placeholder="Nhập số điện thoại người nhận"
-                placeholder={formData?.receiver?.phone}
+                defaultValue={formData?.receiver?.phone}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -313,7 +303,7 @@ const handleClose = () => {
                 // required
                 type="text"
                 // placeholder="Nhập số nhà, đường cụ thể"
-                placeholder={formData?.receiver?.address}
+                defaultValue={formData?.receiver?.address}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -328,7 +318,7 @@ const handleClose = () => {
             // required
             type="text"
             // placeholder="Nhập tên đơn hàng"
-            placeholder={formData?.name}
+            defaultValue={formData?.name}
             onChange={handleInputChange}
           />
           <Form.Control.Feedback type="invalid">
@@ -341,7 +331,7 @@ const handleClose = () => {
           // required
           type="text"
           // placeholder="kg"
-          placeholder={formData?.weight}
+          defaultValue={formData?.weight}
           onChange={handleInputChange}
         />
         <Form.Control.Feedback type="invalid">
