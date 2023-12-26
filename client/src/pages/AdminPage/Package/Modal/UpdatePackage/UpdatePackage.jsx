@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import CloseIcon from "@mui/icons-material/Close";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { apiGetPublicProvinces, apiGetPublicDistrict, apiGetPublicWard } from '../../../../../services/package';
+import { apiGetPublicProvinces, apiGetPublicDistrict, apiGetPublicWard, apiUpdatePackageById } from '../../../../../services/package';
 import "./UpdatePackage.scss";
 
 function UpdatePackageModal(props) {
@@ -17,7 +17,7 @@ function UpdatePackageModal(props) {
   const [reset, setReset] = useState(false);
   const [validated, setValidated] = useState(false);
 
-  console.log(props)
+  // console.log(props)
   const { order } = props
   console.log(order)
   const [price, setPrice] = useState('')
@@ -103,7 +103,6 @@ function UpdatePackageModal(props) {
       ...prevData,
       [id]: value,
     }));
-    console.log(formData)
   };
 
   const handleSubmit = (event) => {
@@ -114,8 +113,9 @@ function UpdatePackageModal(props) {
       event.stopPropagation();
       return
     }
+    console.log(formData);
     if (form.checkValidity()) {
-      
+      apiUpdatePackageById(formData);
     }
     setValidated(true);
     if (validated) {
@@ -123,32 +123,19 @@ function UpdatePackageModal(props) {
     }
 };
 const handleClose = () => {
-  // Reset all form data and state values
-  setReceiverProvince('');
-  setReceiverDistrict('');
-  setReceiverWard('');
   setReset(false);
   setValidated(false);
   setFormData({
-    senderName: "",
-    senderPhone: "",
-    senderAddress: " ",
-    receiverName: "",
-    receiverPhone: "",
-    transactionPointStartId: localStorage.getItem("transactionPointId"),
-    warehouseStartId: localStorage.getItem("warehouseId"),
+    ...order,
     receiverAddress1: {
       province: "",
       district: "",
       ward: "",
       street: "",
     },
-    name: "",
     weight: "",
-    shippingCost: "",
-    receiverAddress: "",
   });
-  setPrice(null);
+  setPrice(order?.shippingCost);
 
   props.onHide();
 };
@@ -174,10 +161,9 @@ const handleClose = () => {
             <Form.Group as={Col} md="6" controlId="senderName">
               <Form.Label>Tên người gửi</Form.Label>
               <Form.Control
-                required
                 type="text"
-                placeholder="Nhập tên người gửi"
-                value={formData?.sender?.name}
+                // placeholder="Nhập tên người gửi"
+                placeholder={formData?.sender?.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -187,10 +173,11 @@ const handleClose = () => {
             <Form.Group as={Col} md="6" controlId="senderPhone">
               <Form.Label>Số điện thoại người gửi</Form.Label>
               <Form.Control
-                required
+                // required
                 type="text"
-                placeholder="Nhập số điện thoại người gửi"
                 value={formData?.sender?.phone}
+                // placeholder="Nhập số điện thoại người gửi"
+                placeholder={formData?.sender?.phone}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -202,10 +189,11 @@ const handleClose = () => {
             <Form.Group as={Col} md="6" controlId="receiverName">
               <Form.Label>Tên người nhận</Form.Label>
               <Form.Control
-                required
+                // required
                 type="text"
-                placeholder="Nhập tên người nhận"
                 value={formData?.receiver?.name}
+                // placeholder="Nhập tên người nhận"
+                placeholder={formData?.receiver?.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -215,10 +203,10 @@ const handleClose = () => {
             <Form.Group as={Col} md="6" controlId="receiverPhone">
               <Form.Label>Số điện thoại người nhận</Form.Label>
               <Form.Control
-                required
+                // required
                 type="text"
-                placeholder="Nhập số điện thoại người nhận"
-                value={formData?.receiver?.phone}
+                // placeholder="Nhập số điện thoại người nhận"
+                placeholder={formData?.receiver?.phone}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -230,7 +218,7 @@ const handleClose = () => {
           <Form.Group as={Col} md='4' controlId="receiverAddressProvince">
     <Form.Label>Địa chỉ nhận</Form.Label>
     <Form.Control
-      required
+      // required
       as="select"
       value={receiverProvince}
       onChange={(e) => {
@@ -261,7 +249,7 @@ const handleClose = () => {
             <Form.Group as={Col} md="4" controlId="receiverAddressDistrict">
               <Form.Label></Form.Label>
               <Form.Control as="select" value={receiverDistrict} 
-              required
+              // required
               onChange={(e) => {
                 const selectedDistrictId = e.target.value;
                 const selectedDistrict = receiverDistricts.find(
@@ -289,7 +277,7 @@ const handleClose = () => {
             <Form.Group as={Col} md="4" controlId="receiverAddressWard">
             <Form.Label></Form.Label>
             <Form.Control
-            required
+            // required
               as="select"
               value={receiverWard}
               onChange={(e) => {
@@ -322,10 +310,10 @@ const handleClose = () => {
             <Form.Group as={Col} controlId="receiverAddressTitle">
               <Form.Label>Địa chỉ</Form.Label>
               <Form.Control
-                required
+                // required
                 type="text"
-                placeholder="Nhập số nhà, đường cụ thể"
-                value={formData?.receiver?.address}
+                // placeholder="Nhập số nhà, đường cụ thể"
+                placeholder={formData?.receiver?.address}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -337,10 +325,10 @@ const handleClose = () => {
           <Form.Group as={Col} controlId="name">
           <Form.Label>Tên đơn hàng</Form.Label>
           <Form.Control
-            required
+            // required
             type="text"
-            placeholder="Nhập tên đơn hàng"
-            value={formData?.name}
+            // placeholder="Nhập tên đơn hàng"
+            placeholder={formData?.name}
             onChange={handleInputChange}
           />
           <Form.Control.Feedback type="invalid">
@@ -350,10 +338,10 @@ const handleClose = () => {
         <Form.Group as={Col} controlId="weight">
         <Form.Label>Kích thước đơn hàng (kg)</Form.Label>
         <Form.Control
-          required
+          // required
           type="text"
-          placeholder="kg"
-          value={formData?.weight}
+          // placeholder="kg"
+          placeholder={formData?.weight}
           onChange={handleInputChange}
         />
         <Form.Control.Feedback type="invalid">
@@ -373,7 +361,7 @@ const handleClose = () => {
           <Row>
             <div className="text-center mt-3">
               <Button variant="secondary" onClick={handleSubmit} id="input-submit">
-                Tạo mới
+                Cập nhật
               </Button>
               <Button variant="secondary" onClick={handleClose}>
                 Đóng
