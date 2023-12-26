@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
 import UpdateSendToWarehouse from "./Modal/UpdateSendToWarehouse/UpdateSendToWarehouse";
 import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
+import PrintPackageInfo from "./Modal/PrintPackageInfo/PrintPackageInfo";
 function PointStaffReceiveFromWarehouse() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function PointStaffReceiveFromWarehouse() {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
-
+  const [isPrintOpen, setIsPrintOpen] = useState(false);
   useEffect(() => {
     dispatch(getAllPackages());
   }, []);
@@ -50,7 +51,13 @@ function PointStaffReceiveFromWarehouse() {
   useEffect(() => {
     setOrders(sliceData(filteredPackages, page, 4));
   }, [page, filteredPackages]);
-
+  const handleOpenPrintModal = (order) => {
+    setIsPrintOpen(true);
+    setSelectedPackage(order);
+  }
+  const handleClosePrintModal = () => {
+    setIsPrintOpen(false);
+  }
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -195,13 +202,27 @@ function PointStaffReceiveFromWarehouse() {
         <i class="fa fa-edit"></i>
       </button>
     </li>
+    <li className="list-inline-item">
+    <button
+      className="btn btn-secondary btn-sm rounded-0"
+      type="button"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="Print"
+      onClick={() => handleOpenPrintModal(order)}
+    >
+      <i className="fa fa-print"></i>
+    </button>
+  </li>
       </tr>
     ))}
   </tbody>
           ) : null}
         </table>
         <UpdateSendToWarehouse showModal={isUpdateModalOpen} handleClose={handleCloseUpdateModal} selectedPackage={selectedPackage}/>
-
+        <PrintPackageInfo
+        showModal={isPrintOpen} handleClose={handleClosePrintModal} selectedPackage={selectedPackage}
+      />
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
             <span
