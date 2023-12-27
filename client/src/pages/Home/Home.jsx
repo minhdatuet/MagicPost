@@ -14,6 +14,7 @@ export const Home = () => {
   const [showPackageInfo, setShowPackageInfo] = useState(false);
   const [packageItem, setSearchedPackage] = useState(null);
   const navigate = useNavigate();
+  
 
 
   useEffect(() => {

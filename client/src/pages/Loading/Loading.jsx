@@ -27,8 +27,25 @@ const Loading = () => {
                     localStorage.setItem('role', userData[0].accountType);
                     localStorage.setItem('id', userData[0].id);
                     localStorage.setItem('name', userData[0].name);
-                    localStorage.setItem('transactionPointId', userData[0].Employee?.TransactionPoint?.id|| '1')
-                    localStorage.setItem('warehouseId', userData[0].Employee?.TransactionPoint?.Warehouse?.id || '1')
+                    switch(userData[0].accountType){
+                        case 'POINT_STAFF':
+                        
+                            localStorage.setItem('transactionPointId', userData[0].Employee?.TransactionPoint?.id|| '-1')
+                            console.log(userData[0].Employee?.TransactionPoint?.Warehouse.id)
+                            localStorage.setItem('warehouseId', userData[0].Employee?.TransactionPoint?.Warehouse.id || '-1' )
+                            break
+                        
+                        case 'WAREHOUSE_STAFF':
+                            localStorage.setItem('warehouseId', userData[0].Employee?.Warehouse?.id|| '-1')
+                            break
+                        case 'POINT_LEADER':
+                            localStorage.setItem('transactionPointId', userData[0].TransactionPoints[0]?.id|| '-1')
+                            break
+                        case 'WAREHOUSE_LEADER':
+                            localStorage.setItem('warehouseId', userData[0].Warehouses[0]?.id|| '-1')
+                            break
+                    }   
+                    
                     navigate('/boss/dashboard');
                     window.location.reload();
                 }

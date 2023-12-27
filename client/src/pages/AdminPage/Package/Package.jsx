@@ -18,6 +18,7 @@ import UpdatePackageModal from "./Modal/UpdatePackage/UpdatePackage";
 import { apiDeletePackage, apiGetAllPackages } from "../../../services/package";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
+import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
 import {
   getAllTransactionPoints,
   getAllWarehouses,
@@ -36,6 +37,9 @@ function Package() {
   const [isDelete, setIsDelete] = useState();
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [orders, setOrders] = useState(packages);
+  const [showInfoPackage, setShowInfoPackage] = useState(false);
+  const [statusPackage, setStatusPackage] = useState('');
+
   useEffect(() => {
     dispatch(getAllPackages());
   }, []);
@@ -45,6 +49,7 @@ function Package() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setShowInfoPackage(false);
   };
 
   const handleOpenUpdateModal = (order) => {
@@ -128,8 +133,44 @@ function Package() {
         setIsDelete(null);
       } */
   };
-  const handleViewAllClick = (filterId) => {
-    // navigate(`/boss/package?id=${filterId}`)
+  const handleShowInfoPackage = (order) => {
+    // console.log(order);
+    setSelectedPackage(order)
+    const statusTimes = [
+      [order.Status.datePointEndReceived,
+      order.transactionPointEnd && order.transactionPointEnd.name ? order.transactionPointEnd.name + " đang chuyển đơn hàng." : null],
+  
+      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + order.Status.dateReceiverReturn],
+  
+      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart.name + " lúc " + order.Status.dateSendPackage],
+  
+      [order.Status.dateSendToPointEnd,
+      order.transactionPointEnd && order.transactionPointEnd.name ? 
+      "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd.name + " lúc " +  order.transactionPointEnd: null],
+  
+      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + order.Status.dateSendToReceiver],
+  
+      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd.name ? 
+      "Đơn hàng rời khỏi kho " + order.warehouseStart.name +  " lúc " + order.Status.dateSendToWarehouseEnd : null],
+  
+      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart.name ? 
+      "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart.name +  " lúc " + order.Status.dateSendToWarehouseStart : null],
+  
+      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd.name ? 
+      "Đơn hàng nhập kho " + order.warehouseEnd.name + " lúc " + order.Status.dateWarehouseEndReceived: null],
+  
+      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart.name ? 
+      "Đơn hàng nhập kho " + order.warehouseStart.name + " lúc " + order.Status.dateWarehouseStartReceived : null],
+  
+      [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
+    ];
+  
+    const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
+  
+    filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    setStatusPackage(filteredStatusTimes);
+    setShowInfoPackage(true)
+    
   };
 
 
@@ -217,7 +258,7 @@ function Package() {
                           data-toggle="tooltip"
                           data-placement="top"
                           title="View All"
-                          onClick={() => handleViewAllClick(1)}
+                          onClick={(e) => handleShowInfoPackage(order)}
                         >
                           <i className="fa fa-eye"></i>
                           {/* Use the appropriate icon class here */}
@@ -253,6 +294,12 @@ function Package() {
               ))}
             </tbody>
           ) : null}
+          <ShowInfoPackage
+            show={showInfoPackage}
+            order = {selectedPackage}
+            statusPackage = {statusPackage}
+            onHide={handleCloseModal}
+          />
           <UpdatePackageModal
             show={isUpdateModalOpen}
             order = {selectedPackage}
