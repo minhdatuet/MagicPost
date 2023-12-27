@@ -124,33 +124,81 @@ exports.loginService = (body) => new Promise(async(resolve, reject) => {
     }
 })
 
-exports.getEmployees = (body) => new Promise(async(resolve, reject) => {
+exports.getEmployees = (positionId, type) => new Promise(async(resolve, reject) => {
     try {
         let response = null
-        switch (body.type) {
-            case 'WAREHOUSE': {
+        switch (type) {
+            case 'warehouse': {
                 response = await db.Accounts.findAll({
                     where: {
-                      '$Employee.warehouseId$': body.positionId,
+                      '$Employee.warehouseId$': positionId,
                     },
+                    attributes: ['id','name', 'phone', 'address', 'accountType'],
+            include: [
+            {
+                model: db.Warehouse,
+                attributes: ['id','name', 'address'],
+                required: false,
+            },
+            {
+                model: db.TransactionPoint,
+                attributes: ['id','name', 'address'],
+                required: false,
+            },
+            {
+                model: db.Employee,
+                required: false,
+                attributes: ['id'],
+                include: [{
+                    model: db.Warehouse,
+                    attributes: ['id','name', 'address']
+                },
+                {
+                    model: db.TransactionPoint,
+                    attributes: ['id','name', 'address'],
                     include: [{
-                      model: db.Employee,
-                      attributes: [], // Không lấy thông tin từ bảng Employee
-                      required: false,
-                    }],
+                        model: db.Warehouse,
+                        attributes: ['id','name', 'address']
+                    }]
+                }]
+            }]
                   })
                 break
             }
-            case 'TRANSACTION_POINT': {
+            case 'point': {
                 response = await db.Accounts.findAll({
                     where: {
-                      '$Employee.transactionPointId$': body.positionId,
+                      '$Employee.transactionPointId$': positionId,
                     },
+                    attributes: ['id','name', 'phone', 'address', 'accountType'],
+            include: [
+            {
+                model: db.Warehouse,
+                attributes: ['id','name', 'address'],
+                required: false,
+            },
+            {
+                model: db.TransactionPoint,
+                attributes: ['id','name', 'address'],
+                required: false,
+            },
+            {
+                model: db.Employee,
+                required: false,
+                attributes: ['id'],
+                include: [{
+                    model: db.Warehouse,
+                    attributes: ['id','name', 'address']
+                },
+                {
+                    model: db.TransactionPoint,
+                    attributes: ['id','name', 'address'],
                     include: [{
-                      model: db.Employee,
-                      attributes: [], // Không lấy thông tin từ bảng Employee
-                      required: false,
-                    }],
+                        model: db.Warehouse,
+                        attributes: ['id','name', 'address']
+                    }]
+                }]
+            }]
                   })
                 break
             }
@@ -161,7 +209,7 @@ exports.getEmployees = (body) => new Promise(async(resolve, reject) => {
         resolve({
             err: response? 0: 2,
             msg: response? "Succesfully" : "Unsuccesfully",
-            data: JSON.stringify(response)
+            response
         })
     } catch (error) {
         reject(error)

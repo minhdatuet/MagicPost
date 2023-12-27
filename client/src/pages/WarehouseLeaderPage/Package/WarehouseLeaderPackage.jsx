@@ -16,12 +16,13 @@ import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
+import { apiGetPackagesOfWarehouse } from "../../../services/warehouse";
 // import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
 
 function WarehouseLeaderPackage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { packages } = useSelector((state) => state.package);
+  // const { packages } = useSelector((state) => state.package);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
@@ -31,16 +32,29 @@ function WarehouseLeaderPackage() {
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    dispatch(getAllPackages());
-  }, []);
+
 
   useEffect(() => {
-    const filteredPackages = packages.filter((pk) => 
-  pk.warehouseStart.id === parseInt(localStorage.getItem('warehouseId')) ||  pk.warehouseEnd.id === parseInt(localStorage.getItem('warehouseId'))
-);
-    setFilteredPackages(filteredPackages);
-  }, [packages]);
+    const fetchPackages = async () => {
+      const warehouseId = localStorage.getItem('warehouseId')
+      try {
+        const response = await apiGetPackagesOfWarehouse(warehouseId);
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setFilteredPackages(data);
+        } else {
+          console.log(msg)
+        }
+
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+    fetchPackages();
+  }, []);
 
   useEffect(() => {
     setPagination(calculateRange(filteredPackages, 4));

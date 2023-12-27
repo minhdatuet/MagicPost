@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button, Form, InputGroup, Row, Col } from 'react-bootstrap';
+import { apiUpdatePackageById } from '../../../../../services/package';
 
 const UpdateReceiveFromWarehouse = ({ showModal, handleClose, selectedPackage }) => {
   const handleSubmit = (event) => {
@@ -10,6 +11,12 @@ const UpdateReceiveFromWarehouse = ({ showModal, handleClose, selectedPackage })
       id: transactionPointId,
       name: transactionPointName,
     };
+    const payload = {
+      id: selectedPackage?.id,
+      datePointEndReceived: new Date()
+    }
+    apiUpdatePackageById(payload)
+    window.location.reload();
     console.log(selectedPackage);
     handleClose();
   };

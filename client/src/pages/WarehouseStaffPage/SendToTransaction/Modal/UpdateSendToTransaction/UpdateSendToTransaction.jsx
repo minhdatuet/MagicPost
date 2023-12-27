@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllTransactionPoints } from '../../../../../store/actions';
+import { apiUpdatePackageById } from '../../../../../services/package';
 const UpdateSendToTransaction = ({ showModal, handleClose, selectedPackage }) => {
   const dispatch = useDispatch();
   const { transactionPoints } = useSelector((state) => state.transactionPoint);
@@ -12,6 +13,17 @@ const UpdateSendToTransaction = ({ showModal, handleClose, selectedPackage }) =>
     dispatch(getAllTransactionPoints());
   }, []);
 
+  console.log(selectedPackage)
+  console.log(transactionPoints)
+
+  useEffect(() => {
+    const filteredTransactions = transactionPoints.filter((pk) => 
+    pk.Warehouse?.id === selectedPackage?.warehouseEnd?.id
+);
+console.log(filteredTransactions)
+    setTransactions(filteredTransactions);
+  }, [selectedPackage]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const warehouseId = parseInt(localStorage.getItem('transactionPointId'), 10);
@@ -21,7 +33,7 @@ const UpdateSendToTransaction = ({ showModal, handleClose, selectedPackage }) =>
       id: warehouseId,
       name: warehouseName
     };
-
+    
     const selectedWarehouseObj = transactions.find((warehouse) => warehouse.name === selectedTransactionPoint);
 
     if (selectedWarehouseObj) {
@@ -30,6 +42,14 @@ const UpdateSendToTransaction = ({ showModal, handleClose, selectedPackage }) =>
         name: selectedWarehouseObj.name,
       };
     }
+
+    const payload = {
+      id: selectedPackage?.id,
+      transactionPointEndId: selectedWarehouseObj.id,
+      dateSendToPointEnd: new Date()
+    }
+    apiUpdatePackageById(payload)
+    window.location.reload();
 
     handleClose();
   };
@@ -42,7 +62,7 @@ const UpdateSendToTransaction = ({ showModal, handleClose, selectedPackage }) =>
       keyboard={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Chuyển đơn hàng đến kho kế tiếp</Modal.Title>
+        <Modal.Title>Chuyển đơn hàng đến điểm giao dịch kế tiếp</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -50,7 +70,7 @@ const UpdateSendToTransaction = ({ showModal, handleClose, selectedPackage }) =>
           <p>Người gửi: {selectedPackage?.sender.name}</p>
           <p>Người nhận: {selectedPackage?.receiver.name}</p>
           <Form.Group controlId="selectedWarehouse">
-            <Form.Label>Kho kế tiếp:</Form.Label>
+            <Form.Label>Điểm giao dịch kế tiếp:</Form.Label>
            <Form.Control
               as="select"
               value={selectedTransactionPoint}

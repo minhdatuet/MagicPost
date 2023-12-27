@@ -39,6 +39,7 @@ function PointStaffSendToWarehouse() {
   useEffect(() => {
     const filteredPackages = packages.filter((pk) => 
     pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) &&  pk?.Status?.nameOfStatus === "DELIVERING"
+    && pk?.Status?.dateSendToWarehouseStart === null
 );
     setFilteredPackages(filteredPackages);
   }, [packages]);

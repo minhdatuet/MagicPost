@@ -37,7 +37,8 @@ function PointStaffReceiveFromWarehouse() {
 
   useEffect(() => {
     const filteredPackages = packages.filter((pk) => 
-  pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) &&  pk?.Status?.nameOfStatus === "DELIVERING"
+  pk.transactionPointEnd?.id === parseInt(localStorage.getItem('transactionPointId')) &&  pk?.Status?.nameOfStatus === "DELIVERING"
+  && pk?.Status?.dateSendToPointEnd !== null && pk?.Status?.datePointEndReceived === null
 );
     setFilteredPackages(filteredPackages);
   }, [packages]);

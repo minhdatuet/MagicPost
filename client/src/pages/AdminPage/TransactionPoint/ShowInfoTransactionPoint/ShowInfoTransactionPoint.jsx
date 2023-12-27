@@ -2,36 +2,66 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Tabs, Tab, ModalBody } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import avt from "../../../../assets/images/avt.jpg"
+import { apiGetPackagesOfPoint } from '../../../../services/transactionpoint';
+import { apiGetEmployees } from '../../../../services/auth';
 
 
 function ShowInfoTransactionPoint(props) {
   const [activeTab, setActiveTab] = useState('tab1');
   const { transactionPoint } = props;
+  const [packages, setPackages] = useState([]);
+  const [pointEmployees, setPointEmployees] = useState([]);
   const handleTabSelect = (tab) => {
     setActiveTab(tab);
   };
   console.log(transactionPoint)
 
-//   useEffect(() => {
-//     const fetchPackages = async () => {
-//       try {
-//         const response = await apiGetPackagesOfWarehouse(warehouse.id);
-//         const data = response?.data.response;
-//         const err = response?.data.err;
-//         const msg = response?.data.msg;
-//         console.log(data)
-//         if (err === 0) {
-//           setPackages(data);
-//         } else {
-//           console.log(msg)
-//         }
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const response = await apiGetPackagesOfPoint(transactionPoint.id);
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setPackages(data);
+        } else {
+          console.log(msg)
+        }
 
-//       } catch (error) {
-//         console.error('Error fetching packages:', error);
-//       }
-//     };
-//     fetchPackages();
-//   }, []);
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+    fetchPackages();
+  }, [transactionPoint]);
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const payload = {
+          type: 'point',
+          positionId: String(transactionPoint.id)
+
+        }
+        const response = await apiGetEmployees(payload)
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setPointEmployees(data);
+        } else {
+          console.log(msg)
+        }
+
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+    fetchEmployees();
+  }, [transactionPoint]);
 
 //   useEffect(() => {
 //     const fetchPoints = async () => {
@@ -53,6 +83,8 @@ function ShowInfoTransactionPoint(props) {
 //     };
 //     fetchPoints();
 //   }, []);
+
+
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static" size="lg">
@@ -113,52 +145,7 @@ function ShowInfoTransactionPoint(props) {
         }
         {activeTab === 'tab2' &&
           <div style={{ maxHeight: '400px', overflowY: 'scroll' }}>
-            {/* <ul>
-              {warehousePoint.map(item => (
-                <li key={item.id}>
-                  <div>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <label>
-                        <strong>Tên điểm giao dịch:</strong>
-                      </label>
-                      <p>
-                        {item.name}
-                      </p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <label>
-                        <strong>Tên trưởng kho:</strong>
-                      </label>
-                      <p>
-                        {item.pointLeader.name}
-                      </p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <label>
-                        <strong>Số điện thoại trưởng kho:</strong>
-                      </label>
-                      <p>
-                        {item.pointLeader.phone}
-                      </p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <label>
-                        <strong>Địa chỉ: </strong>
-                      </label>
-                      <p>
-                        {item.address}
-                      </p>
-                    </div>
-                    <hr></hr>
-                  </div>
-                </li>
-              ))}
-            </ul> */}
-          </div>
-        }
-        {activeTab === 'tab3' &&
-          <div style={{ maxHeight: '400px', overflowY: 'scroll' }}>
-            {/* <ul>
+            <ul>
               {packages.map((packageItem, index) => (
                 <li key={index}>
                   <div>
@@ -214,7 +201,54 @@ function ShowInfoTransactionPoint(props) {
                   </div>
                 </li>
               ))}
-            </ul> */}
+            </ul>
+          </div>
+        }
+        {activeTab === 'tab3' &&
+          <div style={{ maxHeight: '400px', overflowY: 'scroll' }}>
+            <ul>
+              {pointEmployees.map(item => (
+                <li key={item.id}>
+                  <div>
+                    <div style={{ marginLeft: '10%', marginRight: '10%' }}>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <label>
+                          <strong>Mã nhân viên:</strong>
+                        </label>
+                        <p>
+                          {item.id}
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <label>
+                          <strong>Họ và tên:</strong>
+                        </label>
+                        <p>
+                          {item.name}
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <label>
+                          <strong>Số điện thoại:</strong>
+                        </label>
+                        <p>
+                          {item.phone}
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <label>
+                          <strong>Địa chỉ:</strong>
+                        </label>
+                        <p>
+                          {item.address}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <hr></hr>
+                </li>
+              ))}
+            </ul>
           </div>
         }
       </Modal.Body>

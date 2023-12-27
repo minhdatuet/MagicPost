@@ -9,7 +9,7 @@ router.post('/login', authController.login);
 router.put('/update/leader', authController.updateLeader);
 router.post('/update/employee', authController.updateEmployee);
 
-router.get('/get/employees', authController.getEmployees);
+router.get('/get/employees/:type/:id', authController.getEmployees);
 
 
 module.exports = router;

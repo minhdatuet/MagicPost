@@ -16,12 +16,13 @@ import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
+import { apiGetPackagesOfPoint } from "../../../services/transactionpoint";
 // import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
 
 function PointLeaderPackage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { packages } = useSelector((state) => state.package);
+  // const { packages } = useSelector((state) => state.package);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
@@ -31,16 +32,28 @@ function PointLeaderPackage() {
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    dispatch(getAllPackages());
-  }, []);
 
   useEffect(() => {
-    const filteredPackages = packages.filter((pk) => 
-  pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) ||  pk.transactionPointEnd.id === parseInt(localStorage.getItem('transactionPointId'))
-);
-    setFilteredPackages(filteredPackages);
-  }, [packages]);
+    const fetchPackages = async () => {
+      const pointId = localStorage.getItem('transactionPointId')
+      try {
+        const response = await apiGetPackagesOfPoint(pointId);
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setFilteredPackages(data);
+        } else {
+          console.log(msg)
+        }
+
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+    fetchPackages();
+  }, []);
 
   useEffect(() => {
     setPagination(calculateRange(filteredPackages, 4));

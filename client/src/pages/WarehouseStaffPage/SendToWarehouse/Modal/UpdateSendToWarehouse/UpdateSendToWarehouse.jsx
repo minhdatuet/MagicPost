@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllWarehouses } from '../../../../../store/actions';
+import { apiUpdatePackageById } from '../../../../../services/package';
 const UpdateSendToWarehouse = ({ showModal, handleClose, selectedPackage }) => {
   const dispatch = useDispatch();
   const { warehouses } = useSelector((state) => state.warehouse);
@@ -29,6 +30,14 @@ const UpdateSendToWarehouse = ({ showModal, handleClose, selectedPackage }) => {
         name: selectedWarehouseObj.name,
       };
     }
+
+    const payload = {
+      id: selectedPackage?.id,
+      warehouseEndId: selectedWarehouseObj.id,
+      dateSendToWarehouseEnd: new Date()
+    }
+    apiUpdatePackageById(payload)
+    window.location.reload();
 
     handleClose();
   };

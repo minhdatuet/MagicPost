@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { apiUpdatePackageById } from '../../../../services/package';
 
 const UpdateSendToAccount = ({ showModal, handleClose, selectedPackage }) => {
   const [selectedStatus, setSelectedStatus] = useState('');
@@ -7,6 +8,12 @@ const UpdateSendToAccount = ({ showModal, handleClose, selectedPackage }) => {
     event.preventDefault();
     selectedPackage.Status.nameOfStatus = selectedStatus;
     console.log(selectedPackage);
+    const payload = {
+      id: selectedPackage?.id,
+      dateSendToReceiver: new Date()
+    }
+    apiUpdatePackageById(payload)
+    window.location.reload();
     // window.location.reload();
     handleClose();
   };

@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllWarehouses } from '../../../../../store/actions';
+import { apiUpdatePackageById } from '../../../../../services/package';
 const UpdateSendToWarehouse = ({ showModal, handleClose, selectedPackage }) => {
   const dispatch = useDispatch();
   const { warehouses } = useSelector((state) => state.warehouse);
-  const [selectedWarehouse, setSelectedWarehouse] = useState('');
+  // const [selectedWarehouse, setSelectedWarehouse] = useState('');
   
   useEffect(() => {
     dispatch(getAllWarehouses());
   }, []);
+  console.log(localStorage.getItem('warehouseId'))
+  const selectedWarehouse = warehouses.find((warehouse) => warehouse.id === parseInt(localStorage.getItem('warehouseId'), 10));
+  console.log(selectedWarehouse)
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,17 +24,22 @@ const UpdateSendToWarehouse = ({ showModal, handleClose, selectedPackage }) => {
       id: transactionPointId,
       name: transactionPointName,
     };
-
+    const payload = {
+      id: selectedPackage?.id,
+      dateSendToWarehouseStart: new Date()
+    }
+    apiUpdatePackageById(payload)
+    window.location.reload();
     // Find the selected warehouse by ID
-    const selectedWarehouseObj = warehouses.find((warehouse) => warehouse.name === selectedWarehouse);
+    
 
     // Assign the warehouse ID to selectedPackage.warehouseEnd.id
-    if (selectedWarehouseObj) {
-      selectedPackage.warehouseEnd = {
-        id: selectedWarehouseObj.id,
-        name: selectedWarehouseObj.name,
-      };
-    }
+    // if (selectedWarehouseObj) {
+    //   selectedPackage.warehouseEnd = {
+    //     id: selectedWarehouseObj.id,
+    //     name: selectedWarehouseObj.name,
+    //   };
+    // }
 
     handleClose();
   };
@@ -50,9 +59,10 @@ const UpdateSendToWarehouse = ({ showModal, handleClose, selectedPackage }) => {
           <p>ID: {selectedPackage?.id}</p>
           <p>Người gửi: {selectedPackage?.sender.name}</p>
           <p>Người nhận: {selectedPackage?.receiver.name}</p>
-          <Form.Group controlId="selectedWarehouse">
-            <Form.Label>Kho kế tiếp:</Form.Label>
-           <Form.Control
+          <p>Kho kế tiếp: {selectedWarehouse?.name}</p>
+          {/* <Form.Group controlId="selectedWarehouse">
+            <Form.Label>Kho kế tiếp:</Form.Label> */}
+           {/* <Form.Control
               as="select"
               value={selectedWarehouse}
               onChange={(e) => setSelectedWarehouse(e.target.value)}
@@ -63,8 +73,8 @@ const UpdateSendToWarehouse = ({ showModal, handleClose, selectedPackage }) => {
                   {warehouse.name}
                 </option>
               ))}
-              </Form.Control>
-          </Form.Group>
+              </Form.Control> */}
+          {/* </Form.Group> */}
           </Form>
       </Modal.Body>
       <Modal.Footer>
