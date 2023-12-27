@@ -1,210 +1,186 @@
-// import React, { useEffect, useState } from 'react';
-// import { apiGetAllPackages } from '../../../services/package';
-// import {
-//   calculateRange,
-//   sliceData,
-//   nextPage,
-//   prevPage,
-//   lastPage,
-//   firstPage,
-// } from "../../../utils/table-pagination";
-// import "./styles.css";
-// import { useNavigate } from 'react-router-dom'
-// import DoneIcon from "../../../assets/icons/done.svg";
-// import CancelIcon from "../../../assets/icons/cancel.svg";
-// import RefundedIcon from "../../../assets/icons/refunded.svg";
-// import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
-// const Account = () => {
-//   const [packages, setPackages] = useState([]);
+import React, { useEffect, useState } from 'react';
+import { apiGetAllUsers } from '../../../services/user';
+import {
+  calculateRange,
+  sliceData,
+  nextPage,
+  prevPage,
+  lastPage,
+  firstPage,
+} from '../../../utils/table-pagination';
+import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-//   useEffect(() => {
-//     const fetchPackages = async () => {
-//       try {
-//         const response = await apiGetAllPackages();
-//         const data = response?.data.response;
-//         const err = response?.data.err;
-//         const msg = response?.data.msg;
-//         if (err === 0) {
-//           setPackages(data);
-//         } else {
-//           console.log(msg)
-//         }
-        
-//       } catch (error) {
-//         console.error('Error fetching packages:', error);
-//       }
-//     };
-//     fetchPackages();
-//   }, []); // Tham số thứ hai là một array rỗng để chỉ chạy một lần khi component mount
+const Account = () => {
+  const dispatch = useDispatch();
+  const { users } = useSelector((state) => state.user);
+  const [accounts, setAccounts] = useState(users);
+  const [search, setSearch] = useState('');
+  const [pagination, setPagination] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-//   const handleSubmit = async () => {
-//     console.log(packages);
-//   };
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
 
-//   return (
-//     <div className="dashboard-content">
-//     <HeaderRole
-//       btnText={"Thêm đơn hàng"}
-//       variant="primary"
-//       onClick={handleOpenModal}
-//     />
-//     <div className="dashboard-content-container">
-//       <div className="dashboard-content-header">
-//         <h2>Đơn hàng</h2>
-//         <div className="dashboard-content-search">
-//           <input
-//             type="text"
-//             value={search}
-//             placeholder="Search.."
-//             className="dashboard-content-input"
-//             onChange={handleSearch}
-//           />
-//         </div>
-//       </div>
-//       <table>
-//         <thead>
-//           <th>ID</th>
-//           <th>TRẠNG THÁI</th>
-//           <th>NGƯỜI GỬI</th>
-//           <th>NGƯỜI NHẬN</th>
-//           <th>GIÁ TRỊ</th>
-//         </thead>
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
-//         {orders.length !== 0 ? (
-//           <tbody>
-//             {orders.map((order, index) => (
-//               <tr key={index}>
-//                 <td>
-//                   <span>{order.id}</span>
-//                 </td>
-//                 <td>
-//                   <div>
-//                     {order?.Status?.nameOfStatus === "DELIVERING" ? (
-//                       <img
-//                         src={DoneIcon}
-//                         alt="paid-icon"
-//                         className="dashboard-content-icon"
-//                       />
-//                     ) : order?.Status?.nameOfStatus === "FAILED" ? (
-//                       <img
-//                         src={CancelIcon}
-//                         alt="canceled-icon"
-//                         className="dashboard-content-icon"
-//                       />
-//                     ) : order?.Status?.nameOfStatus === "Refunded" ? (
-//                       <img
-//                         src={RefundedIcon}
-//                         alt="refunded-icon"
-//                         className="dashboard-content-icon"
-//                       />
-//                     ) : null}
-//                     <span>{order?.Status?.nameOfStatus}</span>
-//                   </div>
-//                 </td>
-//                 <td>
-//                   <span>{order.sender.name}</span>
-//                 </td>
-//                 <td>
-//                   <span>{order.receiver.name}</span>
-//                 </td>
-//                 <td>
-//                   <span>${order.shippingCost}</span>
-//                 </td>
-//                 <td>
-//                   <ul class="list-inline m-0">
-//                     <li className="list-inline-item">
-//                       <button
-//                         className="btn btn-secondary btn-sm rounded-0"
-//                         type="button"
-//                         data-toggle="tooltip"
-//                         data-placement="top"
-//                         title="View All"
-//                         onClick={(e) => handleShowInfoPackage(order)}
-//                       >
-//                         <i className="fa fa-eye"></i>
-//                         {/* Use the appropriate icon class here */}
-//                       </button>
-//                     </li>
-//                     <li class="list-inline-item">
-//                       <button
-//                         class="btn btn-secondary btn-sm rounded-0"
-//                         type="button"
-//                         data-toggle="tooltip"
-//                         data-placement="top"
-//                         title="Edit"
-//                         onClick={() => handleOpenUpdateModal(order)}
-//                       >
-//                         <i class="fa fa-edit"></i>
-//                       </button>
-//                     </li>
-//                     <li class="list-inline-item">
-//                       <button
-//                         class="btn btn-secondary btn-sm rounded-0"
-//                         type="button"
-//                         data-toggle="tooltip"
-//                         data-placement="top"
-//                         title="Delete"
-//                         onClick={() => { handleDelete(order.id) }}
-//                       >
-//                         <i class="fa fa-trash"></i>
-//                       </button>
-//                     </li>
-//                   </ul>
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         ) : null}
-//         </table>
+  useEffect(() => {
+    dispatch(apiGetAllUsers());
+  }, []);
 
-//       {orders.length !== 0 ? (
-//         <div className="dashboard-content-footer">
-//           <span
-//             className="pagination"
-//             onClick={handleFirstPage}
-//             disabled={page === 1}
-//           >
-//             {"<<"}
-//           </span>
-//           <span
-//             className="pagination"
-//             onClick={handlePrevPage}
-//             disabled={page === 1}
-//           >
-//             {"<"}
-//           </span>
-//           {calculateRange(packages, 4).map((item, index) => (
-//             <span
-//               key={index}
-//               className={item === page ? "active-pagination" : "pagination"}
-//               onClick={() => handleChangePage(item)}
-//             >
-//               {item}
-//             </span>
-//           ))}
-//           <span
-//             className="pagination"
-//             onClick={handleNextPage}
-//             disabled={page === pagination.length}
-//           >
-//             {">"}
-//           </span>
-//           <span
-//             className="pagination"
-//             onClick={handleLastPage}
-//             disabled={page === pagination.length}
-//           >
-//             {">>"}
-//           </span>
-//         </div>
-//       ) : (
-//         <div className="dashboard-content-footer">
-//           <span className="empty-table">No data</span>
-//         </div>
-//       )}
-//     </div>
-//   </div>
-//   );
-// };
+  useEffect(() => {
+    setPagination(calculateRange(users, 4));
+    setAccounts(sliceData(users, page, 4));
+  }, [page, users]);
 
-// export default Account;
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+    if (event.target.value !== '') {
+      let searchResults = users.filter(
+        (item) =>
+          item.name.toLowerCase().includes(search.toLowerCase()) ||
+          item.phone.toLowerCase().includes(search.toLowerCase()) ||
+          item.accountType.toLowerCase().includes(search.toLowerCase()) ||
+          item.address.toLowerCase().includes(search.toLowerCase())
+      );
+      setAccounts(searchResults);
+      setPagination(calculateRange(searchResults, 4));
+      setPage(1);
+    } else {
+      setAccounts(sliceData(users, page, 4));
+      setPagination(calculateRange(users, 4));
+    }
+  };
+
+  const handleChangePage = (newPage) => {
+    if (newPage !== page) {
+      setPage(newPage);
+    }
+  };
+
+  const handleNextPage = () => {
+    nextPage(page, pagination.length, setPage);
+  };
+
+  const handlePrevPage = () => {
+    prevPage(page, setPage);
+  };
+
+  const handleLastPage = () => {
+    lastPage(page, pagination.length, setPage);
+  };
+
+  const handleFirstPage = () => {
+    firstPage(page, setPage);
+  };
+
+  return (
+    <div className="dashboard-content">
+      <HeaderRole
+        btnText={'Thêm tài khoản'}
+        variant="primary"
+        onClick={handleOpenModal}
+      />
+      <div className="dashboard-content-container">
+        <div className="dashboard-content-header">
+          <h2>Đơn hàng</h2>
+          <div className="dashboard-content-search">
+            <input
+              type="text"
+              value={search}
+              placeholder="Search.."
+              className="dashboard-content-input"
+              onChange={handleSearch}
+            />
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>TÊN</th>
+              <th>SỐ ĐIỆN THOẠI</th>
+              <th>CHỨC VỤ</th>
+              <th>NƠI LÀM VIỆC</th>
+            </tr>
+          </thead>
+          {accounts.length !== 0 ? (
+            <tbody>
+              {accounts.map((account, index) => (
+                <tr key={index}>
+                  <td>
+                    <span>{account.id}</span>
+                  </td>
+                  <td>
+                    <span>{account.name}</span>
+                  </td>
+                  <td>
+                    <span>{account.phone}</span>
+                  </td>
+                  <td>
+                    <span>{account.accountType}</span>
+                  </td>
+                  <td>
+                    <span>{account.address}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+        {accounts.length !== 0 ? (
+          <div className="dashboard-content-footer">
+            <span
+              className="pagination"
+              onClick={handleFirstPage}
+              disabled={page === 1}
+            >
+              {'<<'}
+            </span>
+            <span
+              className="pagination"
+              onClick={handlePrevPage}
+              disabled={page === 1}
+            >
+              {'<'}
+            </span>
+            {calculateRange(accounts, 4).map((item, index) => (
+              <span
+                key={index}
+                className={item === page ? 'active-pagination' : 'pagination'}
+                onClick={() => handleChangePage(item)}
+              >
+                {item}
+              </span>
+            ))}
+            <span
+              className="pagination"
+              onClick={handleNextPage}
+              disabled={page === pagination.length}
+            >
+              {'>'}
+            </span>
+            <span
+              className="pagination"
+              onClick={handleLastPage}
+              disabled={page === pagination.length}
+            >
+              {'>>'}
+            </span>
+          </div>
+        ) : (
+          <div className="dashboard-content-footer">
+            <span className="empty-table">No data</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Account;
