@@ -121,7 +121,7 @@ function ShowInfoWarehouse(props) {
                       <strong>Họ và tên:</strong>
                     </label>
                     <p>
-                      {warehouse.warehouseLeader.name}
+                      {warehouse.warehouseLeader?.name}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -157,7 +157,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên điểm giao dịch:</strong>
                       </label>
                       <p>
-                        {item.name}
+                        {item?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -165,7 +165,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên trưởng kho:</strong>
                       </label>
                       <p>
-                        {item.pointLeader.name}
+                        {item.pointLeader?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -210,7 +210,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên người gửi: </strong>
                       </label>
                       <p>
-                        {packageItem.sender.name}
+                        {packageItem.sender?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -218,7 +218,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên người nhận: </strong>
                       </label>
                       <p>
-                        {packageItem.receiver.name}
+                        {packageItem.receiver?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -226,7 +226,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên đơn hàng: </strong>
                       </label>
                       <p>
-                        {packageItem.name}
+                        {packageItem?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -272,7 +272,7 @@ function ShowInfoWarehouse(props) {
                           <strong>Họ và tên:</strong>
                         </label>
                         <p>
-                          {item.name}
+                          {item?.name}
                         </p>
                       </div>
                       <div style={{ display: 'flex', gap: '10px' }}>
