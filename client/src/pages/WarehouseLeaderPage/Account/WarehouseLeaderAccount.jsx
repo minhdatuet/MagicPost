@@ -10,6 +10,8 @@ import {
 } from '../../../utils/table-pagination';
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import { useDispatch, useSelector } from 'react-redux';
+import CreateNewAccountModal from './Modal/CreateNewAccount/CreateNewAccount';
+import UpdateAccountModal from './Modal/UpdateAccount/UpdateAccount';
 const WarehouseLeaderAccount = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
@@ -50,7 +52,7 @@ const WarehouseLeaderAccount = () => {
             console.log(localStorage);
             const filteredUsers = data.filter(user => 
               user.accountType === "WAREHOUSE_STAFF" &&
-              user.Warehouses[0].id === localStorage.getItem('warehouseId')
+              user.Employee.Warehouse.id == localStorage.getItem('warehouseId')
             );
     
             setUsers(filteredUsers);
@@ -118,6 +120,11 @@ const WarehouseLeaderAccount = () => {
         variant="primary"
         onClick={handleOpenModal}
       />
+      <CreateNewAccountModal
+      show={isModalOpen}
+      onHide={handleCloseModal}
+      style={{ zIndex: 9999 }}
+      />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Tài khoản</h2>
@@ -137,6 +144,7 @@ const WarehouseLeaderAccount = () => {
             <th>TÊN</th>
             <th>SỐ ĐIỆN THOẠI</th>
             <th>ĐỊA CHỈ</th>
+            <th>KHO LÀM VIỆC</th>
           </thead>
           {accounts.length !== 0 ? (
             <tbody>
@@ -154,6 +162,9 @@ const WarehouseLeaderAccount = () => {
                   <td>
                     <span>{account.address}</span>
                   </td>
+                  <td>
+                  <span>{account.Employee.Warehouse.name}
+                  </span></td>
                   <td>
                     <ul class="list-inline m-0">
                       <li class="list-inline-item">
@@ -187,6 +198,9 @@ const WarehouseLeaderAccount = () => {
             </tbody>
           ) : null}
         </table>
+        <UpdateAccountModal  show={isUpdateModalOpen}
+        account = {selectedAccount}
+        onHide={handleCloseUpdateModal}/>
         {accounts.length !== 0 ? (
           <div className="dashboard-content-footer">
             <span
