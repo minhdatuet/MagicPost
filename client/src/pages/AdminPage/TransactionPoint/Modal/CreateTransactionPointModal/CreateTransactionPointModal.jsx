@@ -56,7 +56,7 @@ function CreateTransactionPointModal(props) {
       setValidated(true);
     } else {
       setFormDataSubmit({
-        name: form.elements.name.value,
+        name: form.elements?.name.value,
         address: form.elements.address.value,
         warehouse: form.elements.warehouse.value,
         transactionPointLeader: form.elements.transactionPointLeader.value,
@@ -106,7 +106,7 @@ function CreateTransactionPointModal(props) {
                 required
                 type="text"
                 placeholder="Nhập tên kho hàng"
-                value={formData.name}
+                value={formData?.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -133,8 +133,8 @@ function CreateTransactionPointModal(props) {
               <Form.Control as="select" value={formData.warehouse} onChange={(e) => setWarehouse(e.target.value)}>
                 <option>Chọn kho hàng</option>
                 {warehouses.map((item) => (
-                  <option key={item.id} value={item.name}>
-                    {item.name}
+                  <option key={item.id} value={item?.name}>
+                    {item?.name}
                   </option>
                 ))}
               </Form.Control>
@@ -145,8 +145,8 @@ function CreateTransactionPointModal(props) {
               <Form.Control as="select" value={formData.transactionPointLeader} onChange={(e) => setTransactionPointLeader(e.target.value)}>
                 <option>Chọn trưởng điểm</option>
                 {transactionPoints.map((item) => (
-                  <option key={item.id} value={item.pointLeader.name}>
-                    {item.pointLeader.name}
+                  <option key={item.id} value={item.pointLeader?.name}>
+                    {item.pointLeader?.name}
                   </option>
                 ))}
               </Form.Control>
