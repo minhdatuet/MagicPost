@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './Register.css'
-import Button from '../../conponents/Button/Button'
-import * as actions from '../../store/actions'
+import Button from '../../../conponents/Button/Button'
+import * as actions from '../../../store/actions'
 import { useDispatch } from 'react-redux'
 
 const Register = () => {

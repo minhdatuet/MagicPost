@@ -10,7 +10,6 @@ import {
 import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
-import RefundedIcon from "../../../assets/icons/refunded.svg";
 import ShippingIcon from "../../../assets/icons/shipping.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
@@ -182,11 +181,6 @@ function PointLeaderPackage() {
 
   return (
     <div className="dashboard-content">
-      {/* <HeaderRole
-        btnText={"Tạo đơn hàng cho khách"}
-        variant="primary"
-        onClick={handleOpenModal}
-      /> */}
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn hàng tại điểm giao dịch {localStorage.getItem('transactionPointId')}</h2>
