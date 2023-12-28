@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
 import RefundedIcon from "../../../assets/icons/refunded.svg";
+import ShippingIcon from "../../../assets/icons/shipping.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -205,7 +206,7 @@ function PointLeaderPackage() {
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
                         <img
-                          src={DoneIcon}
+                          src={ShippingIcon}
                           alt="paid-icon"
                           className="dashboard-content-icon"
                         />
@@ -215,14 +216,20 @@ function PointLeaderPackage() {
                           alt="canceled-icon"
                           className="dashboard-content-icon"
                         />
-                      ) : order?.Status?.nameOfStatus === "Refunded" ? (
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
                         <img
-                          src={RefundedIcon}
+                          src={DoneIcon}
                           alt="refunded-icon"
                           className="dashboard-content-icon"
                         />
                       ) : null}
-                      <span>{order?.Status?.nameOfStatus}</span>
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <span>Đang vận chuyển</span>
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <span>Hoàn trả</span>
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                        <span>Đã giao</span>
+                      ) : null}
                     </div>
                   </td>
                   <td>

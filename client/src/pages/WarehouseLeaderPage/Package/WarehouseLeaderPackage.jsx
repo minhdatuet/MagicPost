@@ -19,6 +19,7 @@ import { getAllPackages } from "../../../store/actions/package";
 import { apiGetPackagesOfWarehouse } from "../../../services/warehouse";
 // import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
 import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
+import ShippingIcon from "../../../assets/icons/shipping.svg"
 
 function WarehouseLeaderPackage() {
   const dispatch = useDispatch();
@@ -92,38 +93,38 @@ function WarehouseLeaderPackage() {
     const statusTimes = [
       [order.Status.datePointEndReceived,
       order.transactionPointEnd && order.transactionPointEnd?.name ? order.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
-  
+
       [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + order.Status.dateReceiverReturn],
-  
+
       [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + order.Status.dateSendPackage],
-  
+
       [order.Status.dateSendToPointEnd,
-      order.transactionPointEnd && order.transactionPointEnd?.name ? 
-      "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " +  order.transactionPointEnd: null],
-  
+      order.transactionPointEnd && order.transactionPointEnd?.name ?
+        "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " + order.transactionPointEnd : null],
+
       [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + order.Status.dateSendToReceiver],
-  
-      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ? 
-      "Đơn hàng rời khỏi kho " + order.warehouseStart?.name +  " lúc " + order.Status.dateSendToWarehouseEnd : null],
-  
-      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ? 
-      "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name +  " lúc " + order.Status.dateSendToWarehouseStart : null],
-  
-      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ? 
-      "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + order.Status.dateWarehouseEndReceived: null],
-  
-      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ? 
-      "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + order.Status.dateWarehouseStartReceived : null],
-  
+
+      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng rời khỏi kho " + order.warehouseStart?.name + " lúc " + order.Status.dateSendToWarehouseEnd : null],
+
+      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name + " lúc " + order.Status.dateSendToWarehouseStart : null],
+
+      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + order.Status.dateWarehouseEndReceived : null],
+
+      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + order.Status.dateWarehouseStartReceived : null],
+
       [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
     ];
-  
+
     const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
-  
+
     filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
     setStatusPackage(filteredStatusTimes);
     setShowInfoPackage(true)
-    
+
   };
 
   // Search
@@ -205,7 +206,7 @@ function WarehouseLeaderPackage() {
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
                         <img
-                          src={DoneIcon}
+                          src={ShippingIcon}
                           alt="paid-icon"
                           className="dashboard-content-icon"
                         />
@@ -215,14 +216,20 @@ function WarehouseLeaderPackage() {
                           alt="canceled-icon"
                           className="dashboard-content-icon"
                         />
-                      ) : order?.Status?.nameOfStatus === "Refunded" ? (
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
                         <img
-                          src={RefundedIcon}
+                          src={DoneIcon}
                           alt="refunded-icon"
                           className="dashboard-content-icon"
                         />
                       ) : null}
-                      <span>{order?.Status?.nameOfStatus}</span>
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <span>Đang vận chuyển</span>
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <span>Hoàn trả</span>
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                        <span>Đã giao</span>
+                      ) : null}
                     </div>
                   </td>
                   <td>
@@ -254,11 +261,11 @@ function WarehouseLeaderPackage() {
         </table>
 
         <ShowInfoPackage
-            show={showInfoPackage}
-            order = {selectedPackage}
-            statusPackage = {statusPackage}
-            onHide={handleCloseModal}
-          />
+          show={showInfoPackage}
+          order={selectedPackage}
+          statusPackage={statusPackage}
+          onHide={handleCloseModal}
+        />
 
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
