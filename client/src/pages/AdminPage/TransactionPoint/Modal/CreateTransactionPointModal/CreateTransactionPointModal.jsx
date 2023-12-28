@@ -93,7 +93,7 @@ function CreateTransactionPointModal(props) {
       //   pointLeaderId: formData.transactionPointLeader
       // }
       apiCreateNewPoint(formData)
-      // window.location.reload()
+      window.location.reload()
       // props.onHide(); 
       // setFormData({
       //   name: '',
