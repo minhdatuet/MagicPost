@@ -5,11 +5,17 @@ import CloseIcon from '@mui/icons-material/Close';
 function UpdateWarehouseModal(props) {
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
-    id: '',
     name: '',
     address: '',
-    leaderId: '',
+    warehouseLeader: '',
   });
+  const [formDataSubmit, setFormDataSubmit] = useState({
+    name: '',
+    address: '',
+    warehouseLeader: '',
+  });
+
+  const { warehouses } = props;
 
   const handleInputChange = (event) => {
     const { id, value, type, checked } = event.target;
@@ -20,42 +26,56 @@ function UpdateWarehouseModal(props) {
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault(); 
+  
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
+    } else {
+      setFormDataSubmit({
+        name: form.elements.name.value,
+        address: form.elements.address.value,
+        warehouseLeader: form.elements.warehouseLeader.value,
+      });
+      props.onHide(); 
+      setFormData({
+        name: '',
+        address: '',
+        warehouseLeader: '',
+      });
     }
+  };
 
-    setValidated(true);
-
-    if (form.checkValidity()) {
-      console.log('Form submitted:', formData);
+  console.log(formDataSubmit)
+  
+  const handleHide = () => {
+    setFormData({
+      name: '',
+      address: '',
+      warehouseLeader: '',
+    });
+    if (props.onHide) {
       props.onHide();
     }
   };
+
+  const setWarehouseLeader = (value) => {
+    setFormData(prevData => ({
+      ...prevData,
+      warehouseLeader: value
+    }));
+  }
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static">
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">Cập nhật kho hàng</Modal.Title>
-        <CloseIcon onClick={props.onHide}>Đóng</CloseIcon>
+        <CloseIcon onClick={handleHide}>Đóng</CloseIcon>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
-            <Form.Group as={Col} md="6" controlId="id">
-              <Form.Label>ID kho hàng</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Nhập ID kho hàng"
-                value={formData.id}
-                onChange={handleInputChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập tên kho hàng.
-              </Form.Control.Feedback>
-            </Form.Group>
             <Form.Group as={Col} controlId="name">
               <Form.Label>Tên kho hàng</Form.Label>
               <Form.Control
@@ -66,50 +86,48 @@ function UpdateWarehouseModal(props) {
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập ID kho hàng.
+                Vui lòng nhập tên kho hàng.
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
-          <Row style={{marginTop: '10px'}} className="mb-3">
-          <Form.Group as={Col} md="7" controlId="address">
-            <Form.Label>Địa chỉ</Form.Label>
-            <InputGroup hasValidation>
-              <Form.Control
-                type="text"
-                placeholder="Nhập địa chỉ cụ thể"
-                aria-describedby="inputGroupPrepend"
-                required
-                value={formData.address}
-                onChange={handleInputChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập ID trưởng kho hàng.
-              </Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
-          <Form.Group as={Col} md="5" controlId="leaderId">
-              <Form.Label>ID trưởng kho hàng</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="ID trưởng kho"
-                required
-                value={formData.leaderId}
-                onChange={handleInputChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập ID trưởng kho.
-              </Form.Control.Feedback>
+          <Row style={{ marginTop: '10px' }} className="mb-3">
+            <Form.Group as={Col} md="7" controlId="address">
+              <Form.Label>Tỉnh/Thành phố</Form.Label>
+              <InputGroup hasValidation>
+                <Form.Control
+                  type="text"
+                  placeholder="Nhập địa chỉ cụ thể"
+                  aria-describedby="inputGroupPrepend"
+                  required
+                  value={formData.address}
+                  onChange={handleInputChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Vui lòng nhập địa chỉ.
+                </Form.Control.Feedback>
+              </InputGroup>
+            </Form.Group>
+            <Form.Group as={Col} md="5" controlId="warehouseLeader">
+              <Form.Label>Trưởng kho hàng</Form.Label>
+              <Form.Control as="select" value={formData.warehouseLeader} onChange={(e) => setWarehouseLeader(e.target.value)}>
+                <option>Chọn trưởng kho</option>
+                {warehouses.map((item) => (
+                  <option key={item.id} value={item.warehouseLeader.name}>
+                    {item.warehouseLeader.name}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
           </Row>
-          <Row style={{marginTop: '10px'}}>
-            <div className="text-center mt-3" style={{marginTop: '50px'}}>
-            <Button variant="secondary" type="submit" id="input-submit">
-              Cập nhật
-            </Button>
-            <Button variant="secondary" onClick={props.onHide}>
+          <Row style={{ marginTop: '10px' }}>
+            <div className="text-center mt-3" style={{ marginTop: '50px' }}>
+              <Button variant="secondary" type="submit" id="input-submit">
+                Cập nhật
+              </Button>
+              <Button variant="secondary" onClick={handleHide}>
                 Đóng
               </Button>
-          </div>
+            </div>
           </Row>
         </Form>
       </Modal.Body>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Tabs, Tab, ModalBody } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
-import avt from "../../../../assets/images/avt.jpg"
-import { apiGetPackagesOfPoint } from '../../../../services/transactionpoint';
-import { apiGetEmployees } from '../../../../services/auth';
+import avt from "../../../../../assets/images/avt.jpg"
+import { apiGetPackagesOfPoint } from "../../../../../services/transactionpoint"
+import { apiGetEmployees } from  "../../../../../services/auth"
 
 
 function ShowInfoTransactionPoint(props) {
