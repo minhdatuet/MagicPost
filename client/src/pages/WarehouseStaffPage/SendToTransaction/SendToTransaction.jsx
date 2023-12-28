@@ -10,6 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
+import ShippingIcon from "../../../assets/icons/shipping.svg";
 import RefundedIcon from "../../../assets/icons/refunded.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
@@ -37,16 +38,16 @@ function WarehouseStaffSendToWarehouse() {
   }, []);
 
   useEffect(() => {
-    const filteredPackages = packages.filter((pk) => 
-    pk?.warehouseEnd?.id === parseInt(localStorage.getItem('warehouseId')) &&  pk?.Status?.nameOfStatus === "DELIVERING"
-    && pk?.Status?.dateWarehouseEndReceived !== null && pk?.Status?.dateSendToPointEnd === null
-);
+    const filteredPackages = packages.filter((pk) =>
+      pk?.warehouseEnd?.id === parseInt(localStorage.getItem('warehouseId')) && pk?.Status?.nameOfStatus === "DELIVERING"
+      && pk?.Status?.dateWarehouseEndReceived !== null && pk?.Status?.dateSendToPointEnd === null
+    );
     setFilteredPackages(filteredPackages);
   }, [packages]);
 
   useEffect(() => {
     setPagination(calculateRange(filteredPackages, 4));
-    setPage(1); 
+    setPage(1);
   }, [filteredPackages]);
 
   useEffect(() => {
@@ -133,66 +134,72 @@ function WarehouseStaffSendToWarehouse() {
           </div>
         </div>
         <table>
-        <thead>
-    <th>ID</th>
-    <th>TRẠNG THÁI</th>
-    <th>NGƯỜI GỬI</th>
-    <th>NGƯỜI NHẬN</th>
-</thead>
+          <thead>
+            <th>ID</th>
+            <th>TRẠNG THÁI</th>
+            <th>NGƯỜI GỬI</th>
+            <th>NGƯỜI NHẬN</th>
+          </thead>
 
-{filteredPackages.length !== 0 ? (
-  <tbody>
-    {orders.map((order, index) => (
-      <tr key={index}>
-        <td><span>{order.id}</span></td>
-        <td>
-          <div>
-            {order?.Status?.nameOfStatus === "DELIVERING" ? (
-              <img
-                src={DoneIcon}
-                alt="paid-icon"
-                className="dashboard-content-icon"
-              />
-            ) : order?.Status?.nameOfStatus === "FAILED" ? (
-              <img
-                src={CancelIcon}
-                alt="canceled-icon"
-                className="dashboard-content-icon"
-              />
-            ) : order?.Status?.nameOfStatus === "Refunded" ? (
-              <img
-                src={RefundedIcon}
-                alt="refunded-icon"
-                className="dashboard-content-icon"
-              />
-            ) : null}
-            <span>{order?.Status?.nameOfStatus}</span>
-          </div>
-        </td>
-        <td>
-        <span>{order.sender.name}</span>
-      </td>
-      <td>
-        <span>{order.receiver.name}</span>
-      </td>
-      <li class="list-inline-item">
-      <button
-        class="btn btn-secondary btn-sm rounded-0"
-        type="button"
-        data-toggle="tooltip"
-        data-placement="top"
-        title="Edit"
-        onClick={() => handleOpenUpdateModal(order)}
-      >
-        <i class="fa fa-edit"></i>
-      </button>
-    </li>
-      </tr>
-    ))}
-  </tbody>
+          {filteredPackages.length !== 0 ? (
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={index}>
+                  <td><span>{order.id}</span></td>
+                  <td>
+                    <div>
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <img
+                          src={ShippingIcon}
+                          alt="paid-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <img
+                          src={CancelIcon}
+                          alt="canceled-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                        <img
+                          src={DoneIcon}
+                          alt="refunded-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : null}
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <span>Đang vận chuyển</span>
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <span>Hoàn trả</span>
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                        <span>Đã giao</span>
+                      ) : null}
+                    </div>
+                  </td>
+                  <td>
+                    <span>{order.sender.name}</span>
+                  </td>
+                  <td>
+                    <span>{order.receiver.name}</span>
+                  </td>
+                  <li class="list-inline-item">
+                    <button
+                      class="btn btn-secondary btn-sm rounded-0"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Edit"
+                      onClick={() => handleOpenUpdateModal(order)}
+                    >
+                      <i class="fa fa-edit"></i>
+                    </button>
+                  </li>
+                </tr>
+              ))}
+            </tbody>
           ) : null}
         </table>
-        <UpdateSendToTransaction showModal={isUpdateModalOpen} handleClose={handleCloseUpdateModal} selectedPackage={selectedPackage}/> 
+        <UpdateSendToTransaction showModal={isUpdateModalOpen} handleClose={handleCloseUpdateModal} selectedPackage={selectedPackage} />
 
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">

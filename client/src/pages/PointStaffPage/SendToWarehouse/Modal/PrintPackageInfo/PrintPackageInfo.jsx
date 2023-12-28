@@ -12,6 +12,8 @@ function PrintPackageInfo({ showModal, handleClose, selectedPackage }) {
     onAfterPrint: () => alert('Đã lưu giấy biên nhận chuyển phát'),
   });
 
+  console.log(selectedPackage);
+
   return (
     <Modal
       show={showModal}
