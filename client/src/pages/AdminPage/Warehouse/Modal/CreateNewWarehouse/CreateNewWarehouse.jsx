@@ -92,7 +92,7 @@ function CreateNewWarehouseModal(props) {
       setValidated(true);
     } else {
       setFormData({
-        name: form.elements.name.value,
+        name: form.elements?.name.value,
         address: form.elements.address.value,
         warehouseLeader: form.elements.warehouseLeader.value,
       });
@@ -131,7 +131,7 @@ function CreateNewWarehouseModal(props) {
                 required
                 type="text"
                 placeholder="Nhập tên kho hàng"
-                value={formData.name}
+                value={formData?.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -158,8 +158,8 @@ function CreateNewWarehouseModal(props) {
               <Form.Control as="select" value={formData.warehouseLeader} onChange={(e) => setWarehouseLeader(e.target.value)}>
                 <option>Chọn trưởng kho</option>
                 {warehouses.map((item) => (
-                  <option key={item.id} value={item.warehouseLeader.name}>
-                    {item.warehouseLeader.name}
+                  <option key={item.id} value={item.warehouseLeader?.name}>
+                    {item.warehouseLeader?.name}
                   </option>
                 ))}
                 <option>lê Minh Đạt</option>

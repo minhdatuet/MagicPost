@@ -14,8 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Account = () => {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.user);
-  const [accounts, setAccounts] = useState(users);
+  const [users, setUsers] = useState([]);
+  const [accounts, setAccounts] = useState([]);
   const [search, setSearch] = useState('');
   const [pagination, setPagination] = useState([]);
   const [page, setPage] = useState(1);
@@ -30,7 +30,25 @@ const Account = () => {
   };
 
   useEffect(() => {
-    dispatch(apiGetAllUsers());
+    const fetchUsers = async () => {
+      // const warehouseId = localStorage.getItem('warehouseId')
+      try {
+        const response = await apiGetAllUsers()
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setUsers(data)
+        } else {
+          console.log(msg)
+        }
+
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+    fetchUsers();
   }, []);
 
   useEffect(() => {
