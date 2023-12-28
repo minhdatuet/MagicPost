@@ -5,23 +5,25 @@ import { apiGetPublicProvinces, apiGetPublicDistrict } from '../../../../../serv
 import './CreateNewWarehouse.scss'
 import { apiLeader } from '../../../../../services/auth';
 import { apiGetLeaders } from '../../../../../services/user';
+import { apiCreateNewWarehouse } from '../../../../../services/warehouse';
 function CreateNewWarehouseModal(props) {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [province, setProvince] = useState('');
   const [district, setDistrict] = useState('');
+  const [leaders, setLeaders] = useState([]);
   const [reset, setReset] = useState(false);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     address: '',
-    warehouseLeader: '',
+    leaderId: null,
   });
 
   const [formDataSubmit, setFormDataSubmit] = useState({
     name: '',
     address: '',
-    warehouseLeader: '',
+    leaderId: '',
   });
 
   const { warehouses } = props;
@@ -42,7 +44,7 @@ function CreateNewWarehouseModal(props) {
     setFormData({
       name: '',
       address: '',
-      warehouseLeader: '',
+      leaderId: '',
     });
     if (props.onHide) {
       props.onHide();
@@ -52,11 +54,20 @@ function CreateNewWarehouseModal(props) {
 
   useEffect(() => {
     const fetchWarehouseLeader = async () => {
+      try {
       const response = await apiGetLeaders('warehouse')
-      if (response.status === 200) {
-        console.log(response.data.response)
-      } else {
-        console.log(response.data.msg)
+      const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setLeaders(data)
+        } else {
+          console.log(msg)
+        }
+
+      } catch (error) {
+        console.error('Error fetching leaders:', error);
       }
     };
     fetchWarehouseLeader();
@@ -94,13 +105,18 @@ function CreateNewWarehouseModal(props) {
       setFormData({
         name: form.elements?.name.value,
         address: form.elements.address.value,
-        warehouseLeader: form.elements.warehouseLeader.value,
+        leaderId: form.elements.leaderId.value,
       });
+
+      console.log(formData)
+      apiCreateNewWarehouse(formData)
+      window.location.reload
+
       props.onHide(); 
       setFormData({
         name: '',
         address: '',
-        warehouseLeader: '',
+        leaderId: '',
       });
     }
   };
@@ -108,10 +124,10 @@ function CreateNewWarehouseModal(props) {
   console.log(formDataSubmit)
 
 
-  const setWarehouseLeader = (value) => {
+  const setleaderId = (value) => {
     setFormData(prevData => ({
       ...prevData,
-      warehouseLeader: value
+      leaderId: value
     }));
   }
 
@@ -152,13 +168,13 @@ function CreateNewWarehouseModal(props) {
                 Vui lòng nhập tên thành phố.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="5" controlId="warehouseLeader">
+            <Form.Group as={Col} md="5" controlId="leaderId">
               <Form.Label>Trưởng kho hàng</Form.Label>
-              <Form.Control as="select" value={formData.warehouseLeader} onChange={(e) => setWarehouseLeader(e.target.value)}>
+              <Form.Control as="select" value={formData.leaderId} onChange={(e) => setleaderId(e.target.value)}>
                 <option>Chọn trưởng kho</option>
-                {warehouses.map((item) => (
-                  <option key={item.id} value={item.warehouseLeader?.name}>
-                    {item.warehouseLeader?.name}
+                {leaders.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item?.name}
                   </option>
                 ))}
               </Form.Control>
