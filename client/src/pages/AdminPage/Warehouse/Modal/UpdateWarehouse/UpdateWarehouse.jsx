@@ -26,6 +26,8 @@ function UpdateWarehouseModal(props) {
     }));
   };
 
+  
+
   const handleSubmit = (event) => {
     event.preventDefault(); 
   
@@ -35,7 +37,7 @@ function UpdateWarehouseModal(props) {
       setValidated(true);
     } else {
       setFormDataSubmit({
-        name: form.elements.name.value,
+        name: form.elements?.name.value,
         address: form.elements.address.value,
         warehouseLeader: form.elements.warehouseLeader.value,
       });

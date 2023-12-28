@@ -198,32 +198,32 @@ function PointLeaderPackage() {
                   <td><span>{order.id}</span></td>
                   <td>
                     <div>
-                    {order?.Status?.nameOfStatus === "DELIVERING" ? (
-                      <img
-                        src={ShippingIcon}
-                        alt="paid-icon"
-                        className="dashboard-content-icon"
-                      />
-                    ) : order?.Status?.nameOfStatus === "FAILED" ? (
-                      <img
-                        src={CancelIcon}
-                        alt="canceled-icon"
-                        className="dashboard-content-icon"
-                      />
-                    ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
-                      <img
-                        src={DoneIcon}
-                        alt="refunded-icon"
-                        className="dashboard-content-icon"
-                      />
-                    ) : null}
-                    {order?.Status?.nameOfStatus === "DELIVERING" ? (
-                      <span>Đang vận chuyển</span>
-                    ) : order?.Status?.nameOfStatus === "FAILED" ? (
-                      <span>Hoàn trả</span>
-                    ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
-                      <span>Đã giao</span>
-                    ) : null}
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <img
+                          src={ShippingIcon}
+                          alt="paid-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <img
+                          src={CancelIcon}
+                          alt="canceled-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                        <img
+                          src={DoneIcon}
+                          alt="refunded-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : null}
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <span>Đang vận chuyển</span>
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <span>Hoàn trả</span>
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                        <span>Đã giao</span>
+                      ) : null}
                     </div>
                   </td>
                   <td>

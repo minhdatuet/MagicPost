@@ -118,7 +118,7 @@ function ShowInfoTransactionPoint(props) {
                       <strong>Họ và tên:</strong>
                     </label>
                     <p>
-                      {transactionPoint.pointLeader.name}
+                      {transactionPoint.pointLeader?.name}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -162,7 +162,7 @@ function ShowInfoTransactionPoint(props) {
                         <strong>Tên người gửi: </strong>
                       </label>
                       <p>
-                        {packageItem.sender.name}
+                        {packageItem.sender?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -170,7 +170,7 @@ function ShowInfoTransactionPoint(props) {
                         <strong>Tên người nhận: </strong>
                       </label>
                       <p>
-                        {packageItem.receiver.name}
+                        {packageItem.receiver?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -178,7 +178,7 @@ function ShowInfoTransactionPoint(props) {
                         <strong>Tên đơn hàng: </strong>
                       </label>
                       <p>
-                        {packageItem.name}
+                        {packageItem?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -194,7 +194,7 @@ function ShowInfoTransactionPoint(props) {
                         <strong>Trạng thái:</strong>
                       </label>
                       <p>
-                        {packageItem.Status.nameOfStatus}
+                        {packageItem.Status?.nameOfStatus}
                       </p>
                     </div>
                     <hr></hr>
@@ -224,7 +224,7 @@ function ShowInfoTransactionPoint(props) {
                           <strong>Họ và tên:</strong>
                         </label>
                         <p>
-                          {item.name}
+                          {item?.name}
                         </p>
                       </div>
                       <div style={{ display: 'flex', gap: '10px' }}>
