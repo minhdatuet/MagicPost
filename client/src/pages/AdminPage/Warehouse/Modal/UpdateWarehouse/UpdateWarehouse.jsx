@@ -1,16 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form, InputGroup, Row, Col } from 'react-bootstrap';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { useState, useEffect } from "react";
+import { Modal, Button, Form, InputGroup, Row, Col } from "react-bootstrap";
+import CloseIcon from "@mui/icons-material/Close";
+import { useSelector } from "react-redux";
 
 function UpdateWarehouseModal(props) {
+  const { warehouses } = useSelector((state) => state.warehouse);
   const [validated, setValidated] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    name: "",
+    address: "",
+    warehouseLeader: "",
+    warehouseLeaderId: "",
+  });
+  const { selectWarehouse } = props;
+  console.log(selectWarehouse);
   const [reset, setReset] = useState(false);
-
-  const { warehouses } = props;
-  const { warehouse } = props;
-
-  const [selectedLeader, setSelectedLeader] = useState('');
+  useEffect(() => {
+      setFormData({
+        ...selectWarehouse,
+        // name: selectWarehouse.name,
+        // address: selectWarehouse.address,
+        // selectWarehouseLeader: selectWarehouse.warehouseLeader.name,
+        // selectWarehouseLeaderId: selectWarehouse.warehouseLeader.id,
+      });
+    
+  }, [selectWarehouse])
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -19,19 +33,12 @@ function UpdateWarehouseModal(props) {
       [id]: value,
     });
   };
-
-  useEffect(() => {
-    setFormData({
-      ...warehouse
-    });
-
-  }, [warehouse])
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-      return
+      return;
     }
     if (form.checkValidity()) {
       // apiUpdateWarehouseById(formData);
@@ -47,37 +54,25 @@ function UpdateWarehouseModal(props) {
     setReset(false);
     setValidated(false);
     setFormData({
-      ...warehouse
+      ...selectWarehouse,
+      warehouseLeader: "",
+      warehouseLeaderId: "",
     });
 
     props.onHide();
   };
 
-  useEffect(() => {
-    setFormData({
-      ...warehouse
-    });
-
-  }, [warehouse])
-
-  const setWarehouseLeader = (value) => {
-    const selectedName = warehouses.find((item) => {
-      return item.warehouseLeader.id.toString() === value;
-    })?.warehouseLeader.name || '';
-
-    setFormData(prevData => ({
-      ...prevData,
-      warehouseLeader: selectedName,
-      warehouseLeaderId: value
-    }));
-  }
-
-  console.log(formData)
-
   return (
-    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static">
+    <Modal
+      {...props}
+      aria-labelledby="contained-modal-title-vcenter"
+      className="custom-modal"
+      backdrop="static"
+    >
       <Modal.Header>
-        <Modal.Title id="contained-modal-title-vcenter">Cập nhật kho hàng</Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Cập nhật kho hàng
+        </Modal.Title>
         <CloseIcon onClick={handleHide}>Đóng</CloseIcon>
       </Modal.Header>
       <Modal.Body>
@@ -88,8 +83,8 @@ function UpdateWarehouseModal(props) {
               <Form.Control
                 required
                 type="text"
-                placeholder="Nhập tên kho hàng"
-                value={formData?.name}
+                // defaultValue={warehouse.name}
+                value={formData.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -97,7 +92,7 @@ function UpdateWarehouseModal(props) {
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
-          <Row style={{ marginTop: '10px' }} className="mb-3">
+          <Row style={{ marginTop: "10px" }} className="mb-3">
             <Form.Group as={Col} md="7" controlId="address">
               <Form.Label>Tỉnh/Thành phố</Form.Label>
               <InputGroup hasValidation>
@@ -106,6 +101,7 @@ function UpdateWarehouseModal(props) {
                   placeholder="Nhập địa chỉ cụ thể"
                   aria-describedby="inputGroupPrepend"
                   required
+                  // defaultValue={warehouse.address}
                   value={formData.address}
                   onChange={handleInputChange}
                 />
@@ -116,19 +112,28 @@ function UpdateWarehouseModal(props) {
             </Form.Group>
             <Form.Group as={Col} md="5" controlId="warehouseLeader">
               <Form.Label>Trưởng kho hàng</Form.Label>
-              <Form.Control as="select" value={formData.warehouseLeader} onChange={(e) => setWarehouseLeader(e.target.value)}>
-                <option>Chọn trưởng kho</option>
+              <Form.Control
+                as="select"
+                value={formData.warehouseLeaderId}
+                onChange={(e) => setFormData({ ...formData, warehouseLeaderId: e.target.value })}
+              >
+                <option value="">Chọn trưởng kho</option>
                 {warehouses.map((item) => (
-                  <option key={item.id} value={item.warehouseLeader.id}>
-                    {item.warehouseLeader.name}
+                  <option key={item.id} value={item.warehouseLeader?.id}>
+                    {item.warehouseLeader?.name}
                   </option>
                 ))}
               </Form.Control>
             </Form.Group>
           </Row>
-          <Row style={{ marginTop: '10px' }}>
-            <div className="text-center mt-3" style={{ marginTop: '50px' }}>
-              <Button variant="secondary" type="submit" id="input-submit" onClick={handleSubmit}>
+          <Row style={{ marginTop: "10px" }}>
+            <div className="text-center mt-3" style={{ marginTop: "50px" }}>
+              <Button
+                variant="secondary"
+                type="submit"
+                id="input-submit"
+                onClick={handleSubmit}
+              >
                 Cập nhật
               </Button>
               <Button variant="secondary" onClick={handleHide}>

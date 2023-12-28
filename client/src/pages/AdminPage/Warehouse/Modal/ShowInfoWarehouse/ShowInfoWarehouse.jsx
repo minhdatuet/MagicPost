@@ -113,7 +113,7 @@ function ShowInfoWarehouse(props) {
                       <strong>Mã nhân viên:</strong>
                     </label>
                     <p>
-                      {warehouse.warehouseLeader.id}
+                      {warehouse.warehouseLeader?.id}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -129,7 +129,7 @@ function ShowInfoWarehouse(props) {
                       <strong>Số điện thoại:</strong>
                     </label>
                     <p>
-                      {warehouse.warehouseLeader.phone}
+                      {warehouse.warehouseLeader?.phone}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -137,7 +137,7 @@ function ShowInfoWarehouse(props) {
                       <strong>Địa chỉ:</strong>
                     </label>
                     <p>
-                      {warehouse.warehouseLeader.address}
+                      {warehouse.warehouseLeader?.address}
                     </p>
                   </div>
                 </div>
@@ -173,7 +173,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Số điện thoại trưởng kho:</strong>
                       </label>
                       <p>
-                        {item.pointLeader.phone}
+                        {item.pointLeader?.phone}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -242,7 +242,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Trạng thái:</strong>
                       </label>
                       <p>
-                        {packageItem.Status.nameOfStatus}
+                        {packageItem.Status?.nameOfStatus}
                       </p>
                     </div>
                     <hr></hr>

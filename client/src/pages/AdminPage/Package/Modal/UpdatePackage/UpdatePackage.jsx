@@ -19,7 +19,7 @@ function UpdatePackageModal(props) {
 
   // console.log(props)
   const { order } = props
-  // console.log(order)
+  console.log(order)
   const [price, setPrice] = useState('')
   const [formData, setFormData] = useState({})
   useEffect(() => {

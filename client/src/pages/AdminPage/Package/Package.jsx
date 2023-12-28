@@ -19,7 +19,7 @@ import { apiDeletePackage, apiGetAllPackages } from "../../../services/package";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
 import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
-import moment from 'moment';
+// import moment from 'moment';
 import {
   getAllTransactionPoints,
   getAllWarehouses,

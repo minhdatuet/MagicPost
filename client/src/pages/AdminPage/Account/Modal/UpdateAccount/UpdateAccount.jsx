@@ -1,57 +1,48 @@
 import React, { useEffect, useState } from "react";
-import {
-  Modal,
-  Button,
-  Form,
-  InputGroup,
-  Row,
-  Col,
-  FormGroup,
-} from "react-bootstrap";
+import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllWarehouses,
-  getAllTransactionPoints,
-} from "../../../../../store/actions";
+import { getAllWarehouses, getAllTransactionPoints } from "../../../../../store/actions";
 
 function UpdateAccountModal(props) {
   const dispatch = useDispatch();
   const [validated, setValidated] = useState(false);
   const { warehouses } = useSelector((state) => state.warehouse);
   const { transactionPoints } = useSelector((state) => state.transactionPoint);
+
   useEffect(() => {
     dispatch(getAllWarehouses());
   }, []);
+
   useEffect(() => {
     dispatch(getAllTransactionPoints());
   }, []);
+
+  const { account } = props;
   const [formData, setFormData] = useState({
     userName: "",
-    userPhone: "",
+    phone: "",
     role: "",
     workLocation: "",
   });
-  const { account } = props;
-  console.log(account);
+
   useEffect(() => {
-    // console.log('YES')
     setFormData({
       ...account,
-    //   userName: account.name,
-    // userPhone: account.phone,
-    // role: account.accountType,
-    // workLocation: account.Warehouses[0].name !== null ? account.Warehouses[0].name : account.TransactionPoints[0].name !== null ? account.TransactionPoints.name : "",
-    userName: "",
-    userPhone: "",
-    role: "",
-    workLocation: "",
+      userName: account.name || "", // Set the initial value for userName to account.name or an empty string
+      phone: account.phone || "", // Set the initial value for phone to account.phone or an empty string
+      role: account.accountType || "", // Set the initial value for role to account.accountType or an empty string
+      workLocation:
+        account.Warehouses[0]?.name || account.TransactionPoints[0]?.name || "", // Set the initial value for workLocation based on your conditions
     });
   }, [account]);
+
   const handleInputChange = (event) => {
     const { id, value } = event.target;
+
     setFormData((prevData) => ({
       ...prevData,
+      [id]: value,
     }));
   };
 
@@ -66,7 +57,7 @@ function UpdateAccountModal(props) {
       props.onHide();
       setFormData({
         userName: "",
-        userPhone: "",
+        phone: "",
         role: "",
         workLocation: "",
       });
@@ -77,20 +68,13 @@ function UpdateAccountModal(props) {
     setFormData({
       ...account,
       userName: "",
-      userPhone: "",
+      phone: "",
       role: "",
       workLocation: "",
     });
     if (props.onHide) {
       props.onHide();
     }
-  };
-
-  const setAccountLeader = (value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      AccountLeader: value,
-    }));
   };
 
   return (
@@ -107,38 +91,42 @@ function UpdateAccountModal(props) {
         <CloseIcon onClick={handleHide}>Đóng</CloseIcon>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
             <Form.Group as={Col} md="6" controlId="userName">
               <Form.Label>Tên tài khoản</Form.Label>
               <Form.Control
-                // required
                 type="text"
-                defaultValue={formData?.name}
-                value={formData.name}
+                value={formData.userName}
                 onChange={handleInputChange}
               />
             </Form.Group>
-            <Form.Group as={Col} md="6" controlId="userPhone">
+            <Form.Group as={Col} md="6" controlId="phone">
               <Form.Label>Số điện thoại</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={formData?.userPhone}
-                value={formData.userPhone}
+                value={formData.phone}
                 onChange={handleInputChange}
               />
             </Form.Group>
           </Row>
-          <Row style={{ marginTop: "10px" }} className="mb-3">
+          <Row>
+            <Form.Group as={Col} controlId="address">
+              <Form.Label>Địa chỉ</Form.Label>
+              <Form.Control
+                type="text"
+                value={formData.address}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+          </Row>
+          <Row style={{ marginTop: "10px" }}>
             <Form.Group as={Col} md="6" controlId="role">
               <Form.Label>Chọn chức vụ</Form.Label>
               <Form.Control
                 as="select"
-                defaultValue={formData?.role}
                 value={formData.role}
-                onChange={(e) =>
-                  setFormData({ ...formData, role: e.target.value })
-                }
+                onChange={handleInputChange}
               >
                 <option value="POINT_LEADER">Trưởng điểm</option>
                 <option value="WAREHOUSE_LEADER">Trưởng kho</option>
@@ -148,11 +136,8 @@ function UpdateAccountModal(props) {
               <Form.Label>Chọn chức vụ</Form.Label>
               <Form.Control
                 as="select"
-                defaultValue={formData?.workLocation}
                 value={formData.workLocation}
-                onChange={(e) =>
-                  setFormData({ ...formData, workLocation: e.target.value })
-                }
+                onChange={handleInputChange}
               >
                 <option value="">Chọn vị trí làm việc</option>
                 {formData.role === "WAREHOUSE_LEADER"
