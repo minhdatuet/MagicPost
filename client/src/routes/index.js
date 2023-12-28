@@ -22,7 +22,7 @@ import warehouseStaffSendToTransaction from "../pages/WarehouseStaffPage/SendToT
 import warehouseStaffReceiveFromTransaction from "../pages/WarehouseStaffPage/ReceiveFromTransaction/ReceiveFromTransaction";
 const publicRoutes = [
     {
-      path: 'pub/login',
+      path: 'login',
       page: Login
     },
     {
