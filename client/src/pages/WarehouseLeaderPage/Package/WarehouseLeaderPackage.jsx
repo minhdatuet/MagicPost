@@ -20,6 +20,7 @@ import { apiGetPackagesOfWarehouse } from "../../../services/warehouse";
 // import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
 import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
 import ShippingIcon from "../../../assets/icons/shipping.svg"
+import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
 
 function WarehouseLeaderPackage() {
   const dispatch = useDispatch();
@@ -183,11 +184,11 @@ function WarehouseLeaderPackage() {
 
   return (
     <div className="dashboard-content">
-      {/* <HeaderRole
-        btnText={"Tạo đơn hàng cho khách"}
-        variant="primary"
-        onClick={handleOpenModal}
-      /> */}
+    <HeaderRoleNoButton
+    btnText={"Thêm đơn hàng"}
+    variant="primary"
+    onClick={handleOpenModal}
+  />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn hàng tại kho</h2>

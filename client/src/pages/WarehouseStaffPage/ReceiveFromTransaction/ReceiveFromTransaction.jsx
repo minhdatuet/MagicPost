@@ -18,6 +18,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
 import UpdateReceiveFromTransaction from "./Modal/UpdateReceiveFromTransaction/UpdateReceiveFromTransaction";
+import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
 
 function PointStaffReceiveFromWarehouse() {
   const dispatch = useDispatch();
@@ -114,11 +115,11 @@ function PointStaffReceiveFromWarehouse() {
 
   return (
     <div className="dashboard-content">
-      {/* <HeaderRole
-        btnText={"Tạo đơn hàng cho khách"}
-        variant="primary"
-        onClick={handleOpenModal}
-      /> */}
+    <HeaderRoleNoButton
+    btnText={"Thêm đơn hàng"}
+    variant="primary"
+    onClick={handleOpenModal}
+  />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn đang chờ nhận từ điểm giao dịch</h2>

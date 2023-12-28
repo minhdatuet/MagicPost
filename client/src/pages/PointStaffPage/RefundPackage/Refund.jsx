@@ -17,6 +17,7 @@ import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
+import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
 function Refund() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function Refund() {
 
   useEffect(() => {
     const filteredPackages = packages.filter((pk) =>
-      pk.transactionPointEnd.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "FAILED"
+      pk.transactionPointEnd?.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "FAILED"
       && pk?.Status?.dateReceiverReturn !== null
     );
     setFilteredPackages(filteredPackages);
@@ -112,11 +113,11 @@ function Refund() {
 
   return (
     <div className="dashboard-content">
-      {/* <HeaderRole
-        btnText={"Tạo đơn hàng cho khách"}
-        variant="primary"
-        onClick={handleOpenModal}
-      /> */}
+    <HeaderRoleNoButton
+    btnText={"Thêm đơn hàng"}
+    variant="primary"
+    onClick={handleOpenModal}
+  />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn hàng người nhận hoàn trả</h2>
@@ -143,7 +144,7 @@ function Refund() {
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td><span>{order.id}</span></td>
+                  <td><span>{order?.id}</span></td>
                   <td>
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
