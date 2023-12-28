@@ -176,7 +176,7 @@ const Account = () => {
                           <i class="fa fa-edit"></i>
                         </button>
                       </li>
-                      <li class="list-inline-item">
+                      {/* <li class="list-inline-item">
                         <button
                           class="btn btn-secondary btn-sm rounded-0"
                           type="button"
@@ -187,7 +187,7 @@ const Account = () => {
                         >
                           <i class="fa fa-trash"></i>
                         </button>
-                      </li>
+                      </li> */}
                     </ul>
                   </td>
                 </tr>

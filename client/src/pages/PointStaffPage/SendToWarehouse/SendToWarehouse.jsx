@@ -37,16 +37,16 @@ function PointStaffSendToWarehouse() {
   }, []);
 
   useEffect(() => {
-    const filteredPackages = packages.filter((pk) => 
-    pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) &&  pk?.Status?.nameOfStatus === "DELIVERING"
-    && pk?.Status?.dateSendToWarehouseStart === null
-);
+    const filteredPackages = packages.filter((pk) =>
+      pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "DELIVERING"
+      && pk?.Status?.dateSendToWarehouseStart === null
+    );
     setFilteredPackages(filteredPackages);
   }, [packages]);
 
   useEffect(() => {
     setPagination(calculateRange(filteredPackages, 4));
-    setPage(1); 
+    setPage(1);
   }, [filteredPackages]);
 
   useEffect(() => {
@@ -126,11 +126,11 @@ function PointStaffSendToWarehouse() {
         onClick={handleOpenModal}
       />
       <CreateNewPackageModal
-      // dialogClassName="modal-dialog-custom"
-      show={isModalOpen}
-      onHide={handleCloseModal}
-      style={{ zIndex: 9999 }} // Add this line
-    />
+        // dialogClassName="modal-dialog-custom"
+        show={isModalOpen}
+        onHide={handleCloseModal}
+        style={{ zIndex: 9999 }} // Add this line
+      />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn đang chờ gửi đến kho</h2>
@@ -145,91 +145,91 @@ function PointStaffSendToWarehouse() {
           </div>
         </div>
         <table>
-        <thead>
-    <th>ID</th>
-    <th>TRẠNG THÁI</th>
-    <th>NGƯỜI GỬI</th>
-    <th>NGƯỜI NHẬN</th>
-    <th>KHO GỬI TỚI</th>
-</thead>
+          <thead>
+            <th>ID</th>
+            <th>TRẠNG THÁI</th>
+            <th>NGƯỜI GỬI</th>
+            <th>NGƯỜI NHẬN</th>
+            <th>KHO GỬI TỚI</th>
+          </thead>
 
-{filteredPackages.length !== 0 ? (
-  <tbody>
-    {orders.map((order, index) => (
-      <tr key={index}>
-        <td><span>{order.id}</span></td>
-        <td>
-          <div>
-          {order?.Status?.nameOfStatus === "DELIVERING" ? (
-            <img
-              src={ShippingIcon}
-              alt="paid-icon"
-              className="dashboard-content-icon"
-            />
-          ) : order?.Status?.nameOfStatus === "FAILED" ? (
-            <img
-              src={CancelIcon}
-              alt="canceled-icon"
-              className="dashboard-content-icon"
-            />
-          ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
-            <img
-              src={DoneIcon}
-              alt="refunded-icon"
-              className="dashboard-content-icon"
-            />
-          ) : null}
-          {order?.Status?.nameOfStatus === "DELIVERING" ? (
-            <span>Đang vận chuyển</span>
-          ) : order?.Status?.nameOfStatus === "FAILED" ? (
-            <span>Hoàn trả</span>
-          ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
-            <span>Đã giao</span>
-          ) : null}
-          </div>
-        </td>
-        <td>
-        <span>{order.sender.name}</span>
-      </td>
-      <td>
-        <span>{order.receiver.name}</span>
-      </td>
-      <td>
-        <span>{order.warehouseStart.name}</span>
-      </td>
-      <li class="list-inline-item">
-      <button
-        class="btn btn-secondary btn-sm rounded-0"
-        type="button"
-        data-toggle="tooltip"
-        data-placement="top"
-        title="Edit"
-        onClick={() => handleOpenUpdateModal(order)}
-      >
-        <i class="fa fa-edit"></i>
-      </button>
-    </li>
-    <li className="list-inline-item">
-    <button
-      className="btn btn-secondary btn-sm rounded-0"
-      type="button"
-      data-toggle="tooltip"
-      data-placement="top"
-      title="Print"
-      onClick={() => handleOpenPrintModal(order)}
-    >
-      <i className="fa fa-print"></i>
-    </button>
-  </li>
-      </tr>
-    ))}
-  </tbody>
+          {filteredPackages.length !== 0 ? (
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={index}>
+                  <td><span>{order.id}</span></td>
+                  <td>
+                    <div>
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <img
+                          src={ShippingIcon}
+                          alt="paid-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <img
+                          src={CancelIcon}
+                          alt="canceled-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                        <img
+                          src={DoneIcon}
+                          alt="refunded-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : null}
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <span>Đang vận chuyển</span>
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <span>Hoàn trả</span>
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                        <span>Đã giao</span>
+                      ) : null}
+                    </div>
+                  </td>
+                  <td>
+                    <span>{order.sender.name}</span>
+                  </td>
+                  <td>
+                    <span>{order.receiver.name}</span>
+                  </td>
+                  <td>
+                    <span>{order.warehouseStart.name}</span>
+                  </td>
+                  <li class="list-inline-item">
+                    <button
+                      class="btn btn-secondary btn-sm rounded-0"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Edit"
+                      onClick={() => handleOpenUpdateModal(order)}
+                    >
+                      <i class="fa fa-edit"></i>
+                    </button>
+                  </li>
+                  <li className="list-inline-item">
+                    <button
+                      className="btn btn-secondary btn-sm rounded-0"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Print"
+                      onClick={() => handleOpenPrintModal(order)}
+                    >
+                      <i className="fa fa-print"></i>
+                    </button>
+                  </li>
+                </tr>
+              ))}
+            </tbody>
           ) : null}
         </table>
-        <UpdateSendToWarehouse showModal={isUpdateModalOpen} handleClose={handleCloseUpdateModal} selectedPackage={selectedPackage}/>
+        <UpdateSendToWarehouse showModal={isUpdateModalOpen} handleClose={handleCloseUpdateModal} selectedPackage={selectedPackage} />
         <PrintPackageInfo
-        showModal={isPrintOpen} handleClose={handleClosePrintModal} selectedPackage={selectedPackage}
-      />
+          showModal={isPrintOpen} handleClose={handleClosePrintModal} selectedPackage={selectedPackage}
+        />
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
             <span
