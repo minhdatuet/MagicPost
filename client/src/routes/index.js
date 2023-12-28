@@ -2,7 +2,7 @@ import Account from "../pages/AdminPage/Account/Account";
 import {Home} from "../pages/PublicPage/Home/Home";
 import Login from "../pages/PublicPage/Login/Login";
 import Package from "../pages/AdminPage/Package/Package";
-import Register from "../pages/PublicPage/Register/Register";
+import Register from "../pages/Register/Register";
 import TransactionPoint from "../pages/AdminPage/TransactionPoint/TransactionPoint";
 import Warehouse from "../pages/AdminPage/Warehouse/Warehouse";
 import Construction from "../pages/PublicPage/Construction/Construction"
