@@ -82,7 +82,7 @@ function UpdateWarehouseModal(props) {
                 required
                 type="text"
                 placeholder="Nhập tên kho hàng"
-                value={formData.name}
+                value={formData?.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">

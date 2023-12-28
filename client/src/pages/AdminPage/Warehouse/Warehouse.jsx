@@ -75,7 +75,7 @@ function Warehouse() {
         setSearch(event.target.value);
         if (event.target.value !== '') {
             let searchResults = warehouses.filter((item) =>
-                item.name.toLowerCase().includes(search.toLowerCase()) ||
+                item?.name.toLowerCase().includes(search.toLowerCase()) ||
                 item.email.toLowerCase().includes(search.toLowerCase()) ||
                 item.leader.toLowerCase().includes(search.toLowerCase())
             );
@@ -179,9 +179,9 @@ function Warehouse() {
                             {warehouses.map((warehouse, index) => (
                                 <tr key={index}>
                                     <td><span>{warehouse.id}</span></td>
-                                    <td><span>{warehouse.name}</span></td>
+                                    <td><span>{warehouse?.name}</span></td>
                                     <td><span>{warehouse.address}</span></td>
-                                    <td><span>{warehouse.warehouseLeader.name}</span></td>
+                                    <td><span>{warehouse.warehouseLeader?.name}</span></td>
                                     <td>
                                         <ul className="list-inline m-0">
                                             <li className="list-inline-item">

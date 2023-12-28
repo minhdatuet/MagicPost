@@ -16,10 +16,23 @@ export const apiGetAllTransactionPoints = () =>  new Promise(async(resolve, reje
 export const apiCreateNewPoint = (payload) =>  new Promise(async(resolve, reject) => {
     try {
         const response = await axiosConfig({
-            method: 'get',
+            method: 'post',
             url: '/api/v1/transactionpoint/create',
-            response
+            data: payload
         })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
+
+export const apiGetPackagesOfPoint = (id) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: `/api/v1/transactionpoint/get/packages/${id}`
+        })
+        console.log(response)
         resolve(response)
     } catch (error) {
         reject(error)

@@ -25,8 +25,8 @@ function HeaderRole ({ btnText, onClick }) {
         localStorage.setItem('transactionPointId', '')
         localStorage.setItem('warehouseId', '')
         
-        // navigate('/');
-        // window.location.reload();
+        navigate('/');
+        window.location.reload();
     };
 
     return (
@@ -51,7 +51,7 @@ function HeaderRole ({ btnText, onClick }) {
                     // placement="bottom-end"
                     placement="bottom"
                     render={(attrs) => (
-                    <div className="user__profile" style={ {marginLeft: '50px',backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6))',
+                    <div className="user__profile" style={ {marginLeft: '2em',backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6))',
                         color: 'white', border:'black', borderRadius: '10px', zIndex:'999'}} tabIndex="-1" {...attrs}>
                             <Box
                                 sx={{
@@ -61,11 +61,10 @@ function HeaderRole ({ btnText, onClick }) {
                                 }}
                             >
                                 <Typography sx={{ fontSize: '0.875rem', textAlign: 'center', fontWeight: 'bolder' }} variant="h6">
-                                    User
+                                    {localStorage.getItem('name')}
                                 </Typography>
                                 <Typography sx={{ fontSize: '0.875rem',  textAlign: 'center', fontWeight: 'bolder' }} variant="h6">
-                                   {/*{localStorage.getItem('email')} */} 
-                                   admin@gmail.com
+                                   {localStorage.getItem('role')}  
                                 </Typography>
                             </Box>
                             <Box

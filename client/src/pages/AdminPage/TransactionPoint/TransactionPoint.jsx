@@ -5,7 +5,7 @@ import { calculateRange, sliceData, nextPage, prevPage, firstPage, lastPage } fr
 
 import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import { getAllTransactionPoints } from "../../../store/actions";
-import ShowInfoTransactionPoint from "./ShowInfoTransactionPoint/ShowInfoTransactionPoint"
+import ShowInfoTransactionPoint from "./Modal/ShowInfoTransactionPoint/ShowInfoTransactionPoint"
 import CreateTransactionPointModal from './Modal/CreateTransactionPointModal/CreateTransactionPointModal';
 import UpdateTransactionPoint from './Modal/UpdateTransactionPointModal/UpdateTransactionPoint';
 import DeleteTransactionPointModal from './Modal/DeleteTransactionPointModal/DeleteTransactionPointModal';
@@ -65,7 +65,7 @@ function TransactionPoint() {
         setSearch(event.target.value);
         if (event.target.value !== '') {
             let searchResults = transactionPoints.filter((item) =>
-                item.name.toLowerCase().includes(search.toLowerCase()) ||
+                item?.name.toLowerCase().includes(search.toLowerCase()) ||
                 item.email.toLowerCase().includes(search.toLowerCase()) ||
                 item.leader.toLowerCase().includes(search.toLowerCase())
             );
@@ -181,9 +181,9 @@ function TransactionPoint() {
                             {transactions.map((transaction, index) => (
                                 <tr key={index}>
                                     <td><span>{transaction.id}</span></td>
-                                    <td><span>{transaction.Warehouse.name}</span></td>
-                                    <td><span>{transaction.pointLeader.name}</span></td>
-                                    <td><span>{transaction.name}</span></td>
+                                    <td><span>{transaction.Warehouse?.name}</span></td>
+                                    <td><span>{transaction.pointLeader?.name}</span></td>
+                                    <td><span>{transaction?.name}</span></td>
                                     <td><span>{transaction.address}</span></td>
                                     <td>
                                         <ul class="list-inline m-0">

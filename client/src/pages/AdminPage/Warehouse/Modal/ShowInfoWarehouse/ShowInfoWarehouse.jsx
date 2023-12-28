@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import avt from "../../../../../assets/images/avt.jpg"
 import { apiGetAllPackages } from '../../../../../services/package';
 import { apiGetPackagesOfWarehouse, apiGetPointsOfWarehouse } from '../../../../../services/warehouse';
+import {  apiGetEmployees } from '../../../../../services/auth';
 
 
 function ShowInfoWarehouse(props) {
@@ -12,30 +13,11 @@ function ShowInfoWarehouse(props) {
   const { warehouse } = props;
   const [packages, setPackages] = useState([]);
   const [warehousePoint, setWarehousePoint] = useState([]);
+  const [warehouseEmployees, setWarehouseEmployees] = useState([]);
   const handleTabSelect = (tab) => {
     setActiveTab(tab);
   };
 
-  const warehouseEmployees = [
-    {
-      id: 1,
-      name: 'Nguyễn Văn A',
-      phone: '123456789',
-      address: '123 Đường ABC, Quận XYZ, Thành phố HCM'
-    },
-    {
-      id: 2,
-      name: 'Trần Thị B',
-      phone: '987654321',
-      address: '456 Đường XYZ, Quận ABC, Thành phố Hanoi'
-    },
-    {
-      id: 3,
-      name: 'Lê Văn C',
-      phone: '456123789',
-      address: '789 Đường DEF, Quận MNO, Thành phố Đà Nẵng'
-    }
-  ];
 
 
   useEffect(() => {
@@ -79,6 +61,32 @@ function ShowInfoWarehouse(props) {
     fetchPoints();
   }, [warehouse]);
 
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const payload = {
+          type: 'warehouse',
+          positionId: String(warehouse.id)
+
+        }
+        const response = await apiGetEmployees(payload)
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setWarehouseEmployees(data);
+        } else {
+          console.log(msg)
+        }
+
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+    fetchEmployees();
+  }, [warehouse]);
+
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" className="custom-modal" backdrop="static" size="lg">
       <Modal.Header>
@@ -113,7 +121,7 @@ function ShowInfoWarehouse(props) {
                       <strong>Họ và tên:</strong>
                     </label>
                     <p>
-                      {warehouse.warehouseLeader.name}
+                      {warehouse.warehouseLeader?.name}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -149,7 +157,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên điểm giao dịch:</strong>
                       </label>
                       <p>
-                        {item.name}
+                        {item?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -157,7 +165,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên trưởng kho:</strong>
                       </label>
                       <p>
-                        {item.pointLeader.name}
+                        {item.pointLeader?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -202,7 +210,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên người gửi: </strong>
                       </label>
                       <p>
-                        {packageItem.sender.name}
+                        {packageItem.sender?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -210,7 +218,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên người nhận: </strong>
                       </label>
                       <p>
-                        {packageItem.receiver.name}
+                        {packageItem.receiver?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -218,7 +226,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên đơn hàng: </strong>
                       </label>
                       <p>
-                        {packageItem.name}
+                        {packageItem?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -264,7 +272,7 @@ function ShowInfoWarehouse(props) {
                           <strong>Họ và tên:</strong>
                         </label>
                         <p>
-                          {item.name}
+                          {item?.name}
                         </p>
                       </div>
                       <div style={{ display: 'flex', gap: '10px' }}>
