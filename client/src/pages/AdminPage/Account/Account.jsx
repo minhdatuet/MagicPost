@@ -39,6 +39,34 @@ const Account = () => {
     setIsUpdateModalOpen(false);
 
   }
+  const renderPagination = () => {
+    const totalButtons = 3; // Number of buttons to display
+    const halfButtons = Math.floor(totalButtons / 2);
+    const start = Math.max(1, page - halfButtons);
+    const end = Math.min(start + totalButtons - 1, pagination.length);
+
+    const buttons = [];
+
+    for (let i = start; i <= end; i++) {
+        buttons.push(
+            <span
+                key={i}
+                className={i === page ? 'active-pagination' : 'pagination'}
+                onClick={() => handleChangePage(i)}>
+                {i}
+            </span>
+        );
+    }
+
+    if (start > 1) {
+        buttons.unshift(<span key="start" className="pagination-disabled"></span>);
+    }
+    if (end < pagination.length) {
+        buttons.push(<span key="end" className="pagination-disabled"></span>);
+    }
+
+    return buttons;
+};
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -218,49 +246,17 @@ const Account = () => {
         account = {selectedAccount}
         onHide={handleCloseUpdateModal}/>
         {accounts.length !== 0 ? (
-          <div className="dashboard-content-footer">
-            <span
-              className="pagination"
-              onClick={handleFirstPage}
-              disabled={page === 1}
-            >
-              {"<<"}
-            </span>
-            <span
-              className="pagination"
-              onClick={handlePrevPage}
-              disabled={page === 1}
-            >
-              {"<"}
-            </span>
-            {calculateRange(users, 5).map((item, index) => (
-              <span
-                key={index}
-                className={item === page ? "active-pagination" : "pagination"}
-                onClick={() => handleChangePage(item)}
-              >
-                {item}
-              </span>
-            ))}
-            <span
-              className="pagination"
-              onClick={handleNextPage}
-              disabled={page === pagination.length}
-            >
-              {">"}
-            </span>
-            <span
-              className="pagination"
-              onClick={handleLastPage}
-              disabled={page === pagination.length}
-            >
-              {">>"}
-            </span>
-          </div>
+            <div className='dashboard-content-footer'>
+                <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
+                <span className="pagination" onClick={handlePrevPage} disabled={page === 1}>{'<'}</span>
+                {renderPagination()}
+                <span className="pagination" onClick={handleNextPage} disabled={page === pagination.length}>{'>'}</span>
+                <span className="pagination" onClick={handleLastPage} disabled={page === pagination.length}>{'>>'}</span>
+            </div>
         ) : (
-          <div className="dashboard-content-footer">
-            <span className="empty-table">No data</span>
-          </div>
+            <div className='dashboard-content-footer'>
+                <span className='empty-table'>No data</span>
+            </div>
         )}
       </div>
     </div>
