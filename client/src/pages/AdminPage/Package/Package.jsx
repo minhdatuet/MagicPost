@@ -11,7 +11,7 @@ import "./styles.css";
 import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
-import RefundedIcon from "../../../assets/icons/refunded.svg";
+import ShippingIcon from "../../../assets/icons/shipping.svg"
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
 import UpdatePackageModal from "./Modal/UpdatePackage/UpdatePackage";
@@ -63,8 +63,8 @@ function Package() {
 
   }
   useEffect(() => {
-    setPagination(calculateRange(packages, 4));
-    setOrders(sliceData(packages, page, 4));
+    setPagination(calculateRange(packages, 5));
+    setOrders(sliceData(packages, page, 5));
   }, [page, packages]);
 
   // Search
@@ -78,11 +78,11 @@ function Package() {
           item.product.toLowerCase().includes(search.toLowerCase())
       );
       setOrders(searchResults);
-      setPagination(calculateRange(searchResults, 4));
+      setPagination(calculateRange(searchResults, 5));
       setPage(1); 
     } else {
-      setOrders(sliceData(packages, page, 4));
-      setPagination(calculateRange(packages, 4));
+      setOrders(sliceData(packages, page, 5));
+      setPagination(calculateRange(packages, 5));
     }
   };
   // Change Page
@@ -220,7 +220,7 @@ function Package() {
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
                         <img
-                          src={DoneIcon}
+                          src={ShippingIcon}
                           alt="paid-icon"
                           className="dashboard-content-icon"
                         />
@@ -230,14 +230,20 @@ function Package() {
                           alt="canceled-icon"
                           className="dashboard-content-icon"
                         />
-                      ) : order?.Status?.nameOfStatus === "Refunded" ? (
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
                         <img
-                          src={RefundedIcon}
+                          src={DoneIcon}
                           alt="refunded-icon"
                           className="dashboard-content-icon"
                         />
                       ) : null}
-                      <span>{order?.Status?.nameOfStatus}</span>
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <span>Đang vận chuyển</span>
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <span>Hoàn trả</span>
+                      ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                        <span>Đã giao</span>
+                      ) : null}
                     </div>
                   </td>
                   <td>
@@ -247,7 +253,7 @@ function Package() {
                     <span>{order.receiver?.name}</span>
                   </td>
                   <td>
-                    <span>${order.shippingCost}</span>
+                    <span>{order.shippingCost} VND</span>
                   </td>
                   <td>
                     <ul class="list-inline m-0">
@@ -323,7 +329,7 @@ function Package() {
             >
               {"<"}
             </span>
-            {calculateRange(packages, 4).map((item, index) => (
+            {calculateRange(packages, 5).map((item, index) => (
               <span
                 key={index}
                 className={item === page ? "active-pagination" : "pagination"}

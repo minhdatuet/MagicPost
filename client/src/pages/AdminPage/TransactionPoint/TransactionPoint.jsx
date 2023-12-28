@@ -55,8 +55,8 @@ function TransactionPoint() {
     }
 
     useEffect(() => {
-        setPagination(calculateRange(transactionPoints, 4));
-        setTransactions(sliceData(transactionPoints, page, 4));
+        setPagination(calculateRange(transactionPoints, 5));
+        setTransactions(sliceData(transactionPoints, page, 5));
     }, [page, transactionPoints]);
 
     // Search
@@ -69,11 +69,11 @@ function TransactionPoint() {
                 item.leader.toLowerCase().includes(search.toLowerCase())
             );
             setTransactions(searchResults);
-            setPagination(calculateRange(searchResults, 4));
+            setPagination(calculateRange(searchResults, 5));
             setPage(1); // Reset to the first page when searching
         } else {
-            setTransactions(sliceData(transactionPoints, page, 4));
-            setPagination(calculateRange(transactionPoints, 4));
+            setTransactions(sliceData(transactionPoints, page, 5));
+            setPagination(calculateRange(transactionPoints, 5));
         }
     };
 
