@@ -113,11 +113,11 @@ function PointStaffReceiveFromWarehouse() {
 
   return (
     <div className="dashboard-content">
-      <HeaderRole
+      {/* <HeaderRole
         btnText={"Tạo đơn hàng cho khách"}
         variant="primary"
         onClick={handleOpenModal}
-      />
+      /> */}
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn đang chờ nhận từ điểm giao dịch</h2>
