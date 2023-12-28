@@ -8,7 +8,6 @@ import { getAllTransactionPoints } from "../../../store/actions";
 import ShowInfoTransactionPoint from "./Modal/ShowInfoTransactionPoint/ShowInfoTransactionPoint"
 import CreateTransactionPointModal from './Modal/CreateTransactionPointModal/CreateTransactionPointModal';
 import UpdateTransactionPoint from './Modal/UpdateTransactionPointModal/UpdateTransactionPoint';
-import DeleteTransactionPointModal from './Modal/DeleteTransactionPointModal/DeleteTransactionPointModal';
 
 
 function TransactionPoint() {
@@ -197,9 +196,9 @@ function TransactionPoint() {
                                             <li class="list-inline-item">
                                                 <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" onClick = {(e) =>handleOpenUpdateModal(transaction)} ><i class="fa fa-edit"></i></button>
                                             </li>
-                                            <li class="list-inline-item">
+                                            {/* <li class="list-inline-item">
                                                 <button class="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onClick = {(e) =>handleOpenDeleteModal(transaction)} ><i class="fa fa-trash"></i></button>
-                                            </li>
+                                            </li> */}
                                         </ul>
                                     </td>
                                 </tr>
@@ -219,11 +218,11 @@ function TransactionPoint() {
                         warehouses = {warehouses}
                         transactionPoint ={selectedTransactionPoint}
                 />
-                <DeleteTransactionPointModal
+                {/* <DeleteTransactionPointModal
                         show={isDeleteModalOpen}
                         onHide={handleCloseDeleteModal}
                         transaction ={selectedTransactionPoint}
-                />
+                /> */}
                 {transactions.length !== 0 ? (
                     <div className='dashboard-content-footer'>
                         <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
