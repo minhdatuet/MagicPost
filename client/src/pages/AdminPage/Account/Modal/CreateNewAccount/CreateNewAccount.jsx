@@ -24,7 +24,7 @@ function CreateNewAccountModal(props) {
 
   const handleHide = () => {
     setFormData({
-        name: "",
+        userName: "",
         phone: "",
         role: "",
         workLocation: "",
@@ -36,9 +36,10 @@ function CreateNewAccountModal(props) {
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-    }));
+    setFormData({
+      ...formData,
+      [id]: value,
+    });
   };
 
   const handleSubmit = (event) => {
@@ -49,13 +50,13 @@ function CreateNewAccountModal(props) {
       event.stopPropagation();
       setValidated(true);
     } else {
-      props.onHide();
-      setFormData({
-     name: "",
-    phone: "",
-    role: "",
-    workLocation: "",
-      });
+        setFormData({
+            name: "",
+           phone: "",
+           role: "",
+           workLocation: "",
+      })
+      props.onHide();;
     }
   };
 
@@ -105,15 +106,16 @@ function CreateNewAccountModal(props) {
           </Row>
           <Row style={{ marginTop: "10px" }} className="mb-3">
             <Form.Group as={Col} md="6" controlId="role">
-              <Form.Label>Số điện thoại</Form.Label>
+              <Form.Label>Chọn loại tài khoản</Form.Label>
               <Form.Control
                 as="select"
                 value={formData.role}
                 onChange={(e) =>
                   setFormData({ ...formData, role: e.target.value })
                 }
+                required
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Chọn loại tài khoản
                 </option>
                 <option value="POINT_LEADER">Trưởng điểm</option>
