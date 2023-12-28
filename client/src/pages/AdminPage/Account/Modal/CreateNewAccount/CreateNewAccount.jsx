@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, InputGroup, Row, Col } from "react-bootstrap";
 import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllWarehouses, getAllTransactionPoints } from '../../../../../store/actions';
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllWarehouses,
+  getAllTransactionPoints,
+} from "../../../../../store/actions";
 function CreateNewAccountModal(props) {
   const [reset, setReset] = useState(false);
   const dispatch = useDispatch();
@@ -21,17 +24,17 @@ function CreateNewAccountModal(props) {
     address: "",
     password: "",
     accountType: "",
-    workLocation: "",
+    positionId: "",
   });
 
   const handleHide = () => {
     setFormData({
-        name: "",
-        phone: "",
-        address: "",
-        password: "",
-        accountType: "",
-        workLocation: "",
+      name: "",
+      phone: "",
+      address: "",
+      password: "",
+      accountType: "",
+      positionId: "",
     });
     if (props.onHide) {
       props.onHide();
@@ -41,33 +44,30 @@ function CreateNewAccountModal(props) {
   const handleInputChange = (event) => {
     const { id, value } = event.target;
     setFormData({
-        ...formData,
-        [id]: value,
-        // Reset workLocation when accountType changes
-        workLocation: id === 'accountType' && formData.accountType !== value ? '' : formData.workLocation,
+      ...formData,
+      [id]: value,
     });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    console.log(formData);
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
       setValidated(true);
     } else {
-        setFormData({
-           name: "",
-           phone: "",
-           address: "",
-           password: "",
-           accountType: "",
-           workLocation: "",
-      })
-      props.onHide();;
+      setFormData({
+        name: "",
+        phone: "",
+        address: "",
+        password: "",
+        accountType: "",
+        positionId: "",
+      });
+      props.onHide();
     }
   };
-
 
   return (
     <Modal
@@ -113,33 +113,33 @@ function CreateNewAccountModal(props) {
             </Form.Group>
           </Row>
           <Row className="mb-3">
-          <Form.Group as={Col} md="6" controlId="password">
-            <Form.Label>Mật khẩu</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Nhập mật khẩu"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
-            <Form.Control.Feedback type="invalid">
-              Vui lòng nhập mật khẩu.
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="6" controlId="address">
-            <Form.Label>Địa chỉ</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Nhập địa chỉ"
-              value={formData.address}
-              onChange={handleInputChange}
-            />
-            <Form.Control.Feedback type="invalid">
-              Vui lòng nhập địa chỉ.
-            </Form.Control.Feedback>
-          </Form.Group>
-        </Row>
+            <Form.Group as={Col} md="6" controlId="password">
+              <Form.Label>Mật khẩu</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập mật khẩu"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập mật khẩu.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="6" controlId="address">
+              <Form.Label>Địa chỉ</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập địa chỉ"
+                value={formData.address}
+                onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập địa chỉ.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
           <Row style={{ marginTop: "10px" }} className="mb-3">
             <Form.Group as={Col} md="6" controlId="accountType">
               <Form.Label>Chọn loại tài khoản</Form.Label>
@@ -161,36 +161,38 @@ function CreateNewAccountModal(props) {
                 Vui lòng chọn.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="6" controlId="workLocation">
-  <Form.Label>Vị trí làm việc</Form.Label>
-  <Form.Control
-    as="select"
-    value={formData.workLocation}
-    onChange={(e) => setFormData({ ...formData, workLocation: e.target.value })}
-    required
-  >
-    <option value="" disabled>
-      Chọn vị trí làm việc
-    </option>
-    {formData.accountType === "WAREHOUSE_LEADER" ? (
-        warehouses.map((warehouse) => (
-          <option key={warehouse.id} value={warehouse.id}>
-            {warehouse.name}
-          </option>
-        ))
-      ) : (
-        transactionPoints.map((transactionPoint) => (
-          <option key={transactionPoint.id} value={transactionPoint.id}>
-            {transactionPoint.name}
-          </option>
-        ))
-      )}      
-  </Form.Control>
-  <Form.Control.Feedback type="invalid">
-    Vui lòng chọn vị trí làm việc.
-  </Form.Control.Feedback>
-</Form.Group>
-
+            <Form.Group as={Col} md="6" controlId="positionId">
+              <Form.Label>Vị trí làm việc</Form.Label>
+              <Form.Control
+                as="select"
+                value={formData.positionId}
+                onChange={(e) =>
+                  setFormData({ ...formData, positionId: e.target.value })
+                }
+                required
+              >
+                <option value="" disabled>
+                  Chọn vị trí làm việc
+                </option>
+                {formData.accountType === "WAREHOUSE_LEADER"
+                  ? warehouses.map((warehouse) => (
+                      <option key={warehouse.id} value={warehouse.id}>
+                        {warehouse.name}
+                      </option>
+                    ))
+                  : transactionPoints.map((transactionPoint) => (
+                      <option
+                        key={transactionPoint.id}
+                        value={transactionPoint.id}
+                      >
+                        {transactionPoint.name}
+                      </option>
+                    ))}
+              </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                Vui lòng chọn vị trí làm việc.
+              </Form.Control.Feedback>
+            </Form.Group>
           </Row>
           <Row style={{ marginTop: "10px" }}>
             <div className="text-center mt-3" style={{ marginTop: "50px" }}>
