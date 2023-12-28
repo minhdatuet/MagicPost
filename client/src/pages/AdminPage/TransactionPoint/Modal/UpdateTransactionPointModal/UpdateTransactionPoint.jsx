@@ -1,26 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, InputGroup, Row, Col } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 
 function UpdateTransactionPoint(props) {
     const [validated, setValidated] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        address: '',
-        warehouse: '',
-        transactionPointLeader: '',
-    });
-
-    const [formDataSubmit, setFormDataSubmit] = useState({
-        name: '',
-        address: '',
-        warehouse: '',
-        transactionPointLeader: '',
-    });
+    const [formData, setFormData] = useState({});
 
     const { transactionPoints } = props;
     const { warehouses } = props;
     const {transactionPoint} = props
+
+    useEffect(() => {
+        setFormData({
+          ...transactionPoint
+        });
+    
+      }, [transactionPoint])
 
 
     const handleHide = () => {
@@ -37,54 +32,42 @@ function UpdateTransactionPoint(props) {
 
 
     const handleInputChange = (event) => {
-        const { id, value, type, checked } = event.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [id]: type === 'checkbox' ? checked : value,
-        }));
-    };
+        const { id, value } = event.target;
+        setFormData({
+          ...formData,
+          [id]: value,
+        });
+      };
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
-            event.stopPropagation();
-            setValidated(true);
-        } else {
-            setFormDataSubmit({
-                name: form.elements.name.value,
-                address: form.elements.address.value,
-                warehouse: form.elements.warehouse.value,
-                transactionPointLeader: form.elements.transactionPointLeader.value,
-            });
-            props.onHide();
-            setFormData({
-                name: '',
-                address: '',
-                warehouse: '',
-                transactionPointLeader: '',
-            });
+          event.preventDefault();
+          event.stopPropagation();
+          return
         }
-    };
-
-    console.log(formDataSubmit)
-
-
-
+        if (form.checkValidity()) {
+          // apiUpdateTransactionPointById(formData);
+          console.log(formData);
+        }
+        setValidated(true);
+        if (validated) {
+          // apiCreatePackage(formData)
+        }
+      };
 
 
     const setWarehouse = (value) => {
         setFormData(prevData => ({
             ...prevData,
-            warehouse: value
+            warehouseId: value
         }));
     }
 
     const setTransactionPointLeader = (value) => {
         setFormData(prevData => ({
             ...prevData,
-            transactionPointLeader: value
+            transactionPointLeaderId: value
         }));
     }
 
@@ -130,7 +113,7 @@ function UpdateTransactionPoint(props) {
                             <Form.Control as="select" value={formData.warehouse} onChange={(e) => setWarehouse(e.target.value)}>
                                 <option>Chọn kho hàng</option>
                                 {warehouses.map((item) => (
-                                    <option key={item.id} value={item.name}>
+                                    <option key={item.id} value={item.id}>
                                         {item.name}
                                     </option>
                                 ))}
@@ -142,7 +125,7 @@ function UpdateTransactionPoint(props) {
                         <Form.Control as="select" value={formData.transactionPointLeader} onChange={(e) => setTransactionPointLeader(e.target.value)}>
                             <option>Chọn trưởng điểm</option>
                             {transactionPoints.map((item) => (
-                                <option key={item.id} value={item.pointLeader.name}>
+                                <option key={item.id} value={item.pointLeader.id}>
                                     {item.pointLeader.name}
                                 </option>
                             ))}

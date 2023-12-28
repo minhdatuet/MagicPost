@@ -86,6 +86,17 @@ function PointLeaderPackage() {
     setIsUpdateModalOpen(false);
   };
 
+  function formatDateTime(dateTimeStr) {
+    const dateTime = new Date(dateTimeStr);
+
+    const day = dateTime.getUTCDate().toString().padStart(2, '0');
+    const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0');
+    const year = dateTime.getUTCFullYear();
+    const hours = dateTime.getUTCHours().toString().padStart(2, '0');
+    const minutes = dateTime.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = dateTime.getUTCSeconds().toString().padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  }
 
   const handleShowInfoPackage = (order) => {
     // console.log(order);
@@ -93,29 +104,29 @@ function PointLeaderPackage() {
     const statusTimes = [
       [order.Status.datePointEndReceived,
       order.transactionPointEnd && order.transactionPointEnd?.name ? order.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
-  
-      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + order.Status.dateReceiverReturn],
-  
-      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + order.Status.dateSendPackage],
-  
+
+      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(order.Status.dateReceiverReturn)],
+
+      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendPackage)],
+
       [order.Status.dateSendToPointEnd,
-      order.transactionPointEnd && order.transactionPointEnd?.name ? 
-      "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " +  order.transactionPointEnd: null],
-  
-      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + order.Status.dateSendToReceiver],
-  
-      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ? 
-      "Đơn hàng rời khỏi kho " + order.warehouseStart?.name +  " lúc " + order.Status.dateSendToWarehouseEnd : null],
-  
-      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ? 
-      "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name +  " lúc " + order.Status.dateSendToWarehouseStart : null],
-  
-      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ? 
-      "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + order.Status.dateWarehouseEndReceived: null],
-  
-      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ? 
-      "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + order.Status.dateWarehouseStartReceived : null],
-  
+      order.transactionPointEnd && order.transactionPointEnd?.name ?
+        "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " + formatDateTime(order.Status.dateSendToPointEnd) : null],
+
+      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(order.Status.dateSendToReceiver)],
+
+      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng rời khỏi kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseEnd) : null],
+
+      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseStart) : null],
+
+      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + formatDateTime(order.Status.dateWarehouseEndReceived) : null],
+
+      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateWarehouseStartReceived) : null],
+
       [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
     ];
   

@@ -19,6 +19,7 @@ import { apiDeletePackage, apiGetAllPackages } from "../../../services/package";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
 import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
+import moment from 'moment';
 import {
   getAllTransactionPoints,
   getAllWarehouses,
@@ -79,7 +80,7 @@ function Package() {
       );
       setOrders(searchResults);
       setPagination(calculateRange(searchResults, 5));
-      setPage(1); 
+      setPage(1);
     } else {
       setOrders(sliceData(packages, page, 5));
       setPagination(calculateRange(packages, 5));
@@ -133,54 +134,69 @@ function Package() {
         setIsDelete(null);
       } */
   };
+
+  function formatDateTime(dateTimeStr) {
+    const dateTime = new Date(dateTimeStr);
+
+    const day = dateTime.getUTCDate().toString().padStart(2, '0');
+    const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0');
+    const year = dateTime.getUTCFullYear();
+    const hours = dateTime.getUTCHours().toString().padStart(2, '0');
+    const minutes = dateTime.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = dateTime.getUTCSeconds().toString().padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  }
+
+
   const handleShowInfoPackage = (order) => {
     // console.log(order);
     setSelectedPackage(order)
     const statusTimes = [
       [order.Status.datePointEndReceived,
       order.transactionPointEnd && order.transactionPointEnd?.name ? order.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
-  
-      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + order.Status.dateReceiverReturn],
-  
-      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + order.Status.dateSendPackage],
-  
+
+      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(order.Status.dateReceiverReturn)],
+
+      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendPackage)],
+
       [order.Status.dateSendToPointEnd,
-      order.transactionPointEnd && order.transactionPointEnd?.name ? 
-      "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " +  order.transactionPointEnd: null],
-  
-      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + order.Status.dateSendToReceiver],
-  
-      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ? 
-      "Đơn hàng rời khỏi kho " + order.warehouseStart?.name +  " lúc " + order.Status.dateSendToWarehouseEnd : null],
-  
-      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ? 
-      "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name +  " lúc " + order.Status.dateSendToWarehouseStart : null],
-  
-      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ? 
-      "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + order.Status.dateWarehouseEndReceived: null],
-  
-      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ? 
-      "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + order.Status.dateWarehouseStartReceived : null],
-  
+      order.transactionPointEnd && order.transactionPointEnd?.name ?
+        "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " + formatDateTime(order.Status.dateSendToPointEnd) : null],
+
+      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(order.Status.dateSendToReceiver)],
+
+      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng rời khỏi kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseEnd) : null],
+
+      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseStart) : null],
+
+      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + formatDateTime(order.Status.dateWarehouseEndReceived) : null],
+
+      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateWarehouseStartReceived) : null],
+
       [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
     ];
-  
+
+
     const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
-  
+
     filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
     setStatusPackage(filteredStatusTimes);
     setShowInfoPackage(true)
-    
+
   };
 
 
   return (
     <div className="dashboard-content">
-      <HeaderRole
+      {/* <HeaderRole
         btnText={"Thêm đơn hàng"}
         variant="primary"
         onClick={handleOpenModal}
-      />
+      /> */}
       <CreateNewPackageModal
         // dialogClassName="modal-dialog-custom"
         show={isModalOpen}
@@ -302,13 +318,13 @@ function Package() {
           ) : null}
           <ShowInfoPackage
             show={showInfoPackage}
-            order = {selectedPackage}
-            statusPackage = {statusPackage}
+            order={selectedPackage}
+            statusPackage={statusPackage}
             onHide={handleCloseModal}
           />
           <UpdatePackageModal
             show={isUpdateModalOpen}
-            order = {selectedPackage}
+            order={selectedPackage}
             onHide={handleCloseUpdateModal}
           />
         </table>
