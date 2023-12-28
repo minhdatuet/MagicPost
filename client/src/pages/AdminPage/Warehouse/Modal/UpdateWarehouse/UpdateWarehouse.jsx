@@ -16,15 +16,17 @@ function UpdateWarehouseModal(props) {
   console.log(selectWarehouse);
   const [reset, setReset] = useState(false);
   useEffect(() => {
+    if (selectWarehouse) {
       setFormData({
         ...selectWarehouse,
-        // name: selectWarehouse.name,
-        // address: selectWarehouse.address,
-        // selectWarehouseLeader: selectWarehouse.warehouseLeader.name,
-        // selectWarehouseLeaderId: selectWarehouse.warehouseLeader.id,
+        name: selectWarehouse.name,
+        address: selectWarehouse.address,
+        selectWarehouseLeader: selectWarehouse.warehouseLeader.name,
+        selectWarehouseLeaderId: selectWarehouse.warehouseLeader.id,
       });
-    
-  }, [selectWarehouse])
+    }
+  }, [selectWarehouse]);
+  
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -61,13 +63,6 @@ function UpdateWarehouseModal(props) {
 
     props.onHide();
   };
-
-  useEffect(() => {
-    setFormData({
-      ...warehouse
-    });
-
-  }, [warehouse])
 
   const setWarehouseLeader = (value) => {
     const selectedName = warehouses.find((item) => {

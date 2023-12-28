@@ -71,10 +71,13 @@ function UpdateAccountModal(props) {
   const handleHide = () => {
     setFormData({
       ...account,
-      userName: "",
-      phone: "",
-      role: "",
-      workLocation: "",
+      userName: account.name || "",
+      phone: account.phone || "",
+      role: account.accountType || "",
+      workLocation:
+        account.Warehouses[0]?.name ||
+        account.TransactionPoints[0]?.name ||
+        "",
     });
     if (props.onHide) {
       props.onHide();

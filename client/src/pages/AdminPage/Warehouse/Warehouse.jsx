@@ -76,149 +76,80 @@ function Warehouse() {
   };
 
   // Search
-  const handleSearch = (event) => {
-    setSearch(event.target.value);
-    if (event.target.value !== "") {
-      let searchResults = warehouses.filter(
-        (item) =>
-          item?.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.email.toLowerCase().includes(search.toLowerCase()) ||
-          item.leader.toLowerCase().includes(search.toLowerCase())
-      );
-      setWarehouseAll(searchResults);
-      setPagination(calculateRange(searchResults, 5));
-      setPage(1); // Reset to the first page when searching
-    } else {
-      setWarehouseAll(sliceData(warehouses, page, 5));
-      setPagination(calculateRange(warehouses, 5));
-    }
-  };
-  // Change Page
-  const handleChangePage = (newPage) => {
-    if (newPage !== page) {
-      setPage(newPage);
-    }
-  };
+const handleSearch = (event) => {
+  const searchText = event.target.value.toLowerCase();
+  setSearch(searchText);
 
-  const handleNextPage = () => {
-    nextPage(page, pagination.length, setPage);
-  };
+  if (searchText !== "") {
+    let searchResults = warehouses.filter(
+      (item) =>
+        item?.name?.toLowerCase().includes(searchText) ||
+        item?.email?.toLowerCase().includes(searchText) ||
+        item?.leader?.toLowerCase().includes(searchText)
+    );
+    setWarehouseAll(searchResults);
+    setPagination(calculateRange(searchResults, 5));
+    setPage(1); // Reset to the first page when searching
+  } else {
+    setWarehouseAll(sliceData(warehouses, page, 5));
+    setPagination(calculateRange(warehouses, 5));
+  }
+};
 
-  const handlePrevPage = () => {
-    prevPage(page, setPage);
-  };
+// Change Page
+const handleChangePage = (newPage) => {
+  if (newPage !== page) {
+    setPage(newPage);
+  }
+};
 
-  const handleLastPage = () => {
-    lastPage(page, pagination.length, setPage);
-  };
+const handleNextPage = () => {
+  nextPage(page, pagination.length, setPage);
+};
 
-  const handleFirstPage = () => {
-    firstPage(page, setPage);
-  };
+const handlePrevPage = () => {
+  prevPage(page, setPage);
+};
 
-  console.log(showInfoWarehouse);
+const handleLastPage = () => {
+  lastPage(page, pagination.length, setPage);
+};
 
-  const renderPagination = () => {
-    const totalButtons = 3; // Number of buttons to display
-    const halfButtons = Math.floor(totalButtons / 2);
-    const start = Math.max(1, page - halfButtons);
-    const end = Math.min(start + totalButtons - 1, pagination.length);
+const handleFirstPage = () => {
+  firstPage(page, setPage);
+};
 
-    const buttons = [];
+console.log(showInfoWarehouse);
 
-    for (let i = start; i <= end; i++) {
-      buttons.push(
-        <span
-          key={i}
-          className={i === page ? "active-pagination" : "pagination"}
-          onClick={() => handleChangePage(i)}
-        >
-          {i}
-        </span>
-      );
-    }
+const renderPagination = () => {
+  const totalButtons = 3; // Number of buttons to display
+  const halfButtons = Math.floor(totalButtons / 2);
+  const start = Math.max(1, page - halfButtons);
+  const end = Math.min(start + totalButtons - 1, pagination.length);
 
-    if (start > 1) {
-      buttons.unshift(
-        <span key="start" className="pagination-disabled"></span>
-      );
-    }
-    if (end < pagination.length) {
-      buttons.push(<span key="end" className="pagination-disabled"></span>);
-    }
+  const buttons = [];
 
-    // Search
-    const handleSearch = (event) => {
-        const searchText = event.target.value.toLowerCase();
-        setSearch(searchText);
-    
-        if (searchText !== '') {
-            let searchResults = warehouses.filter((item) =>
-                (item?.name?.toLowerCase()?.includes(searchText)) ||
-                (item?.email?.toLowerCase()?.includes(searchText)) ||
-                (item?.leader?.toLowerCase()?.includes(searchText))
-            );
-            setWarehouseAll(searchResults);
-            setPagination(calculateRange(searchResults, 5));
-            setPage(1); // Reset to the first page when searching
-        } else {
-            setWarehouseAll(sliceData(warehouses, page, 5));
-            setPagination(calculateRange(warehouses, 5));
-        }
-    };
-    // Change Page 
-    const handleChangePage = (newPage) => {
-        if (newPage !== page) {
-            setPage(newPage);
-        }
-    };
+  for (let i = start; i <= end; i++) {
+    buttons.push(
+      <span
+        key={i}
+        className={i === page ? "active-pagination" : "pagination"}
+        onClick={() => handleChangePage(i)}
+      >
+        {i}
+      </span>
+    );
+  }
 
-    const handleNextPage = () => {
-        nextPage(page, pagination.length, setPage);
-    };
+  if (start > 1) {
+    buttons.unshift(<span key="start" className="pagination-disabled"></span>);
+  }
+  if (end < pagination.length) {
+    buttons.push(<span key="end" className="pagination-disabled"></span>);
+  }
 
-    const handlePrevPage = () => {
-        prevPage(page, setPage);
-    };
-
-    const handleLastPage = () => {
-        lastPage(page, pagination.length, setPage);
-    };
-
-    const handleFirstPage = () => {
-        firstPage(page, setPage);
-    };
-
-    console.log(showInfoWarehouse);
-
-    const renderPagination = () => {
-        const totalButtons = 3; // Number of buttons to display
-        const halfButtons = Math.floor(totalButtons / 2);
-        const start = Math.max(1, page - halfButtons);
-        const end = Math.min(start + totalButtons - 1, pagination.length);
-
-        const buttons = [];
-
-        for (let i = start; i <= end; i++) {
-            buttons.push(
-                <span
-                    key={i}
-                    className={i === page ? 'active-pagination' : 'pagination'}
-                    onClick={() => handleChangePage(i)}>
-                    {i}
-                </span>
-            );
-        }
-
-        if (start > 1) {
-            buttons.unshift(<span key="start" className="pagination-disabled"></span>);
-        }
-        if (end < pagination.length) {
-            buttons.push(<span key="end" className="pagination-disabled"></span>);
-        }
-
-        return buttons;
-    };
+  return buttons;
+};
 
     return (
         <div className='dashboard-content'>
@@ -290,7 +221,7 @@ function Warehouse() {
           <UpdateWarehouseModal
             show={isUpdateModalOpen}
             onHide={handleCloseUpdateModal}
-            warehouse={selectedWarehouse}
+            selectWarehouse={selectedWarehouse}
           />
           {/* <DeleteWarehouseModal
                         show={isDeleteModalOpen}
