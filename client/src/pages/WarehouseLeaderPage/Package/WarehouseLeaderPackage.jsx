@@ -37,7 +37,6 @@ function WarehouseLeaderPackage() {
   const [showInfoPackage, setShowInfoPackage] = useState(false);
   const [statusPackage, setStatusPackage] = useState('');
 
-
   useEffect(() => {
     const fetchPackages = async () => {
       const warehouseId = localStorage.getItem('warehouseId')
@@ -74,6 +73,7 @@ function WarehouseLeaderPackage() {
   };
 
   const handleCloseModal = () => {
+
     setIsModalOpen(false);
     setShowInfoPackage(false);
   };
@@ -190,7 +190,7 @@ function WarehouseLeaderPackage() {
       /> */}
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Các đơn hàng tại kho {localStorage.getItem('warehouseId')}</h2>
+          <h2>Các đơn hàng tại kho</h2>
           <div className="dashboard-content-search">
             <input
               type="text"

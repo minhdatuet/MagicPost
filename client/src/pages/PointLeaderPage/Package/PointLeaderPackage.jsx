@@ -15,7 +15,8 @@ import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPackages } from "../../../store/actions/package";
+import { getAllPackages} from "../../../store/actions/package";
+import { getAllTransactionPoints } from "../../../store/actions";
 import { apiGetPackagesOfPoint } from "../../../services/transactionpoint";
 // import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
 import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
@@ -45,6 +46,7 @@ function PointLeaderPackage() {
         const err = response?.data.err;
         const msg = response?.data.msg;
         console.log(data)
+        console.log(localStorage);
         if (err === 0) {
           setFilteredPackages(data);
         } else {
@@ -196,12 +198,27 @@ function PointLeaderPackage() {
   const handleFirstPage = () => {
     firstPage(page, setPage);
   };
+  const { transactionPoints } = useSelector((state) => state.transactionPoint);
+
+  const [transactionPointName, setTransactionPointName] = useState("Unknown Transaction Point");
+
+  useEffect(() => {
+    dispatch(getAllTransactionPoints());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const transactionPointId = localStorage.getItem("transactionPointId");
+    setTransactionPointName(
+      transactionPoints.find((point) => point.id === transactionPointId)?.name
+    );
+  }, [transactionPoints]);
+  
 
   return (
     <div className="dashboard-content">
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Các đơn hàng tại điểm giao dịch {localStorage.getItem('transactionPointId')}</h2>
+          <h2>Các đơn hàng tại điểm giao dịch {transactionPointName}</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
