@@ -25,6 +25,7 @@ function CreateNewWarehouseModal(props) {
     address: '',
     leaderId: '',
   });
+  
 
   const { warehouses } = props;
 
