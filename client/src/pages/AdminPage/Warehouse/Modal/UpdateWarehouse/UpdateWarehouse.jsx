@@ -62,7 +62,7 @@ function UpdateWarehouseModal(props) {
 
   const setWarehouseLeader = (value) => {
     const selectedName = warehouses.find((item) => {
-      return item.warehouseLeader.id.toString() === value;
+      return item?.warehouseLeader?.id?.toString() === value;
     })?.warehouseLeader.name || '';
 
     setFormData(prevData => ({
@@ -106,7 +106,7 @@ function UpdateWarehouseModal(props) {
                   placeholder="Nhập địa chỉ cụ thể"
                   aria-describedby="inputGroupPrepend"
                   required
-                  value={formData.address}
+                  value={formData?.address}
                   onChange={handleInputChange}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -116,11 +116,11 @@ function UpdateWarehouseModal(props) {
             </Form.Group>
             <Form.Group as={Col} md="5" controlId="warehouseLeader">
               <Form.Label>Trưởng kho hàng</Form.Label>
-              <Form.Control as="select" value={formData.warehouseLeader} onChange={(e) => setWarehouseLeader(e.target.value)}>
+              <Form.Control as="select" value={formData?.warehouseLeader} onChange={(e) => setWarehouseLeader(e.target.value)}>
                 <option>Chọn trưởng kho</option>
                 {warehouses.map((item) => (
-                  <option key={item.id} value={item.warehouseLeader.id}>
-                    {item.warehouseLeader.name}
+                  <option key={item?.id} value={item?.warehouseLeader?.id}>
+                    {item?.warehouseLeader?.name}
                   </option>
                 ))}
               </Form.Control>

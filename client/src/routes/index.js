@@ -20,6 +20,7 @@ import warehouseStaffSendToWarehouse from "../pages/WarehouseStaffPage/SendToWar
 import warehouseStaffReceiveFromWarehouse from "../pages/WarehouseStaffPage/ReceiveFromWarehouse/ReceiveFromWarehouse";
 import warehouseStaffSendToTransaction from "../pages/WarehouseStaffPage/SendToTransaction/SendToTransaction";
 import warehouseStaffReceiveFromTransaction from "../pages/WarehouseStaffPage/ReceiveFromTransaction/ReceiveFromTransaction";
+import Success from "../pages/PointStaffPage/ShippingSuccess/Success";
 const publicRoutes = [
     {
       path: 'login',
@@ -94,7 +95,12 @@ const pointStaffRoutes = [
   {
     path: 'pointStaff/refund',
     page: Refund
+  },
+  {
+    path: 'pointStaff/success',
+    page: Success
   }
+
 ]
 const warehouseLeaderRoutes = [
   {
