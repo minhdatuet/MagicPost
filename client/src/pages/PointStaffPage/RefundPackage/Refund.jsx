@@ -36,7 +36,7 @@ function Refund() {
 
   useEffect(() => {
     const filteredPackages = packages.filter((pk) =>
-      pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "FAILED"
+      pk.transactionPointEnd.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "FAILED"
       && pk?.Status?.dateReceiverReturn !== null
     );
     setFilteredPackages(filteredPackages);

@@ -189,13 +189,13 @@ function PointStaffSendToWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.sender.name}</span>
+                    <span>{order?.sender?.name}</span>
                   </td>
                   <td>
-                    <span>{order.receiver.name}</span>
+                    <span>{order?.receiver?.name}</span>
                   </td>
                   <td>
-                    <span>{order.warehouseStart.name}</span>
+                    <span>{order?.warehouseStart?.name}</span>
                   </td>
                   <li class="list-inline-item">
                     <button

@@ -43,7 +43,7 @@ function ShowInfoWarehouse(props) {
   useEffect(() => {
     const fetchPoints = async () => {
       try {
-        const response = await apiGetPointsOfWarehouse(warehouse.id);
+        const response = await apiGetPointsOfWarehouse(warehouse?.id);
         const data = response?.data.response;
         const err = response?.data.err;
         const msg = response?.data.msg;
@@ -66,7 +66,7 @@ function ShowInfoWarehouse(props) {
       try {
         const payload = {
           type: 'warehouse',
-          positionId: String(warehouse.id)
+          positionId: String(warehouse?.id)
 
         }
         const response = await apiGetEmployees(payload)
@@ -113,7 +113,8 @@ function ShowInfoWarehouse(props) {
                       <strong>Mã nhân viên:</strong>
                     </label>
                     <p>
-                      {warehouse.warehouseLeader?.id}
+
+                      {warehouse?.warehouseLeader?.id}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -121,7 +122,7 @@ function ShowInfoWarehouse(props) {
                       <strong>Họ và tên:</strong>
                     </label>
                     <p>
-                      {warehouse.warehouseLeader?.name}
+                      {warehouse?.warehouseLeader?.name}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -129,7 +130,8 @@ function ShowInfoWarehouse(props) {
                       <strong>Số điện thoại:</strong>
                     </label>
                     <p>
-                      {warehouse.warehouseLeader?.phone}
+
+                      {warehouse?.warehouseLeader?.phone}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -137,7 +139,8 @@ function ShowInfoWarehouse(props) {
                       <strong>Địa chỉ:</strong>
                     </label>
                     <p>
-                      {warehouse.warehouseLeader?.address}
+
+                      {warehouse?.warehouseLeader?.address}
                     </p>
                   </div>
                 </div>
@@ -150,7 +153,7 @@ function ShowInfoWarehouse(props) {
           <div style={{ maxHeight: '400px', overflowY: 'scroll' }}>
             <ul>
               {warehousePoint.map(item => (
-                <li key={item.id}>
+                <li key={item?.id}>
                   <div>
                     <div style={{ display: 'flex', gap: '10px' }}>
                       <label>
@@ -165,7 +168,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên trưởng kho:</strong>
                       </label>
                       <p>
-                        {item.pointLeader?.name}
+                        {item?.pointLeader?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -173,7 +176,8 @@ function ShowInfoWarehouse(props) {
                         <strong>Số điện thoại trưởng kho:</strong>
                       </label>
                       <p>
-                        {item.pointLeader?.phone}
+
+                        {item?.pointLeader?.phone}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -181,7 +185,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Địa chỉ: </strong>
                       </label>
                       <p>
-                        {item.address}
+                        {item?.address}
                       </p>
                     </div>
                     <hr></hr>
@@ -202,7 +206,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Mã đơn hàng: </strong>
                       </label>
                       <p>
-                        {packageItem.packageCode}
+                        {packageItem?.packageCode}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -210,7 +214,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên người gửi: </strong>
                       </label>
                       <p>
-                        {packageItem.sender?.name}
+                        {packageItem?.sender?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -218,7 +222,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Tên người nhận: </strong>
                       </label>
                       <p>
-                        {packageItem.receiver?.name}
+                        {packageItem?.receiver?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -234,7 +238,7 @@ function ShowInfoWarehouse(props) {
                         <strong>Phí vận chuyển:</strong>
                       </label>
                       <p>
-                        {packageItem.shippingCost}
+                        {packageItem?.shippingCost}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -242,7 +246,8 @@ function ShowInfoWarehouse(props) {
                         <strong>Trạng thái:</strong>
                       </label>
                       <p>
-                        {packageItem.Status?.nameOfStatus}
+
+                        {packageItem?.Status?.nameOfStatus}
                       </p>
                     </div>
                     <hr></hr>
@@ -256,7 +261,7 @@ function ShowInfoWarehouse(props) {
           <div style={{ maxHeight: '400px', overflowY: 'scroll' }}>
             <ul>
               {warehouseEmployees.map(item => (
-                <li key={item.id}>
+                <li key={item?.id}>
                   <div>
                     <div style={{ marginLeft: '10%', marginRight: '10%' }}>
                       <div style={{ display: 'flex', gap: '10px' }}>
@@ -264,7 +269,7 @@ function ShowInfoWarehouse(props) {
                           <strong>Mã nhân viên:</strong>
                         </label>
                         <p>
-                          {item.id}
+                          {item?.id}
                         </p>
                       </div>
                       <div style={{ display: 'flex', gap: '10px' }}>
@@ -280,7 +285,7 @@ function ShowInfoWarehouse(props) {
                           <strong>Số điện thoại:</strong>
                         </label>
                         <p>
-                          {item.phone}
+                          {item?.phone}
                         </p>
                       </div>
                       <div style={{ display: 'flex', gap: '10px' }}>
@@ -288,7 +293,7 @@ function ShowInfoWarehouse(props) {
                           <strong>Địa chỉ:</strong>
                         </label>
                         <p>
-                          {item.address}
+                          {item?.address}
                         </p>
                       </div>
                     </div>

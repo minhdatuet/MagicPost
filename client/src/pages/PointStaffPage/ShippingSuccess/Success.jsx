@@ -10,16 +10,14 @@ import {
 import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
-import RefundedIcon from "../../../assets/icons/refunded.svg";
 import ShippingIcon from "../../../assets/icons/shipping.svg";
+import RefundedIcon from "../../../assets/icons/refunded.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
-import UpdateSendToWarehouse from "./Modal/UpdateSendToWarehouse/UpdateSendToWarehouse";
-// import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
-function WarehouseStaffSendToWarehouse() {
+function Success() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { packages } = useSelector((state) => state.package);
@@ -37,9 +35,10 @@ function WarehouseStaffSendToWarehouse() {
   }, []);
 
   useEffect(() => {
+    console.log(packages)
     const filteredPackages = packages.filter((pk) =>
-      pk?.warehouseStart?.id === parseInt(localStorage.getItem('warehouseId')) && pk?.Status?.nameOfStatus === "DELIVERING"
-      && pk?.Status?.dateWarehouseStartReceived !== null && pk?.Status?.dateSendToWarehouseEnd === null
+      pk.transactionPointEnd.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "SUCCESS"
+      && pk?.Status?.receivedDate !== null
     );
     setFilteredPackages(filteredPackages);
   }, [packages]);
@@ -76,9 +75,9 @@ function WarehouseStaffSendToWarehouse() {
     if (event.target.value !== "") {
       let searchResults = filteredPackages.filter(
         (item) =>
-          item?.first_name.toLowerCase().includes(search.toLowerCase()) ||
-          item?.last_name.toLowerCase().includes(search.toLowerCase()) ||
-          item?.product.toLowerCase().includes(search.toLowerCase())
+          item.first_name.toLowerCase().includes(search.toLowerCase()) ||
+          item.last_name.toLowerCase().includes(search.toLowerCase()) ||
+          item.product.toLowerCase().includes(search.toLowerCase())
       );
       setOrders(sliceData(searchResults, 1, 4));
       setPagination(calculateRange(searchResults, 4));
@@ -114,14 +113,14 @@ function WarehouseStaffSendToWarehouse() {
 
   return (
     <div className="dashboard-content">
-      <HeaderRole
-        btnText={"Thêm đơn hàng"}
+      {/* <HeaderRole
+        btnText={"Tạo đơn hàng cho khách"}
         variant="primary"
         onClick={handleOpenModal}
-      />
+      /> */}
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Các đơn đang chờ gửi đến kho</h2>
+          <h2>Các đơn hàng người nhận thành công</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -138,13 +137,14 @@ function WarehouseStaffSendToWarehouse() {
             <th>TRẠNG THÁI</th>
             <th>NGƯỜI GỬI</th>
             <th>NGƯỜI NHẬN</th>
+            <th>PHÍ VẬN CHUYỂN</th>
           </thead>
 
           {filteredPackages.length !== 0 ? (
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td><span>{order?.id}</span></td>
+                  <td><span>{order.id}</span></td>
                   <td>
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
@@ -176,10 +176,13 @@ function WarehouseStaffSendToWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order?.sender?.name}</span>
+                    <span>{order.sender.name}</span>
                   </td>
                   <td>
-                    <span>{order?.receiver?.name}</span>
+                    <span>{order.receiver.name}</span>
+                  </td>
+                  <td>
+                    <span>{order.shippingCost} VND</span>
                   </td>
                   <li class="list-inline-item">
                     <button
@@ -197,8 +200,8 @@ function WarehouseStaffSendToWarehouse() {
               ))}
             </tbody>
           ) : null}
+
         </table>
-        <UpdateSendToWarehouse showModal={isUpdateModalOpen} handleClose={handleCloseUpdateModal} selectedPackage={selectedPackage} />
 
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
@@ -250,4 +253,4 @@ function WarehouseStaffSendToWarehouse() {
   );
 }
 
-export default WarehouseStaffSendToWarehouse;
+export default Success;

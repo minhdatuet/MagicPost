@@ -42,7 +42,7 @@ function ShowInfoTransactionPoint(props) {
       try {
         const payload = {
           type: 'point',
-          positionId: String(transactionPoint.id)
+          positionId: String(transactionPoint?.id)
 
         }
         const response = await apiGetEmployees(payload)
@@ -110,7 +110,7 @@ function ShowInfoTransactionPoint(props) {
                       <strong>Mã nhân viên:</strong>
                     </label>
                     <p>
-                      {transactionPoint.pointLeader.id}
+                      {transactionPoint?.pointLeader?.id}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -118,7 +118,7 @@ function ShowInfoTransactionPoint(props) {
                       <strong>Họ và tên:</strong>
                     </label>
                     <p>
-                      {transactionPoint.pointLeader?.name}
+                      {transactionPoint?.pointLeader?.name}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -126,7 +126,7 @@ function ShowInfoTransactionPoint(props) {
                       <strong>Số điện thoại:</strong>
                     </label>
                     <p>
-                      {transactionPoint.pointLeader.phone}
+                      {transactionPoint?.pointLeader?.phone}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -134,7 +134,7 @@ function ShowInfoTransactionPoint(props) {
                       <strong>Địa chỉ:</strong>
                     </label>
                     <p>
-                      {transactionPoint.pointLeader.address}
+                      {transactionPoint?.pointLeader?.address}
                     </p>
                   </div>
                 </div>
@@ -154,7 +154,7 @@ function ShowInfoTransactionPoint(props) {
                         <strong>Mã đơn hàng: </strong>
                       </label>
                       <p>
-                        {packageItem.packageCode}
+                        {packageItem?.packageCode}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -162,7 +162,7 @@ function ShowInfoTransactionPoint(props) {
                         <strong>Tên người gửi: </strong>
                       </label>
                       <p>
-                        {packageItem.sender?.name}
+                        {packageItem?.sender?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -170,7 +170,7 @@ function ShowInfoTransactionPoint(props) {
                         <strong>Tên người nhận: </strong>
                       </label>
                       <p>
-                        {packageItem.receiver?.name}
+                        {packageItem?.receiver?.name}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -186,7 +186,7 @@ function ShowInfoTransactionPoint(props) {
                         <strong>Phí vận chuyển:</strong>
                       </label>
                       <p>
-                        {packageItem.shippingCost}
+                        {packageItem?.shippingCost}
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -194,7 +194,7 @@ function ShowInfoTransactionPoint(props) {
                         <strong>Trạng thái:</strong>
                       </label>
                       <p>
-                        {packageItem.Status?.nameOfStatus}
+                        {packageItem?.Status?.nameOfStatus}
                       </p>
                     </div>
                     <hr></hr>
@@ -208,7 +208,7 @@ function ShowInfoTransactionPoint(props) {
           <div style={{ maxHeight: '400px', overflowY: 'scroll' }}>
             <ul>
               {pointEmployees.map(item => (
-                <li key={item.id}>
+                <li key={item?.id}>
                   <div>
                     <div style={{ marginLeft: '10%', marginRight: '10%' }}>
                       <div style={{ display: 'flex', gap: '10px' }}>
@@ -216,7 +216,7 @@ function ShowInfoTransactionPoint(props) {
                           <strong>Mã nhân viên:</strong>
                         </label>
                         <p>
-                          {item.id}
+                          {item?.id}
                         </p>
                       </div>
                       <div style={{ display: 'flex', gap: '10px' }}>
@@ -232,7 +232,7 @@ function ShowInfoTransactionPoint(props) {
                           <strong>Số điện thoại:</strong>
                         </label>
                         <p>
-                          {item.phone}
+                          {item?.phone}
                         </p>
                       </div>
                       <div style={{ display: 'flex', gap: '10px' }}>
@@ -240,7 +240,7 @@ function ShowInfoTransactionPoint(props) {
                           <strong>Địa chỉ:</strong>
                         </label>
                         <p>
-                          {item.address}
+                          {item?.address}
                         </p>
                       </div>
                     </div>

@@ -38,7 +38,7 @@ function PointStaffReceiveFromWarehouse() {
 
   useEffect(() => {
     const filteredPackages = packages.filter((pk) =>
-      pk.warehouseStart.id === parseInt(localStorage.getItem('warehouseId')) && pk?.Status?.nameOfStatus === "DELIVERING"
+      pk?.warehouseStart?.id === parseInt(localStorage.getItem('warehouseId')) && pk?.Status?.nameOfStatus === "DELIVERING"
       && pk?.Status?.dateWarehouseStartReceived === null && pk?.Status?.dateSendToWarehouseStart !== null
     );
     setFilteredPackages(filteredPackages);
@@ -76,9 +76,9 @@ function PointStaffReceiveFromWarehouse() {
     if (event.target.value !== "") {
       let searchResults = filteredPackages.filter(
         (item) =>
-          item.first_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.last_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.product.toLowerCase().includes(search.toLowerCase())
+          item?.first_name.toLowerCase().includes(search.toLowerCase()) ||
+          item?.last_name.toLowerCase().includes(search.toLowerCase()) ||
+          item?.product.toLowerCase().includes(search.toLowerCase())
       );
       setOrders(sliceData(searchResults, 1, 4));
       setPagination(calculateRange(searchResults, 4));
@@ -145,7 +145,7 @@ function PointStaffReceiveFromWarehouse() {
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td><span>{order.id}</span></td>
+                  <td><span>{order?.id}</span></td>
                   <td>
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
@@ -177,13 +177,13 @@ function PointStaffReceiveFromWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.sender.name}</span>
+                    <span>{order?.sender?.name}</span>
                   </td>
                   <td>
-                    <span>{order.receiver.name}</span>
+                    <span>{order?.receiver?.name}</span>
                   </td>
                   <td>
-                    <span>{order.transactionPointStart.name}</span>
+                    <span>{order?.transactionPointStart?.name}</span>
                   </td>
                   <li class="list-inline-item">
                     <button

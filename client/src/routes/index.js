@@ -2,7 +2,7 @@ import Account from "../pages/AdminPage/Account/Account";
 import {Home} from "../pages/PublicPage/Home/Home";
 import Login from "../pages/PublicPage/Login/Login";
 import Package from "../pages/AdminPage/Package/Package";
-import Register from "../pages/Register/Register";
+import Register from "../pages/PublicPage/Register/Register";
 import TransactionPoint from "../pages/AdminPage/TransactionPoint/TransactionPoint";
 import Warehouse from "../pages/AdminPage/Warehouse/Warehouse";
 import Construction from "../pages/PublicPage/Construction/Construction"
@@ -20,6 +20,7 @@ import warehouseStaffSendToWarehouse from "../pages/WarehouseStaffPage/SendToWar
 import warehouseStaffReceiveFromWarehouse from "../pages/WarehouseStaffPage/ReceiveFromWarehouse/ReceiveFromWarehouse";
 import warehouseStaffSendToTransaction from "../pages/WarehouseStaffPage/SendToTransaction/SendToTransaction";
 import warehouseStaffReceiveFromTransaction from "../pages/WarehouseStaffPage/ReceiveFromTransaction/ReceiveFromTransaction";
+import Success from "../pages/PointStaffPage/ShippingSuccess/Success";
 const publicRoutes = [
     {
       path: 'login',
@@ -94,7 +95,12 @@ const pointStaffRoutes = [
   {
     path: 'pointStaff/refund',
     page: Refund
+  },
+  {
+    path: 'pointStaff/success',
+    page: Success
   }
+
 ]
 const warehouseLeaderRoutes = [
   {

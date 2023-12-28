@@ -6,10 +6,13 @@ import {
   getAllWarehouses,
   getAllTransactionPoints,
 } from "../../../../../store/actions";
+import { apiLeader, apiRegister } from "../../../../../services/auth";
 function CreateNewAccountModal(props) {
   const [reset, setReset] = useState(false);
   const dispatch = useDispatch();
   const [validated, setValidated] = useState(false);
+  const [noLeaderWarehouses, setNoLeaderWarehouses] = useState([])
+  const [noLeaderPoints, setNoLeaderPoints] = useState([])
   const { warehouses } = useSelector((state) => state.warehouse);
   const { transactionPoints } = useSelector((state) => state.transactionPoint);
   useEffect(() => {
@@ -18,13 +21,24 @@ function CreateNewAccountModal(props) {
   useEffect(() => {
     dispatch(getAllTransactionPoints());
   }, []);
+  useEffect(() => {
+    const filteredWarehouses = warehouses.filter(warehouse => warehouse.warehouseLeader === null);
+    console.log(filteredWarehouses)
+    setNoLeaderWarehouses(filteredWarehouses)
+  }, [warehouses])
+
+  useEffect(() => {
+    const filteredPoints = transactionPoints.filter(warehouse => warehouse.pointLeader === null);
+    console.log(filteredPoints)
+    setNoLeaderPoints(filteredPoints)
+  }, [transactionPoints])
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     address: "",
     password: "",
     accountType: "",
-    positionId: "",
+    positionId: null,
   });
 
   const handleHide = () => {
@@ -65,7 +79,18 @@ function CreateNewAccountModal(props) {
         accountType: "",
         positionId: "",
       });
-      props.onHide();
+      console.log(formData)
+      const fetchCreateUser = async () => {
+        const response = await apiRegister(formData);
+        if (formData.positionId && !response.data.err) {
+          apiLeader(formData)
+        }
+      };
+      
+      fetchCreateUser()
+      
+      window.location.reload()
+      // props.onHide();
     }
   };
 
@@ -169,18 +194,17 @@ function CreateNewAccountModal(props) {
                 onChange={(e) =>
                   setFormData({ ...formData, positionId: e.target.value })
                 }
-                required
               >
                 <option value="" disabled>
                   Chọn vị trí làm việc
                 </option>
                 {formData.accountType === "WAREHOUSE_LEADER"
-                  ? warehouses.map((warehouse) => (
+                  ? noLeaderWarehouses.map((warehouse) => (
                       <option key={warehouse.id} value={warehouse.id}>
                         {warehouse.name}
                       </option>
                     ))
-                  : transactionPoints.map((transactionPoint) => (
+                  : noLeaderPoints.map((transactionPoint) => (
                       <option
                         key={transactionPoint.id}
                         value={transactionPoint.id}
@@ -189,9 +213,6 @@ function CreateNewAccountModal(props) {
                       </option>
                     ))}
               </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                Vui lòng chọn vị trí làm việc.
-              </Form.Control.Feedback>
             </Form.Group>
           </Row>
           <Row style={{ marginTop: "10px" }}>

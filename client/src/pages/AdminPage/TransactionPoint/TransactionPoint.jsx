@@ -60,13 +60,32 @@ function TransactionPoint() {
     }, [page, transactionPoints]);
 
     // Search
+    // const handleSearch = (event) => {
+    //     setSearch(event.target.value);
+    //     if (event.target.value !== '') {
+    //         let searchResults = transactionPoints.filter((item) =>
+    //             item?.name.toLowerCase().includes(search.toLowerCase()) ||
+    //             item.email.toLowerCase().includes(search.toLowerCase()) ||
+    //             item.leader.toLowerCase().includes(search.toLowerCase())
+    //         );
+    //         setTransactions(searchResults);
+    //         setPagination(calculateRange(searchResults, 5));
+    //         setPage(1); // Reset to the first page when searching
+    //     } else {
+    //         setTransactions(sliceData(transactionPoints, page, 5));
+    //         setPagination(calculateRange(transactionPoints, 5));
+    //     }
+    // };
+
     const handleSearch = (event) => {
-        setSearch(event.target.value);
-        if (event.target.value !== '') {
+        const searchText = event.target.value.toLowerCase();
+        setSearch(searchText);
+    
+        if (searchText !== '') {
             let searchResults = transactionPoints.filter((item) =>
-                item?.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.email.toLowerCase().includes(search.toLowerCase()) ||
-                item.leader.toLowerCase().includes(search.toLowerCase())
+                (item?.name?.toLowerCase()?.includes(searchText)) ||
+                (item?.email?.toLowerCase()?.includes(searchText)) ||
+                (item?.leader?.toLowerCase()?.includes(searchText))
             );
             setTransactions(searchResults);
             setPagination(calculateRange(searchResults, 5));

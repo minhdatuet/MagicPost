@@ -10,7 +10,6 @@ import {
 import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
-import RefundedIcon from "../../../assets/icons/refunded.svg";
 import ShippingIcon from "../../../assets/icons/shipping.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
@@ -139,24 +138,42 @@ function PointLeaderPackage() {
   };
 
   // Search
-  const handleSearch = (event) => {
-    setSearch(event.target.value);
-    if (event.target.value !== "") {
-      let searchResults = filteredPackages.filter(
-        (item) =>
-          item.first_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.last_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.product.toLowerCase().includes(search.toLowerCase())
-      );
-      setOrders(sliceData(searchResults, 1, 4));
-      setPagination(calculateRange(searchResults, 4));
-      setPage(1); // Reset to the first page when searching
-    } else {
-      setOrders(sliceData(filteredPackages, page, 4));
-      setPagination(calculateRange(filteredPackages, 4));
-    }
-  };
+  // const handleSearch = (event) => {
+  //   setSearch(event.target.value);
+  //   if (event.target.value !== "") {
+  //     let searchResults = filteredPackages.filter(
+  //       (item) =>
+  //         item.first_name.toLowerCase().includes(search.toLowerCase()) ||
+  //         item.last_name.toLowerCase().includes(search.toLowerCase()) ||
+  //         item.product.toLowerCase().includes(search.toLowerCase())
+  //     );
+  //     setOrders(sliceData(searchResults, 1, 4));
+  //     setPagination(calculateRange(searchResults, 4));
+  //     setPage(1); // Reset to the first page when searching
+  //   } else {
+  //     setOrders(sliceData(filteredPackages, page, 4));
+  //     setPagination(calculateRange(filteredPackages, 4));
+  //   }
+  // };
 
+  const handleSearch = (event) => {
+    const searchText = event.target.value.toLowerCase();
+    setSearch(searchText);
+
+    if (searchText !== '') {
+        let searchResults = filteredPackages.filter((item) =>
+            (item?.first_name && typeof item.first_name === 'string' && item.first_name.toLowerCase().includes(searchText)) ||
+            (item?.last_name && typeof item.last_name === 'string' && item.last_name.toLowerCase().includes(searchText)) ||
+            (item?.product && typeof item.product === 'string' && item.product.toLowerCase().includes(searchText))
+        );
+        setOrders(sliceData(searchResults, 1, 4));
+        setPagination(calculateRange(searchResults, 4));
+        setPage(1); // Reset to the first page when searching
+    } else {
+        setOrders(sliceData(filteredPackages, page, 4));
+        setPagination(calculateRange(filteredPackages, 4));
+    }
+};
   // Change Page
   const handleChangePage = (newPage) => {
     if (newPage !== page) {
@@ -182,11 +199,6 @@ function PointLeaderPackage() {
 
   return (
     <div className="dashboard-content">
-      {/* <HeaderRole
-        btnText={"Tạo đơn hàng cho khách"}
-        variant="primary"
-        onClick={handleOpenModal}
-      /> */}
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn hàng tại điểm giao dịch {localStorage.getItem('transactionPointId')}</h2>
