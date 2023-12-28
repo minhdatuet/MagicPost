@@ -16,6 +16,7 @@ function UpdateWarehouseModal(props) {
   });
 
   const { warehouses } = props;
+  const {warehouse} = props;
 
   const handleInputChange = (event) => {
     const { id, value, type, checked } = event.target;

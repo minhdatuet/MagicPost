@@ -6,7 +6,6 @@ import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import CreateNewWarehouseModal from './Modal/CreateNewWarehouse/CreateNewWarehouse';
 import UpdateWarehouseModal from './Modal/UpdateWarehouse/UpdateWarehouse';
 import ShowInfoWarehouse from './Modal/ShowInfoWarehouse/ShowInfoWarehouse';
-import DeleteWarehouseModal from './Modal/DeleteWarehouseModal/DeleteWarehouseModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllWarehouses } from '../../../store/actions';
 
@@ -194,9 +193,9 @@ function Warehouse() {
                                             <li className="list-inline-item">
                                                 <button className="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" onClick={(e) => handleOpenUpdateModal(warehouse)}><i class="fa fa-edit"></i></button>
                                             </li>
-                                            <li className="list-inline-item">
+                                            {/* <li className="list-inline-item">
                                                 <button className="btn btn-secondary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onClick={(e) => handleDeleteModalOpen(warehouse)}><i class="fa fa-trash"></i></button>
-                                            </li>
+                                            </li> */}
                                         </ul>
                                     </td>
                                 </tr>
@@ -214,11 +213,11 @@ function Warehouse() {
                         warehouses = {warehouses}
                         warehouse={selectedWarehouse}
                     />
-                    <DeleteWarehouseModal
+                    {/* <DeleteWarehouseModal
                         show={isDeleteModalOpen}
                         onHide={handleCloseDeleteModal}
                         warehouse = {selectedWarehouse}
-                    />
+                    /> */}
                 </table>
 
                 {warehouses.length !== 0 ? (
