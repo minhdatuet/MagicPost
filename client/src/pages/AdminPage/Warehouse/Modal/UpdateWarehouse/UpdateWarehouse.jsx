@@ -113,8 +113,8 @@ function UpdateWarehouseModal(props) {
               <Form.Control as="select" value={formData.warehouseLeader} onChange={(e) => setWarehouseLeader(e.target.value)}>
                 <option>Chọn trưởng kho</option>
                 {warehouses.map((item) => (
-                  <option key={item.id} value={item.warehouseLeader.name}>
-                    {item.warehouseLeader.name}
+                  <option key={item.id} value={item.warehouseLeader?.name}>
+                    {item.warehouseLeader?.name}
                   </option>
                 ))}
               </Form.Control>
