@@ -110,7 +110,7 @@ function CreateNewWarehouseModal(props) {
 
       console.log(formData)
       apiCreateNewWarehouse(formData)
-      window.location.reload
+      window.location.reload();
 
       props.onHide(); 
       setFormData({
