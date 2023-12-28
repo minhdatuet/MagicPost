@@ -1,6 +1,6 @@
 import React, { useEffect, useRef} from 'react'
 import './Construction.css'
-import home from '../../assets/images/home.png'
+import home from '../../../assets/images/home.png'
 
 const Construction = () => {
     const ref = useRef();

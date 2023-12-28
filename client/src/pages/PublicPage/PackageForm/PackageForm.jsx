@@ -1,4 +1,4 @@
-import tem from '../../assets/images/tem.png'
+import tem from '../../../assets/images/tem.png'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 

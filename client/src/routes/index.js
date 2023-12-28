@@ -1,12 +1,12 @@
 import Account from "../pages/AdminPage/Account/Account";
-import { Home } from "../pages/Home/Home";
-import Login from "../pages/Login/Login";
+import {Home} from "../pages/PublicPage/Home/Home";
+import Login from "../pages/PublicPage/Login/Login";
 import Package from "../pages/AdminPage/Package/Package";
-import Register from "../pages/Register/Register";
+import Register from "../pages/PublicPage/Register/Register";
 import TransactionPoint from "../pages/AdminPage/TransactionPoint/TransactionPoint";
 import Warehouse from "../pages/AdminPage/Warehouse/Warehouse";
-import Construction from "../pages/Construction/Construction"
-import AboutUs from "../pages//AboutUs//AboutUs"
+import Construction from "../pages/PublicPage/Construction/Construction"
+import AboutUs from "../pages/PublicPage/AboutUs//AboutUs"
 import DashBoardAdmin from "../pages/AdminPage/Dashboard/DashBoardAdmin"
 import PointLeaderPackage from "../pages/PointLeaderPage/Package/PointLeaderPackage";
 import PointLeaderAccount from "../pages/PointLeaderPage/Account/PointLeaderAccount";
@@ -22,7 +22,7 @@ import warehouseStaffSendToTransaction from "../pages/WarehouseStaffPage/SendToT
 import warehouseStaffReceiveFromTransaction from "../pages/WarehouseStaffPage/ReceiveFromTransaction/ReceiveFromTransaction";
 const publicRoutes = [
     {
-      path: '/login',
+      path: 'pub/login',
       page: Login
     },
     {

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef} from 'react'
 import './AboutUs.css'
-import avt1 from '../../assets/images/avt1.jpg'
-import avt3 from '../../assets/images/avt3.jpg'
+import avt1 from '../../../assets/images/avt1.jpg'
+import avt3 from '../../../assets/images/avt3.jpg'
 import { useSelector, useDispatch } from 'react-redux'
-import * as actions from '../../store/actions'
+import * as actions from '../../../store/actions'
 
 const AboutUs = () => {    
     const ref = useRef();

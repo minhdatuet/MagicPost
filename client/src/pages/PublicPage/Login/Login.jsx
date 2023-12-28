@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './Login.css'
-import Button from '../../conponents/Button/Button'
-import * as actions from '../../store/actions'
+import Button from '../../../conponents/Button/Button'
+import * as actions from '../../../store/actions'
 import { useNavigate } from 'react-router-dom'
-import car from '../../assets/images/car.png'
+import car from '../../../assets/images/car.png'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Login = () => {

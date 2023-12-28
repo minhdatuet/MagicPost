@@ -6,8 +6,8 @@ import Footer from "./conponents/Footer/Footer";
 import Sidebar from "./conponents/Sidebar/Sidebar";
 import DashBoardAdmin from "./pages/AdminPage/Dashboard/DashBoardAdmin";
 import "./App.css";
-import Loading from "./pages/Loading/Loading";
-import PackageForm from "./pages/PackageForm/PackageForm"
+import Loading from "./pages/PublicPage/Loading/Loading";
+import PackageForm from "./pages/PublicPage/PackageForm/PackageForm"
 import Account from "./pages/AdminPage/Account/Account";
 
 function App() {

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import './Home.css';
-import { apiGetPackage, apiGetUser } from '../../services/user'
+import { apiGetPackage, apiGetUser } from '../../../services/user'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllPackages } from "../../store/actions/package";
+import { getAllPackages } from "../../../store/actions/package";
 import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
@@ -14,10 +14,7 @@ export const Home = () => {
   const [showPackageInfo, setShowPackageInfo] = useState(false);
   const [packageItem, setSearchedPackage] = useState(null);
   const navigate = useNavigate();
-  
-
-
-  useEffect(() => {
+    useEffect(() => {
     dispatch(getAllPackages());
   }, []);
 

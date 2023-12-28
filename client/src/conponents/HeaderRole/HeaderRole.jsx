@@ -15,7 +15,7 @@ function HeaderRole ({ btnText, onClick }) {
     const hide = () => setVisible(false);
     const dispatch = useDispatch()
     const { isLogged } = useSelector(state => state.auth)
-  const {userData} = useSelector(state => state.user)
+    const {userData} = useSelector(state => state.user)
     const navigate = useNavigate();
 
     const handleClickLogout = () => {
@@ -24,7 +24,6 @@ function HeaderRole ({ btnText, onClick }) {
         localStorage.setItem('name', '');
         localStorage.setItem('transactionPointId', '')
         localStorage.setItem('warehouseId', '')
-        
         navigate('/');
         window.location.reload();
     };

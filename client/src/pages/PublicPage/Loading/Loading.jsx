@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import './Loading.css'
 import { useSelector, useDispatch } from 'react-redux'
-import * as actions from '../../store/actions'
-import runner from '../../assets/images/runner.gif'
+import * as actions from '../../../store/actions'
+import runner from '../../../assets/images/runner.gif'
 import { useNavigate } from 'react-router-dom'
 
 const Loading = () => {    

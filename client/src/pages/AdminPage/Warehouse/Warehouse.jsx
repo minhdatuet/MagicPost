@@ -168,9 +168,9 @@ function Warehouse() {
                 <table>
                     <thead>
                         <th>ID</th>
-                        <th>NAME</th>
-                        <th>EMAIL</th>
-                        <th>LEADER</th>
+                        <th>TÊN KHO HÀNG</th>
+                        <th>ĐỊA CHỈ KHO HÀNG</th>
+                        <th>TRƯỞNG KHO</th>
                     </thead>
 
                     {warehousesAll.length !== 0 ? (
