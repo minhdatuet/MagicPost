@@ -1,8 +1,9 @@
 const db = require('../models/');
 const bcrypt = require('bcryptjs');
+const { response } = require('express');
 const jwr = require('jsonwebtoken');
 require('dotenv').config();
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Op } = require('sequelize');
 
 exports.getUser = (phone) => new Promise(async(resolve, reject) => {
     try {
@@ -221,4 +222,29 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
         reject(error);
     }
 });
+
+
+exports.deleteService = (id) => new Promise(async(resolve, reject) => {
+    try {
+
+      const responseEmployee = await db.Employee.destroy({
+        where: {accountId: id}
+      })
+       const response = await db.Accounts.destroy({
+            where: {id,
+            [Op.or]: [{
+                accountType: 'WAREHOUSE_STAFF'
+            },{
+                accountType: 'POINT_STAFF'
+            }]}
+        })
+        resolve({
+          err: responseEmployee && response ? 0 : 2,
+          msg: responseEmployee && response ? 'Delete is successfully' : `Can't find this id`,
+        })
+  
+      } catch (error) {
+        reject(error)
+    }
+  })
   

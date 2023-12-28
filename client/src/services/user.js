@@ -36,3 +36,16 @@ export const apiGetAllUsers = () =>  new Promise(async(resolve, reject) => {
         reject(error)
     }
 })
+
+export const apiDeleteEmployee = (id) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'delete',
+            url: `/api/v1/user/delete/${id}`,
+        })
+        console.log(response)
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
