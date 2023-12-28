@@ -14,6 +14,7 @@ import ShippingIcon from "../../../assets/icons/shipping.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages} from "../../../store/actions/package";
 import { getAllTransactionPoints } from "../../../store/actions";
@@ -216,6 +217,11 @@ function PointLeaderPackage() {
 
   return (
     <div className="dashboard-content">
+    <HeaderRoleNoButton
+    btnText={"Thêm đơn hàng"}
+    variant="primary"
+    onClick={handleOpenModal}
+  />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn hàng tại điểm giao dịch {transactionPointName}</h2>

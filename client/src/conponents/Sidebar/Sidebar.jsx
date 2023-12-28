@@ -122,7 +122,7 @@ export default function Sidebar() {
         },
         {
           icon: WorkOutline,
-          title: "Đơn chuyển thành công",
+          title: "Đơn giao thành công",
           link: "/pointStaff/success",
           key: 5,
         }

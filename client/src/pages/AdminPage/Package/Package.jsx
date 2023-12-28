@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
 import ShippingIcon from "../../../assets/icons/shipping.svg"
-import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
+import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
 import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
 import UpdatePackageModal from "./Modal/UpdatePackage/UpdatePackage";
 import { apiDeletePackage, apiGetAllPackages } from "../../../services/package";
@@ -214,11 +214,11 @@ function Package() {
 
   return (
     <div className="dashboard-content">
-      {/* <HeaderRole
+      <HeaderRoleNoButton
         btnText={"Thêm đơn hàng"}
         variant="primary"
         onClick={handleOpenModal}
-      /> */}
+      />
       <CreateNewPackageModal
         // dialogClassName="modal-dialog-custom"
         show={isModalOpen}
