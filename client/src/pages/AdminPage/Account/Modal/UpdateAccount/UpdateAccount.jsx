@@ -25,17 +25,21 @@ function UpdateAccountModal(props) {
     role: "",
     workLocation: "",
   });
-
   useEffect(() => {
-    setFormData({
-      ...account,
-      userName: account.name || "", // Set the initial value for userName to account.name or an empty string
-      phone: account.phone || "", // Set the initial value for phone to account.phone or an empty string
-      role: account.accountType || "", // Set the initial value for role to account.accountType or an empty string
-      workLocation:
-        account.Warehouses[0]?.name || account.TransactionPoints[0]?.name || "", // Set the initial value for workLocation based on your conditions
-    });
+    if (account) {
+      setFormData({
+        ...account,
+        userName: account.name || "",
+        phone: account.phone || "",
+        role: account.accountType || "",
+        workLocation:
+          account.Warehouses[0]?.name ||
+          account.TransactionPoints[0]?.name ||
+          "",
+      });
+    }
   }, [account]);
+  
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -110,7 +114,7 @@ function UpdateAccountModal(props) {
               />
             </Form.Group>
           </Row>
-          <Row>
+          <Row className="mb-3">
             <Form.Group as={Col} controlId="address">
               <Form.Label>Địa chỉ</Form.Label>
               <Form.Control
