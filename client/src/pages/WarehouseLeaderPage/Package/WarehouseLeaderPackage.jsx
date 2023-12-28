@@ -18,12 +18,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
 import { apiGetPackagesOfWarehouse } from "../../../services/warehouse";
 // import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
+import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
 
 function WarehouseLeaderPackage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const { packages } = useSelector((state) => state.package);
-  
+
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
@@ -32,7 +33,8 @@ function WarehouseLeaderPackage() {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
-
+  const [showInfoPackage, setShowInfoPackage] = useState(false);
+  const [statusPackage, setStatusPackage] = useState('');
 
 
   useEffect(() => {
@@ -59,7 +61,7 @@ function WarehouseLeaderPackage() {
 
   useEffect(() => {
     setPagination(calculateRange(filteredPackages, 4));
-    setPage(1); 
+    setPage(1);
   }, [filteredPackages]);
 
   useEffect(() => {
@@ -72,6 +74,7 @@ function WarehouseLeaderPackage() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setShowInfoPackage(false);
   };
 
   const handleOpenUpdateModal = (order) => {
@@ -81,6 +84,46 @@ function WarehouseLeaderPackage() {
 
   const handleCloseUpdateModal = () => {
     setIsUpdateModalOpen(false);
+  };
+
+  const handleShowInfoPackage = (order) => {
+    // console.log(order);
+    setSelectedPackage(order)
+    const statusTimes = [
+      [order.Status.datePointEndReceived,
+      order.transactionPointEnd && order.transactionPointEnd?.name ? order.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
+  
+      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + order.Status.dateReceiverReturn],
+  
+      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + order.Status.dateSendPackage],
+  
+      [order.Status.dateSendToPointEnd,
+      order.transactionPointEnd && order.transactionPointEnd?.name ? 
+      "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " +  order.transactionPointEnd: null],
+  
+      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + order.Status.dateSendToReceiver],
+  
+      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ? 
+      "Đơn hàng rời khỏi kho " + order.warehouseStart?.name +  " lúc " + order.Status.dateSendToWarehouseEnd : null],
+  
+      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ? 
+      "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name +  " lúc " + order.Status.dateSendToWarehouseStart : null],
+  
+      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ? 
+      "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + order.Status.dateWarehouseEndReceived: null],
+  
+      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ? 
+      "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + order.Status.dateWarehouseStartReceived : null],
+  
+      [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
+    ];
+  
+    const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
+  
+    filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    setStatusPackage(filteredStatusTimes);
+    setShowInfoPackage(true)
+    
   };
 
   // Search
@@ -127,11 +170,11 @@ function WarehouseLeaderPackage() {
 
   return (
     <div className="dashboard-content">
-      <HeaderRole
+      {/* <HeaderRole
         btnText={"Tạo đơn hàng cho khách"}
         variant="primary"
         onClick={handleOpenModal}
-      />
+      /> */}
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn hàng tại kho {localStorage.getItem('warehouseId')}</h2>
@@ -146,68 +189,76 @@ function WarehouseLeaderPackage() {
           </div>
         </div>
         <table>
-        <thead>
-    <th>ID</th>
-    <th>TRẠNG THÁI</th>
-    <th>NGƯỜI GỬI</th>
-    <th>NGƯỜI NHẬN</th>
-</thead>
+          <thead>
+            <th>ID</th>
+            <th>TRẠNG THÁI</th>
+            <th>NGƯỜI GỬI</th>
+            <th>NGƯỜI NHẬN</th>
+          </thead>
 
-{filteredPackages.length !== 0 ? (
-  <tbody>
-    {orders.map((order, index) => (
-      <tr key={index}>
-        <td><span>{order.id}</span></td>
-        <td>
-          <div>
-            {order?.Status?.nameOfStatus === "DELIVERING" ? (
-              <img
-                src={DoneIcon}
-                alt="paid-icon"
-                className="dashboard-content-icon"
-              />
-            ) : order?.Status?.nameOfStatus === "FAILED" ? (
-              <img
-                src={CancelIcon}
-                alt="canceled-icon"
-                className="dashboard-content-icon"
-              />
-            ) : order?.Status?.nameOfStatus === "Refunded" ? (
-              <img
-                src={RefundedIcon}
-                alt="refunded-icon"
-                className="dashboard-content-icon"
-              />
-            ) : null}
-            <span>{order?.Status?.nameOfStatus}</span>
-          </div>
-        </td>
-        <td>
-        <span>{order.sender.name}</span>
-      </td>
-      <td>
-        <span>{order.receiver.name}</span>
-      </td>
-    {/*  <td>
+          {filteredPackages.length !== 0 ? (
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={index}>
+                  <td><span>{order.id}</span></td>
+                  <td>
+                    <div>
+                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                        <img
+                          src={DoneIcon}
+                          alt="paid-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                        <img
+                          src={CancelIcon}
+                          alt="canceled-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : order?.Status?.nameOfStatus === "Refunded" ? (
+                        <img
+                          src={RefundedIcon}
+                          alt="refunded-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : null}
+                      <span>{order?.Status?.nameOfStatus}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span>{order.sender.name}</span>
+                  </td>
+                  <td>
+                    <span>{order.receiver.name}</span>
+                  </td>
+                  {/*  <td>
         <span>{order.warehouseStart.name}</span>
       </td>*/}
-      <li class="list-inline-item">
-      <button
-        class="btn btn-secondary btn-sm rounded-0"
-        type="button"
-        data-toggle="tooltip"
-        data-placement="top"
-        title="Edit"
-        onClick={() => handleOpenUpdateModal(order)}
-      >
-        <i class="fa fa-edit"></i>
-      </button>
-    </li>
-      </tr>
-    ))}
-  </tbody>
+                  <li className="list-inline-item">
+                    <button
+                      className="btn btn-secondary btn-sm rounded-0"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="View All"
+                      onClick={(e) => handleShowInfoPackage(order)}
+                    >
+                      <i className="fa fa-eye"></i>
+                      {/* Use the appropriate icon class here */}
+                    </button>
+                  </li>
+                </tr>
+              ))}
+            </tbody>
           ) : null}
         </table>
+
+        <ShowInfoPackage
+            show={showInfoPackage}
+            order = {selectedPackage}
+            statusPackage = {statusPackage}
+            onHide={handleCloseModal}
+          />
 
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
