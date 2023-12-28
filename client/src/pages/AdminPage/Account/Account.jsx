@@ -66,23 +66,41 @@ const Account = () => {
   }, [page, users]);
 
   // Search
+  // const handleSearch = (event) => {
+  //   setSearch(event.target.value);
+  //   if (event.target.value !== "") {
+  //     let searchResults = users.filter(
+  //       (item) =>
+  //         item.first_name.toLowerCase().includes(search.toLowerCase()) ||
+  //         item.last_name.toLowerCase().includes(search.toLowerCase()) ||
+  //         item.product.toLowerCase().includes(search.toLowerCase())
+  //     );
+  //     setAccounts(searchResults); 
+  //     setPagination(calculateRange(searchResults, 5));
+  //     setPage(1);
+  //   } else {
+  //     setAccounts(sliceData(users, page, 5)); 
+  //     setPagination(calculateRange(users, 5));
+  //   }
+  // };
+
   const handleSearch = (event) => {
-    setSearch(event.target.value);
-    if (event.target.value !== "") {
-      let searchResults = users.filter(
-        (item) =>
-          item.first_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.last_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.product.toLowerCase().includes(search.toLowerCase())
-      );
-      setAccounts(searchResults); 
-      setPagination(calculateRange(searchResults, 5));
-      setPage(1);
+    const searchText = event.target.value.toLowerCase();
+    setSearch(searchText);
+
+    if (searchText !== '') {
+        let searchResults = users.filter((item) =>
+            (item?.first_name && typeof item.first_name === 'string' && item.first_name.toLowerCase().includes(searchText)) ||
+            (item?.last_name && typeof item.last_name === 'string' && item.last_name.toLowerCase().includes(searchText)) ||
+            (item?.product && typeof item.product === 'string' && item.product.toLowerCase().includes(searchText))
+        );
+        setPagination(calculateRange(searchResults, 5));
+        setPage(1);// Reset to the first page when searching
     } else {
       setAccounts(sliceData(users, page, 5)); 
       setPagination(calculateRange(users, 5));
     }
-  };
+};
 
   // Change Page
   const handleChangePage = (newPage) => {
