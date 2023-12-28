@@ -18,7 +18,7 @@ function Warehouse() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [isDelete, setIsDelete] = useState(null);
-    const [warehouse, setWarehouse] = useState(warehouses);
+    const [warehousesAll, setWarehouseAll] = useState(warehouses);
     const [showInfoWarehouse, setShowInfoWarehouse] = useState(false);
     const [selectedWarehouse, setSelectedWarehouse] = useState(null);
     const handleOpenModal = () => {
@@ -48,7 +48,7 @@ function Warehouse() {
 
     useEffect(() => {
         setPagination(calculateRange(warehouses, 5));
-        setWarehouse(sliceData(warehouses, page, 5));
+        setWarehouseAll(sliceData(warehouses, page, 5));
     }, [page, warehouses]);
 
     const onHandlerShowInfoWarehouse = (warehouse) => {
@@ -65,11 +65,11 @@ function Warehouse() {
                 item.email.toLowerCase().includes(search.toLowerCase()) ||
                 item.leader.toLowerCase().includes(search.toLowerCase())
             );
-            setWarehouse(searchResults);
+            setWarehouseAll(searchResults);
             setPagination(calculateRange(searchResults, 5));
             setPage(1); // Reset to the first page when searching
         } else {
-            setWarehouse(sliceData(warehouses, page, 5));
+            setWarehouseAll(sliceData(warehouses, page, 5));
             setPagination(calculateRange(warehouses, 5));
         }
     };
@@ -160,9 +160,9 @@ function Warehouse() {
                         <th>LEADER</th>
                     </thead>
 
-                    {warehouses.length !== 0 ? (
+                    {warehousesAll.length !== 0 ? (
                         <tbody>
-                            {warehouses.map((warehouse, index) => (
+                            {warehousesAll.map((warehouse, index) => (
                                 <tr key={index}>
                                     <td><span>{warehouse.id}</span></td>
                                     <td><span>{warehouse?.name}</span></td>
@@ -200,7 +200,7 @@ function Warehouse() {
                     />
                 </table>
 
-                {warehouses.length !== 0 ? (
+                {warehousesAll.length !== 0 ? (
                     <div className='dashboard-content-footer'>
                         <span className="pagination" onClick={handleFirstPage} disabled={page === 1}>{'<<'}</span>
                         <span className="pagination" onClick={handlePrevPage} disabled={page === 1}>{'<'}</span>
