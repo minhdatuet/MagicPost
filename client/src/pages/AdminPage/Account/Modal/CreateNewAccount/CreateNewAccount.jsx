@@ -18,6 +18,8 @@ function CreateNewAccountModal(props) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    address: "",
+    password: "",
     accountType: "",
     workLocation: "",
   });
@@ -26,6 +28,8 @@ function CreateNewAccountModal(props) {
     setFormData({
         name: "",
         phone: "",
+        address: "",
+        password: "",
         accountType: "",
         workLocation: "",
     });
@@ -37,8 +41,10 @@ function CreateNewAccountModal(props) {
   const handleInputChange = (event) => {
     const { id, value } = event.target;
     setFormData({
-      ...formData,
-      [id]: value,
+        ...formData,
+        [id]: value,
+        // Reset workLocation when accountType changes
+        workLocation: id === 'accountType' && formData.accountType !== value ? '' : formData.workLocation,
     });
   };
 
@@ -51,8 +57,10 @@ function CreateNewAccountModal(props) {
       setValidated(true);
     } else {
         setFormData({
-            name: "",
+           name: "",
            phone: "",
+           address: "",
+           password: "",
            accountType: "",
            workLocation: "",
       })
@@ -104,6 +112,34 @@ function CreateNewAccountModal(props) {
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
+          <Row className="mb-3">
+          <Form.Group as={Col} md="6" controlId="password">
+            <Form.Label>Mật khẩu</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Nhập mật khẩu"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+            <Form.Control.Feedback type="invalid">
+              Vui lòng nhập mật khẩu.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="6" controlId="address">
+            <Form.Label>Địa chỉ</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Nhập địa chỉ"
+              value={formData.address}
+              onChange={handleInputChange}
+            />
+            <Form.Control.Feedback type="invalid">
+              Vui lòng nhập địa chỉ.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
           <Row style={{ marginTop: "10px" }} className="mb-3">
             <Form.Group as={Col} md="6" controlId="accountType">
               <Form.Label>Chọn loại tài khoản</Form.Label>
