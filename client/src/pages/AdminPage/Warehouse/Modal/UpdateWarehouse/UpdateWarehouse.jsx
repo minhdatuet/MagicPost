@@ -26,7 +26,6 @@ function UpdateWarehouseModal(props) {
     });
 
   }, [warehouse])
-
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {

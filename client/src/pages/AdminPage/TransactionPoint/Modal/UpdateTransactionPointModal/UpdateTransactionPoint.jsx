@@ -86,7 +86,7 @@ function UpdateTransactionPoint(props) {
                                 required
                                 type="text"
                                 placeholder="Nhập tên kho hàng"
-                                value={formData.name}
+                                value={formData?.name}
                                 onChange={handleInputChange}
                             />
                             <Form.Control.Feedback type="invalid">
@@ -113,8 +113,8 @@ function UpdateTransactionPoint(props) {
                             <Form.Control as="select" value={formData.warehouse} onChange={(e) => setWarehouse(e.target.value)}>
                                 <option>Chọn kho hàng</option>
                                 {warehouses.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                        {item.name}
+                                    <option key={item.id} value={item?.name}>
+                                        {item?.name}
                                     </option>
                                 ))}
                             </Form.Control>
@@ -125,8 +125,8 @@ function UpdateTransactionPoint(props) {
                         <Form.Control as="select" value={formData.transactionPointLeader} onChange={(e) => setTransactionPointLeader(e.target.value)}>
                             <option>Chọn trưởng điểm</option>
                             {transactionPoints.map((item) => (
-                                <option key={item.id} value={item.pointLeader.id}>
-                                    {item.pointLeader.name}
+                                <option key={item.id} value={item.pointLeader?.name}>
+                                    {item.pointLeader?.name}
                                 </option>
                             ))}
                         </Form.Control>
