@@ -134,8 +134,11 @@ function Package() {
     console.log(isDelete);
   };
   const handleDelete = (id) => {
-    apiDeletePackage(id)
-    window.location.reload();
+    if(window.confirm("Bạn có chắc chắn muốn xóa đơn hàng này không?")) {
+      apiDeletePackage(id)
+      window.location.reload();
+    }
+
     /*  if (setIsDelete) {
   
         // Tìm vị trí của đối tượng trong danh sách orders
