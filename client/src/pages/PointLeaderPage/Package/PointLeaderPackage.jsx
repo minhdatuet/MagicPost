@@ -10,7 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
-import RefundedIcon from "../../../assets/icons/refunded.svg";
+import ShippingIcon from "../../../assets/icons/shipping.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -170,11 +170,6 @@ function PointLeaderPackage() {
 
   return (
     <div className="dashboard-content">
-      {/* <HeaderRole
-        btnText={"Tạo đơn hàng cho khách"}
-        variant="primary"
-        onClick={handleOpenModal}
-      /> */}
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Các đơn hàng tại điểm giao dịch {localStorage.getItem('transactionPointId')}</h2>
@@ -203,26 +198,32 @@ function PointLeaderPackage() {
                   <td><span>{order.id}</span></td>
                   <td>
                     <div>
-                      {order?.Status?.nameOfStatus === "DELIVERING" ? (
-                        <img
-                          src={DoneIcon}
-                          alt="paid-icon"
-                          className="dashboard-content-icon"
-                        />
-                      ) : order?.Status?.nameOfStatus === "FAILED" ? (
-                        <img
-                          src={CancelIcon}
-                          alt="canceled-icon"
-                          className="dashboard-content-icon"
-                        />
-                      ) : order?.Status?.nameOfStatus === "Refunded" ? (
-                        <img
-                          src={RefundedIcon}
-                          alt="refunded-icon"
-                          className="dashboard-content-icon"
-                        />
-                      ) : null}
-                      <span>{order?.Status?.nameOfStatus}</span>
+                    {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                      <img
+                        src={ShippingIcon}
+                        alt="paid-icon"
+                        className="dashboard-content-icon"
+                      />
+                    ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                      <img
+                        src={CancelIcon}
+                        alt="canceled-icon"
+                        className="dashboard-content-icon"
+                      />
+                    ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                      <img
+                        src={DoneIcon}
+                        alt="refunded-icon"
+                        className="dashboard-content-icon"
+                      />
+                    ) : null}
+                    {order?.Status?.nameOfStatus === "DELIVERING" ? (
+                      <span>Đang vận chuyển</span>
+                    ) : order?.Status?.nameOfStatus === "FAILED" ? (
+                      <span>Hoàn trả</span>
+                    ) : order?.Status?.nameOfStatus === "SUCCESS" ? (
+                      <span>Đã giao</span>
+                    ) : null}
                     </div>
                   </td>
                   <td>
