@@ -1,37 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, InputGroup, Row, Col } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
+import { apiGetLeaders } from '../../../../../services/user';
+import { apiCreateNewPoint } from '../../../../../services/transactionpoint';
 function CreateTransactionPointModal(props) {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [province, setProvince] = useState('');
+  const [leaders, setLeaders] = useState([]);
   const [district, setDistrict] = useState('');
   const [reset, setReset] = useState(false);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     address: '',
-    warehouse: '',
-    transactionPointLeader: '',
+    warehouseId: '',
+    pointLeaderId: null,
   });
 
   const [formDataSubmit, setFormDataSubmit] = useState({
     name: '',
     address: '',
-    warehouse: '',
-    transactionPointLeader: '',
+    warehouseId: '',
+    pointLeaderId: '',
   });
 
   const { transactionPoints } = props;
   const {warehouses} = props;
+
+  useEffect(() => {
+    const fetchWarehouseLeader = async () => {
+      try {
+      const response = await apiGetLeaders('point')
+      const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setLeaders(data)
+        } else {
+          console.log(msg)
+        }
+
+      } catch (error) {
+        console.error('Error fetching leaders:', error);
+      }
+    };
+    fetchWarehouseLeader();
+  }, []);
 
 
   const handleHide = () => {
     setFormData({
         name: '',
         address: '',
-        warehouse: '',
-        transactionPointLeader: '',
+        warehouseId: '',
+        pointLeaderId: '',
     });
     if (props.onHide) {
       props.onHide();
@@ -58,16 +82,25 @@ function CreateTransactionPointModal(props) {
       setFormDataSubmit({
         name: form.elements?.name.value,
         address: form.elements.address.value,
-        warehouse: form.elements.warehouse.value,
-        transactionPointLeader: form.elements.transactionPointLeader.value,
+        warehouseId: form.elements.warehouseId.value,
+        pointLeaderId: form.elements.pointLeaderId.value,
       });
-      props.onHide(); 
-      setFormData({
-        name: '',
-        address: '',
-        warehouse: '',
-        transactionPointLeader: '',
-      });
+      console.log(formData)
+      // const payload = {
+      //   name: form.name,
+      //   address: formData.address, 
+      //   warehouseId: formData.warehouse,
+      //   pointLeaderId: formData.transactionPointLeader
+      // }
+      apiCreateNewPoint(formData)
+      // window.location.reload()
+      // props.onHide(); 
+      // setFormData({
+      //   name: '',
+      //   address: '',
+      //   warehouse: '',
+      //   transactionPointLeader: '',
+      // });
     }
   };
 
@@ -77,17 +110,17 @@ function CreateTransactionPointModal(props) {
 
 
 
-  const setWarehouse = (value) => {
+  const setwarehouseId = (value) => {
     setFormData(prevData => ({
       ...prevData,
-      warehouse: value
+      warehouseId: value
     }));
   }
 
-  const setTransactionPointLeader = (value) => {
+  const setpointLeaderId = (value) => {
     setFormData(prevData => ({
       ...prevData,
-      transactionPointLeader: value
+      pointLeaderId: value
     }));
   }
 
@@ -128,25 +161,25 @@ function CreateTransactionPointModal(props) {
                 Vui lòng nhập địa chỉ.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="5" controlId="warehouse">
+            <Form.Group as={Col} md="5" controlId="warehouseId">
               <Form.Label>Thuộc kho hàng</Form.Label>
-              <Form.Control as="select" value={formData.warehouse} onChange={(e) => setWarehouse(e.target.value)}>
+              <Form.Control as="select" value={formData.warehouseId} onChange={(e) => setwarehouseId(e.target.value)}>
                 <option>Chọn kho hàng</option>
                 {warehouses.map((item) => (
-                  <option key={item.id} value={item?.name}>
+                  <option key={item.id} value={item?.id}>
                     {item?.name}
                   </option>
                 ))}
               </Form.Control>
             </Form.Group>
           </Row>
-          <Form.Group as={Col} md="5" controlId="transactionPointLeader">
+          <Form.Group as={Col} md="5" controlId="pointLeaderId">
               <Form.Label>Trưởng điểm</Form.Label>
-              <Form.Control as="select" value={formData.transactionPointLeader} onChange={(e) => setTransactionPointLeader(e.target.value)}>
+              <Form.Control as="select" value={formData.pointLeaderId} onChange={(e) => setpointLeaderId(e.target.value)}>
                 <option>Chọn trưởng điểm</option>
-                {transactionPoints.map((item) => (
-                  <option key={item.id} value={item.pointLeader?.name}>
-                    {item.pointLeader?.name}
+                {leaders.map((item) => (
+                  <option key={item.id} value={item?.id}>
+                    {item?.name}
                   </option>
                 ))}
               </Form.Control>
