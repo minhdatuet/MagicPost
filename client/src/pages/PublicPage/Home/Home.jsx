@@ -35,35 +35,49 @@ export const Home = () => {
 
   console.log(packages);
 
+  
+  function formatDateTime(dateTimeStr) {
+    const dateTime = new Date(dateTimeStr);
+
+    const day = dateTime.getUTCDate().toString().padStart(2, '0');
+    const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0');
+    const year = dateTime.getUTCFullYear();
+    const hours = dateTime.getUTCHours().toString().padStart(2, '0');
+    const minutes = dateTime.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = dateTime.getUTCSeconds().toString().padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  }
+
   const handleSearch = async () => {
     const foundPackage = packages.find(packageItem => packageItem.packageCode === packageID);
     if (foundPackage) {
+      console.log(foundPackage);
       const statusTimes = [
         [foundPackage.Status.datePointEndReceived,
-        foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? foundPackage.transactionPointEnd.name + " đang chuyển đơn hàng." : null],
-
-        [foundPackage.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + foundPackage.Status.dateReceiverReturn],
-
-        [foundPackage.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + foundPackage.transactionPointStart.name + " lúc " + foundPackage.Status.dateSendPackage],
-
+        foundPackage.transactionPointEnd && foundPackage.transactionPointEnd?.name ? foundPackage.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
+  
+        [foundPackage.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(foundPackage.Status.dateReceiverReturn)],
+  
+        [foundPackage.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + foundPackage.transactionPointStart?.name + " lúc " + formatDateTime(foundPackage.Status.dateSendPackage)],
+  
         [foundPackage.Status.dateSendToPointEnd,
-        foundPackage.transactionPointEnd && foundPackage.transactionPointEnd.name ? 
-        "Đơn hàng chuyển tới điểm giao dịch " + foundPackage.transactionPointEnd.name + " lúc " +  foundPackage.transactionPointEnd: null],
-
-        [foundPackage.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + foundPackage.Status.dateSendToReceiver],
-
-        [foundPackage.Status.dateSendToWarehouseEnd, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? 
-        "Đơn hàng rời khỏi kho " + foundPackage.warehouseStart.name +  " lúc " + foundPackage.Status.dateSendToWarehouseEnd : null],
-
-        [foundPackage.Status.dateSendToWarehouseStart, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? 
-        "Đơn hàng rời khỏi điểm giao dịch " + foundPackage.transactionPointStart.name +  " lúc " + foundPackage.Status.dateSendToWarehouseStart : null],
-
-        [foundPackage.Status.dateWarehouseEndReceived, foundPackage.warehouseEnd && foundPackage.warehouseEnd.name ? 
-        "Đơn hàng nhập kho " + foundPackage.warehouseEnd.name + " lúc " + foundPackage.Status.dateWarehouseEndReceived: null],
-
-        [foundPackage.Status.dateWarehouseStartReceived, foundPackage.warehouseStart && foundPackage.warehouseStart.name ? 
-        "Đơn hàng nhập kho " + foundPackage.warehouseStart.name + " lúc " + foundPackage.Status.dateWarehouseStartReceived : null],
-
+        foundPackage.transactionPointEnd && foundPackage.transactionPointEnd?.name ?
+          "Đơn hàng chuyển tới điểm giao dịch " + foundPackage.transactionPointEnd?.name + " lúc " + formatDateTime(foundPackage.Status.dateSendToPointEnd) : null],
+  
+        [foundPackage.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(foundPackage.Status.dateSendToReceiver)],
+  
+        [foundPackage.Status.dateSendToWarehouseEnd, foundPackage.warehouseEnd && foundPackage.warehouseEnd?.name ?
+          "Đơn hàng rời khỏi kho " + foundPackage.warehouseStart?.name + " lúc " + formatDateTime(foundPackage.Status.dateSendToWarehouseEnd) : null],
+  
+        [foundPackage.Status.dateSendToWarehouseStart, foundPackage.warehouseStart && foundPackage.warehouseStart?.name ?
+          "Đơn hàng rời khỏi điểm giao dịch " + foundPackage.transactionPointStart?.name + " lúc " + formatDateTime(foundPackage.Status.dateSendToWarehouseStart) : null],
+  
+        [foundPackage.Status.dateWarehouseEndReceived, foundPackage.warehouseEnd && foundPackage.warehouseEnd?.name ?
+          "Đơn hàng nhập kho " + foundPackage.warehouseEnd?.name + " lúc " + formatDateTime(foundPackage.Status.dateWarehouseEndReceived) : null],
+  
+        [foundPackage.Status.dateWarehouseStartReceived, foundPackage.warehouseStart && foundPackage.warehouseStart?.name ?
+          "Đơn hàng nhập kho " + foundPackage.warehouseStart?.name + " lúc " + formatDateTime(foundPackage.Status.dateWarehouseStartReceived) : null],
+  
         [foundPackage.Status.receivedDate, "Đơn hàng được trả lại lúc " + foundPackage.Status.receivedDate]
       ];
       const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);

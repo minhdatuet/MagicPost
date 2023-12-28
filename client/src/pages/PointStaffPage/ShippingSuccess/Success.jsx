@@ -11,19 +11,16 @@ import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
 import ShippingIcon from "../../../assets/icons/shipping.svg";
+import RefundedIcon from "../../../assets/icons/refunded.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
-import { apiGetPackagesOfPoint } from "../../../services/transactionpoint";
-// import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
-import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
-
-function PointLeaderPackage() {
+function Success() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { packages } = useSelector((state) => state.package);
+  const { packages } = useSelector((state) => state.package);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
@@ -32,31 +29,18 @@ function PointLeaderPackage() {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
-  const [showInfoPackage, setShowInfoPackage] = useState(false);
-  const [statusPackage, setStatusPackage] = useState('');
-
 
   useEffect(() => {
-    const fetchPackages = async () => {
-      const pointId = localStorage.getItem('transactionPointId')
-      try {
-        const response = await apiGetPackagesOfPoint(pointId);
-        const data = response?.data.response;
-        const err = response?.data.err;
-        const msg = response?.data.msg;
-        console.log(data)
-        if (err === 0) {
-          setFilteredPackages(data);
-        } else {
-          console.log(msg)
-        }
-
-      } catch (error) {
-        console.error('Error fetching packages:', error);
-      }
-    };
-    fetchPackages();
+    dispatch(getAllPackages());
   }, []);
+
+  useEffect(() => {
+    const filteredPackages = packages.filter((pk) =>
+      pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "SUCCESS"
+      && pk?.Status?.receivedDate !== null
+    );
+    setFilteredPackages(filteredPackages);
+  }, [packages]);
 
   useEffect(() => {
     setPagination(calculateRange(filteredPackages, 4));
@@ -73,7 +57,6 @@ function PointLeaderPackage() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setShowInfoPackage(false);
   };
 
   const handleOpenUpdateModal = (order) => {
@@ -83,58 +66,6 @@ function PointLeaderPackage() {
 
   const handleCloseUpdateModal = () => {
     setIsUpdateModalOpen(false);
-  };
-
-  function formatDateTime(dateTimeStr) {
-    const dateTime = new Date(dateTimeStr);
-
-    const day = dateTime.getUTCDate().toString().padStart(2, '0');
-    const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0');
-    const year = dateTime.getUTCFullYear();
-    const hours = dateTime.getUTCHours().toString().padStart(2, '0');
-    const minutes = dateTime.getUTCMinutes().toString().padStart(2, '0');
-    const seconds = dateTime.getUTCSeconds().toString().padStart(2, '0');
-    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-  }
-
-  const handleShowInfoPackage = (order) => {
-    // console.log(order);
-    setSelectedPackage(order)
-    const statusTimes = [
-      [order.Status.datePointEndReceived,
-      order.transactionPointEnd && order.transactionPointEnd?.name ? order.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
-
-      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(order.Status.dateReceiverReturn)],
-
-      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendPackage)],
-
-      [order.Status.dateSendToPointEnd,
-      order.transactionPointEnd && order.transactionPointEnd?.name ?
-        "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " + formatDateTime(order.Status.dateSendToPointEnd) : null],
-
-      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(order.Status.dateSendToReceiver)],
-
-      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ?
-        "Đơn hàng rời khỏi kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseEnd) : null],
-
-      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ?
-        "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseStart) : null],
-
-      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ?
-        "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + formatDateTime(order.Status.dateWarehouseEndReceived) : null],
-
-      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ?
-        "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateWarehouseStartReceived) : null],
-
-      [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
-    ];
-  
-    const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
-  
-    filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
-    setStatusPackage(filteredStatusTimes);
-    setShowInfoPackage(true)
-    
   };
 
   // Search
@@ -181,9 +112,14 @@ function PointLeaderPackage() {
 
   return (
     <div className="dashboard-content">
+      {/* <HeaderRole
+        btnText={"Tạo đơn hàng cho khách"}
+        variant="primary"
+        onClick={handleOpenModal}
+      /> */}
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Các đơn hàng tại điểm giao dịch {localStorage.getItem('transactionPointId')}</h2>
+          <h2>Các đơn hàng người nhận thành công</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -200,6 +136,7 @@ function PointLeaderPackage() {
             <th>TRẠNG THÁI</th>
             <th>NGƯỜI GỬI</th>
             <th>NGƯỜI NHẬN</th>
+            <th>PHÍ VẬN CHUYỂN</th>
           </thead>
 
           {filteredPackages.length !== 0 ? (
@@ -243,34 +180,27 @@ function PointLeaderPackage() {
                   <td>
                     <span>{order.receiver.name}</span>
                   </td>
-                  {/*  <td>
-        <span>{order.warehouseStart.name}</span>
-      </td>*/}
-                  <li className="list-inline-item">
+                  <td>
+                    <span>{order.shippingCost} VND</span>
+                  </td>
+                  <li class="list-inline-item">
                     <button
-                      className="btn btn-secondary btn-sm rounded-0"
+                      class="btn btn-secondary btn-sm rounded-0"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
-                      title="View All"
-                      onClick={(e) => handleShowInfoPackage(order)}
+                      title="Edit"
+                      onClick={() => handleOpenUpdateModal(order)}
                     >
-                      <i className="fa fa-eye"></i>
-                      {/* Use the appropriate icon class here */}
+                      <i class="fa fa-edit"></i>
                     </button>
                   </li>
                 </tr>
               ))}
             </tbody>
           ) : null}
-        </table>
 
-        <ShowInfoPackage
-            show={showInfoPackage}
-            order = {selectedPackage}
-            statusPackage = {statusPackage}
-            onHide={handleCloseModal}
-          />
+        </table>
 
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
@@ -322,4 +252,4 @@ function PointLeaderPackage() {
   );
 }
 
-export default PointLeaderPackage;
+export default Success;
