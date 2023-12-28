@@ -35,8 +35,9 @@ function Success() {
   }, []);
 
   useEffect(() => {
+    console.log(packages)
     const filteredPackages = packages.filter((pk) =>
-      pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "SUCCESS"
+      pk.transactionPointEnd.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "SUCCESS"
       && pk?.Status?.receivedDate !== null
     );
     setFilteredPackages(filteredPackages);

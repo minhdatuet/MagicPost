@@ -8,13 +8,27 @@ const UpdateSendToAccount = ({ showModal, handleClose, selectedPackage }) => {
     event.preventDefault();
     selectedPackage.Status.nameOfStatus = selectedStatus;
     console.log(selectedPackage);
-    const payload = {
-      id: selectedPackage?.id,
-      dateSendToReceiver: new Date()
+    if (selectedStatus === 'SUCCESS') {
+      const payload = {
+        id: selectedPackage?.id,
+        dateSendToReceiver: new Date(),
+        receivedDate: new Date(),
+        nameOfStatus: selectedStatus
+      }
+      console.log(payload)
+      apiUpdatePackageById(payload)
+    } else {
+      const payload = {
+        id: selectedPackage?.id,
+        dateSendToReceiver: new Date(),
+        dateReceiverReturn: new Date(),
+        nameOfStatus: selectedStatus
+      }
+      console.log(payload)
+      apiUpdatePackageById(payload)
     }
-    apiUpdatePackageById(payload)
+
     window.location.reload();
-    // window.location.reload();
     handleClose();
   };
   
@@ -39,11 +53,11 @@ const UpdateSendToAccount = ({ showModal, handleClose, selectedPackage }) => {
               as="select"
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
+              required
             >
               <option value=""> Chọn trạng thái </option>
               <option value="SUCCESS">Đã giao hàng</option>
               <option value="FAILED">Giao không thành công</option>
-              ))
             </Form.Control>
           </Form.Group>
           </Form>
