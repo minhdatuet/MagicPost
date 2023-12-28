@@ -79,7 +79,7 @@ function Package() {
       );
       setOrders(searchResults);
       setPagination(calculateRange(searchResults, 4));
-      setPage(1); // Reset to the first page when searching
+      setPage(1); 
     } else {
       setOrders(sliceData(packages, page, 4));
       setPagination(calculateRange(packages, 4));
