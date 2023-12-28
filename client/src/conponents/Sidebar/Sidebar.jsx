@@ -120,6 +120,12 @@ export default function Sidebar() {
           link: "/pointStaff/refund",
           key: 4,
         },
+        {
+          icon: WorkOutline,
+          title: "Đơn chuyển thành công",
+          link: "/pointStaff/success",
+          key: 5,
+        }
       ],
     },
     {

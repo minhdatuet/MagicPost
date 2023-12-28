@@ -11,15 +11,13 @@ import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
 import ShippingIcon from "../../../assets/icons/shipping.svg";
+import RefundedIcon from "../../../assets/icons/refunded.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
-import UpdateSendToWarehouse from "./Modal/UpdateSendToWarehouse/UpdateSendToWarehouse";
-import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
-import PrintPackageInfo from "./Modal/PrintPackageInfo/PrintPackageInfo";
-function PointStaffSendToWarehouse() {
+function Success() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { packages } = useSelector((state) => state.package);
@@ -31,15 +29,15 @@ function PointStaffSendToWarehouse() {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
-  const [isPrintOpen, setIsPrintOpen] = useState(false);
+
   useEffect(() => {
     dispatch(getAllPackages());
   }, []);
 
   useEffect(() => {
     const filteredPackages = packages.filter((pk) =>
-      pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "DELIVERING"
-      && pk?.Status?.dateSendToWarehouseStart === null
+      pk.transactionPointStart.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "SUCCESS"
+      && pk?.Status?.receivedDate !== null
     );
     setFilteredPackages(filteredPackages);
   }, [packages]);
@@ -52,13 +50,7 @@ function PointStaffSendToWarehouse() {
   useEffect(() => {
     setOrders(sliceData(filteredPackages, page, 4));
   }, [page, filteredPackages]);
-  const handleOpenPrintModal = (order) => {
-    setIsPrintOpen(true);
-    setSelectedPackage(order);
-  }
-  const handleClosePrintModal = () => {
-    setIsPrintOpen(false);
-  }
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -120,20 +112,14 @@ function PointStaffSendToWarehouse() {
 
   return (
     <div className="dashboard-content">
-      <HeaderRole
-        btnText={"Thêm đơn hàng"}
+      {/* <HeaderRole
+        btnText={"Tạo đơn hàng cho khách"}
         variant="primary"
         onClick={handleOpenModal}
-      />
-      <CreateNewPackageModal
-        // dialogClassName="modal-dialog-custom"
-        show={isModalOpen}
-        onHide={handleCloseModal}
-        style={{ zIndex: 9999 }} // Add this line
-      />
+      /> */}
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Các đơn đang chờ gửi đến kho</h2>
+          <h2>Các đơn hàng người nhận thành công</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -150,7 +136,7 @@ function PointStaffSendToWarehouse() {
             <th>TRẠNG THÁI</th>
             <th>NGƯỜI GỬI</th>
             <th>NGƯỜI NHẬN</th>
-            <th>KHO GỬI TỚI</th>
+            <th>PHÍ VẬN CHUYỂN</th>
           </thead>
 
           {filteredPackages.length !== 0 ? (
@@ -189,13 +175,13 @@ function PointStaffSendToWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order?.sender?.name}</span>
+                    <span>{order.sender.name}</span>
                   </td>
                   <td>
-                    <span>{order?.receiver?.name}</span>
+                    <span>{order.receiver.name}</span>
                   </td>
                   <td>
-                    <span>{order?.warehouseStart?.name}</span>
+                    <span>{order.shippingCost} VND</span>
                   </td>
                   <li class="list-inline-item">
                     <button
@@ -209,27 +195,13 @@ function PointStaffSendToWarehouse() {
                       <i class="fa fa-edit"></i>
                     </button>
                   </li>
-                  <li className="list-inline-item">
-                    <button
-                      className="btn btn-secondary btn-sm rounded-0"
-                      type="button"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Print"
-                      onClick={() => handleOpenPrintModal(order)}
-                    >
-                      <i className="fa fa-print"></i>
-                    </button>
-                  </li>
                 </tr>
               ))}
             </tbody>
           ) : null}
+
         </table>
-        <UpdateSendToWarehouse showModal={isUpdateModalOpen} handleClose={handleCloseUpdateModal} selectedPackage={selectedPackage} />
-        <PrintPackageInfo
-          showModal={isPrintOpen} handleClose={handleClosePrintModal} selectedPackage={selectedPackage}
-        />
+
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
             <span
@@ -280,4 +252,4 @@ function PointStaffSendToWarehouse() {
   );
 }
 
-export default PointStaffSendToWarehouse;
+export default Success;
