@@ -87,6 +87,18 @@ const Header = () => {
     }
   }, [statusPackage, showModal, packageItem]);
 
+  function formatDateTime(dateTimeStr) {
+    const dateTime = new Date(dateTimeStr);
+
+    const day = dateTime.getUTCDate().toString().padStart(2, '0');
+    const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0');
+    const year = dateTime.getUTCFullYear();
+    const hours = dateTime.getUTCHours().toString().padStart(2, '0');
+    const minutes = dateTime.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = dateTime.getUTCSeconds().toString().padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  }
+
   const openModal = (suggestions) => {
 
     setShowModal(true);
@@ -94,29 +106,29 @@ const Header = () => {
     setSearchedPackage(suggestions)
     const statusTimes = [
       [suggestions.Status.datePointEndReceived,
-      suggestions.transactionPointEnd && suggestions.transactionPointEnd.name ? suggestions.transactionPointEnd.name + " đang chuyển đơn hàng." : null],
+      suggestions.transactionPointEnd && suggestions.transactionPointEnd?.name ? suggestions.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
 
-      [suggestions.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + suggestions.Status.dateReceiverReturn],
+      [suggestions.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(suggestions.Status.dateReceiverReturn)],
 
-      [suggestions.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + suggestions.transactionPointStart.name + " lúc " + suggestions.Status.dateSendPackage],
+      [suggestions.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + suggestions.transactionPointStart?.name + " lúc " + formatDateTime(suggestions.Status.dateSendPackage)],
 
       [suggestions.Status.dateSendToPointEnd,
-      suggestions.transactionPointEnd && suggestions.transactionPointEnd.name ? 
-      "Đơn hàng chuyển tới điểm giao dịch " + suggestions.transactionPointEnd.name + " lúc " +  suggestions.transactionPointEnd: null],
+      suggestions.transactionPointEnd && suggestions.transactionPointEnd?.name ?
+        "Đơn hàng chuyển tới điểm giao dịch " + suggestions.transactionPointEnd?.name + " lúc " + formatDateTime(suggestions.Status.dateSendToPointEnd) : null],
 
-      [suggestions.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + suggestions.Status.dateSendToReceiver],
+      [suggestions.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(suggestions.Status.dateSendToReceiver)],
 
-      [suggestions.Status.dateSendToWarehouseEnd, suggestions.warehouseEnd && suggestions.warehouseEnd.name ? 
-      "Đơn hàng rời khỏi kho " + suggestions.warehouseStart.name +  " lúc " + suggestions.Status.dateSendToWarehouseEnd : null],
+      [suggestions.Status.dateSendToWarehouseEnd, suggestions.warehouseEnd && suggestions.warehouseEnd?.name ?
+        "Đơn hàng rời khỏi kho " + suggestions.warehouseStart?.name + " lúc " + formatDateTime(suggestions.Status.dateSendToWarehouseEnd) : null],
 
-      [suggestions.Status.dateSendToWarehouseStart, suggestions.warehouseStart && suggestions.warehouseStart.name ? 
-      "Đơn hàng rời khỏi điểm giao dịch " + suggestions.transactionPointStart.name +  " lúc " + suggestions.Status.dateSendToWarehouseStart : null],
+      [suggestions.Status.dateSendToWarehouseStart, suggestions.warehouseStart && suggestions.warehouseStart?.name ?
+        "Đơn hàng rời khỏi điểm giao dịch " + suggestions.transactionPointStart?.name + " lúc " + formatDateTime(suggestions.Status.dateSendToWarehouseStart) : null],
 
-      [suggestions.Status.dateWarehouseEndReceived, suggestions.warehouseEnd && suggestions.warehouseEnd.name ? 
-      "Đơn hàng nhập kho " + suggestions.warehouseEnd.name + " lúc " + suggestions.Status.dateWarehouseEndReceived: null],
+      [suggestions.Status.dateWarehouseEndReceived, suggestions.warehouseEnd && suggestions.warehouseEnd?.name ?
+        "Đơn hàng nhập kho " + suggestions.warehouseEnd?.name + " lúc " + formatDateTime(suggestions.Status.dateWarehouseEndReceived) : null],
 
-      [suggestions.Status.dateWarehouseStartReceived, suggestions.warehouseStart && suggestions.warehouseStart.name ? 
-      "Đơn hàng nhập kho " + suggestions.warehouseStart.name + " lúc " + suggestions.Status.dateWarehouseStartReceived : null],
+      [suggestions.Status.dateWarehouseStartReceived, suggestions.warehouseStart && suggestions.warehouseStart?.name ?
+        "Đơn hàng nhập kho " + suggestions.warehouseStart?.name + " lúc " + formatDateTime(suggestions.Status.dateWarehouseStartReceived) : null],
 
       [suggestions.Status.receivedDate, "Đơn hàng được trả lại lúc " + suggestions.Status.receivedDate]
     ];
