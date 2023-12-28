@@ -16,17 +16,17 @@ function CreateNewAccountModal(props) {
     dispatch(getAllTransactionPoints());
   }, []);
   const [formData, setFormData] = useState({
-    userName: "",
+    name: "",
     phone: "",
-    role: "",
+    accountType: "",
     workLocation: "",
   });
 
   const handleHide = () => {
     setFormData({
-        userName: "",
+        name: "",
         phone: "",
-        role: "",
+        accountType: "",
         workLocation: "",
     });
     if (props.onHide) {
@@ -53,7 +53,7 @@ function CreateNewAccountModal(props) {
         setFormData({
             name: "",
            phone: "",
-           role: "",
+           accountType: "",
            workLocation: "",
       })
       props.onHide();;
@@ -77,13 +77,13 @@ function CreateNewAccountModal(props) {
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
-            <Form.Group as={Col} md="6" controlId="userName">
+            <Form.Group as={Col} md="6" controlId="name">
               <Form.Label>Tên tài khoản</Form.Label>
               <Form.Control
                 required
                 type="text"
                 placeholder="Nhập tên tài khoản"
-                value={formData.userName}
+                value={formData.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -105,13 +105,13 @@ function CreateNewAccountModal(props) {
             </Form.Group>
           </Row>
           <Row style={{ marginTop: "10px" }} className="mb-3">
-            <Form.Group as={Col} md="6" controlId="role">
+            <Form.Group as={Col} md="6" controlId="accountType">
               <Form.Label>Chọn loại tài khoản</Form.Label>
               <Form.Control
                 as="select"
-                value={formData.role}
+                value={formData.accountType}
                 onChange={(e) =>
-                  setFormData({ ...formData, role: e.target.value })
+                  setFormData({ ...formData, accountType: e.target.value })
                 }
                 required
               >
@@ -136,7 +136,7 @@ function CreateNewAccountModal(props) {
     <option value="" disabled>
       Chọn vị trí làm việc
     </option>
-    {formData.role === "WAREHOUSE_LEADER" ? (
+    {formData.accountType === "WAREHOUSE_LEADER" ? (
         warehouses.map((warehouse) => (
           <option key={warehouse.id} value={warehouse.id}>
             {warehouse.name}
