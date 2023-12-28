@@ -71,12 +71,14 @@ function Warehouse() {
 
     // Search
     const handleSearch = (event) => {
-        setSearch(event.target.value);
-        if (event.target.value !== '') {
+        const searchText = event.target.value.toLowerCase();
+        setSearch(searchText);
+    
+        if (searchText !== '') {
             let searchResults = warehouses.filter((item) =>
-                item?.name.toLowerCase().includes(search.toLowerCase()) ||
-                item?.email.toLowerCase().includes(search.toLowerCase()) ||
-                item.leader.toLowerCase().includes(search.toLowerCase())
+                (item?.name?.toLowerCase()?.includes(searchText)) ||
+                (item?.email?.toLowerCase()?.includes(searchText)) ||
+                (item?.leader?.toLowerCase()?.includes(searchText))
             );
             setWarehouseAll(searchResults);
             setPagination(calculateRange(searchResults, 5));

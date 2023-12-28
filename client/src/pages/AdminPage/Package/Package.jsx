@@ -69,23 +69,42 @@ function Package() {
   }, [page, packages]);
 
   // Search
+  // const handleSearch = (event) => {
+  //   setSearch(event.target.value);
+  //   if (event.target.value !== "") {
+  //     let searchResults = packages.filter(
+  //       (item) =>
+  //         item.first_name.toLowerCase().includes(search.toLowerCase()) ||
+  //         item.last_name.toLowerCase().includes(search.toLowerCase()) ||
+  //         item.product.toLowerCase().includes(search.toLowerCase())
+  //     );
+  //     setOrders(searchResults);
+  //     setPagination(calculateRange(searchResults, 5));
+  //     setPage(1);
+  //   } else {
+  //     setOrders(sliceData(packages, page, 5));
+  //     setPagination(calculateRange(packages, 5));
+  //   }
+  // };
+
   const handleSearch = (event) => {
-    setSearch(event.target.value);
-    if (event.target.value !== "") {
-      let searchResults = packages.filter(
-        (item) =>
-          item.first_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.last_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.product.toLowerCase().includes(search.toLowerCase())
-      );
-      setOrders(searchResults);
-      setPagination(calculateRange(searchResults, 5));
-      setPage(1);
+    const searchText = event.target.value.toLowerCase();
+    setSearch(searchText);
+
+    if (searchText !== '') {
+        let searchResults = packages.filter((item) =>
+            (item?.first_name && typeof item.first_name === 'string' && item.first_name.toLowerCase().includes(searchText)) ||
+            (item?.last_name && typeof item.last_name === 'string' && item.last_name.toLowerCase().includes(searchText)) ||
+            (item?.product && typeof item.product === 'string' && item.product.toLowerCase().includes(searchText))
+        );
+        setOrders(searchResults);
+        setPagination(calculateRange(searchResults, 5));
+        setPage(1); // Reset to the first page when searching
     } else {
-      setOrders(sliceData(packages, page, 5));
-      setPagination(calculateRange(packages, 5));
+        setOrders(sliceData(packages, page, 5));
+        setPagination(calculateRange(packages, 5));
     }
-  };
+};
   // Change Page
   const handleChangePage = (newPage) => {
     if (newPage !== page) {
