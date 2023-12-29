@@ -7,25 +7,27 @@ import {
   lastPage,
   firstPage,
 } from "../../../utils/table-pagination";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
-import ShippingIcon from "../../../assets/icons/shipping.svg";
+import RefundedIcon from "../../../assets/icons/refunded.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
-import { Button } from '@mui/material';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
+import { Button } from "@mui/material";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPackages} from "../../../store/actions/package";
-import { getAllTransactionPoints } from "../../../store/actions";
-import { apiGetPackagesOfPoint } from "../../../services/transactionpoint";
+import { getAllPackages } from "../../../store/actions/package";
+import { apiGetPackagesOfWarehouse } from "../../../services/warehouse";
 // import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
-import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
+import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage";
+import ShippingIcon from "../../../assets/icons/shipping.svg";
+import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
+import { getAllWarehouses } from "../../../store/actions";
 
-function PointLeaderPackage() {
+function WarehouseLeaderPackageReceivering() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const { packages } = useSelector((state) => state.package);
+
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
@@ -35,27 +37,49 @@ function PointLeaderPackage() {
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
   const [showInfoPackage, setShowInfoPackage] = useState(false);
-  const [statusPackage, setStatusPackage] = useState('');
+  const [statusPackage, setStatusPackage] = useState("");
+  const { warehouses } = useSelector((state) => state.warehouse);
+  const [warehouseName, setWarehouseName] = useState("");
 
+  useEffect(() => {
+    dispatch(getAllWarehouses());
+  }, []);
+  console.log(warehouses);
+  console.log(localStorage);
+  useEffect(() => {
+    const selectedWarehouse = warehouses.find(
+      (warehouse) => warehouse.id == localStorage.getItem("warehouseId")
+    );
+    if (selectedWarehouse) {
+      setWarehouseName(selectedWarehouse.name);
+    } else {
+      setWarehouseName("");
+    }
+  }, [warehouses]);
 
   useEffect(() => {
     const fetchPackages = async () => {
-      const pointId = localStorage.getItem('transactionPointId')
+      const warehouseId = localStorage.getItem("warehouseId");
       try {
-        const response = await apiGetPackagesOfPoint(pointId);
+        const response = await apiGetPackagesOfWarehouse(warehouseId);
         const data = response?.data.response;
         const err = response?.data.err;
         const msg = response?.data.msg;
-        console.log(data)
-        console.log(localStorage);
+        console.log(data);
         if (err === 0) {
-          setFilteredPackages(data);
-        } else {
-          console.log(msg)
-        }
+          const filteredPackages = data.filter(
+            (pk) =>
+              pk?.warehouseEnd?.id ===
+                parseInt(localStorage.getItem("warehouseId")) &&
+              pk?.Status?.nameOfStatus === "DELIVERING" &&
+              pk?.Status?.dateWarehouseEndReceived !== null &&
+              pk?.Status?.dateSendToPointEnd === null
+          );
 
+          setFilteredPackages(filteredPackages);
+        }
       } catch (error) {
-        console.error('Error fetching packages:', error);
+        console.error("Error fetching packages:", error);
       }
     };
     fetchPackages();
@@ -91,92 +115,128 @@ function PointLeaderPackage() {
   function formatDateTime(dateTimeStr) {
     const dateTime = new Date(dateTimeStr);
 
-    const day = dateTime.getUTCDate().toString().padStart(2, '0');
-    const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0');
+    const day = dateTime.getUTCDate().toString().padStart(2, "0");
+    const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, "0");
     const year = dateTime.getUTCFullYear();
-    const hours = dateTime.getUTCHours().toString().padStart(2, '0');
-    const minutes = dateTime.getUTCMinutes().toString().padStart(2, '0');
-    const seconds = dateTime.getUTCSeconds().toString().padStart(2, '0');
+    const hours = dateTime.getUTCHours().toString().padStart(2, "0");
+    const minutes = dateTime.getUTCMinutes().toString().padStart(2, "0");
+    const seconds = dateTime.getUTCSeconds().toString().padStart(2, "0");
     return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
 
   const handleShowInfoPackage = (order) => {
     // console.log(order);
-    setSelectedPackage(order)
+    setSelectedPackage(order);
     const statusTimes = [
-      [order.Status.datePointEndReceived,
-      order.transactionPointEnd && order.transactionPointEnd?.name ? order.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
+      [
+        order.Status.datePointEndReceived,
+        order.transactionPointEnd && order.transactionPointEnd?.name
+          ? order.transactionPointEnd?.name + " đang chuyển đơn hàng."
+          : null,
+      ],
 
-      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(order.Status.dateReceiverReturn)],
+      [
+        order.Status.dateReceiverReturn,
+        "Người nhận trả lại hàng lúc " +
+          formatDateTime(order.Status.dateReceiverReturn),
+      ],
 
-      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendPackage)],
+      [
+        order.Status.dateSendPackage,
+        "Người gửi gửi đơn hàng tại điểm giao dịch " +
+          order.transactionPointStart?.name +
+          " lúc " +
+          formatDateTime(order.Status.dateSendPackage),
+      ],
 
-      [order.Status.dateSendToPointEnd,
-      order.transactionPointEnd && order.transactionPointEnd?.name ?
-        "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " + formatDateTime(order.Status.dateSendToPointEnd) : null],
+      [
+        order.Status.dateSendToPointEnd,
+        order.transactionPointEnd && order.transactionPointEnd?.name
+          ? "Đơn hàng chuyển tới điểm giao dịch " +
+            order.transactionPointEnd?.name +
+            " lúc " +
+            formatDateTime(order.Status.dateSendToPointEnd)
+          : null,
+      ],
 
-      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(order.Status.dateSendToReceiver)],
+      [
+        order.Status.dateSendToReceiver,
+        "Đơn hàng đã chuyển tới người nhận lúc " +
+          formatDateTime(order.Status.dateSendToReceiver),
+      ],
 
-      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ?
-        "Đơn hàng rời khỏi kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseEnd) : null],
+      [
+        order.Status.dateSendToWarehouseEnd,
+        order.warehouseEnd && order.warehouseEnd?.name
+          ? "Đơn hàng rời khỏi kho " +
+            order.warehouseStart?.name +
+            " lúc " +
+            formatDateTime(order.Status.dateSendToWarehouseEnd)
+          : null,
+      ],
 
-      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ?
-        "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseStart) : null],
+      [
+        order.Status.dateSendToWarehouseStart,
+        order.warehouseStart && order.warehouseStart?.name
+          ? "Đơn hàng rời khỏi điểm giao dịch " +
+            order.transactionPointStart?.name +
+            " lúc " +
+            formatDateTime(order.Status.dateSendToWarehouseStart)
+          : null,
+      ],
 
-      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ?
-        "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + formatDateTime(order.Status.dateWarehouseEndReceived) : null],
+      [
+        order.Status.dateWarehouseEndReceived,
+        order.warehouseEnd && order.warehouseEnd?.name
+          ? "Đơn hàng nhập kho " +
+            order.warehouseEnd?.name +
+            " lúc " +
+            formatDateTime(order.Status.dateWarehouseEndReceived)
+          : null,
+      ],
 
-      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ?
-        "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateWarehouseStartReceived) : null],
+      [
+        order.Status.dateWarehouseStartReceived,
+        order.warehouseStart && order.warehouseStart?.name
+          ? "Đơn hàng nhập kho " +
+            order.warehouseStart?.name +
+            " lúc " +
+            formatDateTime(order.Status.dateWarehouseStartReceived)
+          : null,
+      ],
 
-      [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
+      [
+        order.Status.receivedDate,
+        "Đơn hàng được trả lại lúc " + order.Status.receivedDate,
+      ],
     ];
-  
-    const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
-  
+
+    const filteredStatusTimes = statusTimes.filter((time) => time[0] !== null);
+
     filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
     setStatusPackage(filteredStatusTimes);
-    setShowInfoPackage(true)
-    
+    setShowInfoPackage(true);
   };
 
   // Search
-  // const handleSearch = (event) => {
-  //   setSearch(event.target.value);
-  //   if (event.target.value !== "") {
-  //     let searchResults = filteredPackages.filter(
-  //       (item) =>
-  //         item.first_name.toLowerCase().includes(search.toLowerCase()) ||
-  //         item.last_name.toLowerCase().includes(search.toLowerCase()) ||
-  //         item.product.toLowerCase().includes(search.toLowerCase())
-  //     );
-  //     setOrders(sliceData(searchResults, 1, 4));
-  //     setPagination(calculateRange(searchResults, 4));
-  //     setPage(1); // Reset to the first page when searching
-  //   } else {
-  //     setOrders(sliceData(filteredPackages, page, 4));
-  //     setPagination(calculateRange(filteredPackages, 4));
-  //   }
-  // };
-
   const handleSearch = (event) => {
-    const searchText = event.target.value.toLowerCase();
-    setSearch(searchText);
-
-    if (searchText !== '') {
-        let searchResults = filteredPackages.filter((item) =>
-            (item?.first_name && typeof item.first_name === 'string' && item.first_name.toLowerCase().includes(searchText)) ||
-            (item?.last_name && typeof item.last_name === 'string' && item.last_name.toLowerCase().includes(searchText)) ||
-            (item?.product && typeof item.product === 'string' && item.product.toLowerCase().includes(searchText))
-        );
-        setOrders(sliceData(searchResults, 1, 4));
-        setPagination(calculateRange(searchResults, 4));
-        setPage(1); // Reset to the first page when searching
+    setSearch(event.target.value);
+    if (event.target.value !== "") {
+      let searchResults = filteredPackages.filter(
+        (item) =>
+          item.first_name.toLowerCase().includes(search.toLowerCase()) ||
+          item.last_name.toLowerCase().includes(search.toLowerCase()) ||
+          item.product.toLowerCase().includes(search.toLowerCase())
+      );
+      setOrders(sliceData(searchResults, 1, 4));
+      setPagination(calculateRange(searchResults, 4));
+      setPage(1); // Reset to the first page when searching
     } else {
-        setOrders(sliceData(filteredPackages, page, 4));
-        setPagination(calculateRange(filteredPackages, 4));
+      setOrders(sliceData(filteredPackages, page, 4));
+      setPagination(calculateRange(filteredPackages, 4));
     }
-};
+  };
+
   // Change Page
   const handleChangePage = (newPage) => {
     if (newPage !== page) {
@@ -199,32 +259,17 @@ function PointLeaderPackage() {
   const handleFirstPage = () => {
     firstPage(page, setPage);
   };
-  const { transactionPoints } = useSelector((state) => state.transactionPoint);
-
-  const [transactionPointName, setTransactionPointName] = useState("Unknown Transaction Point");
-
-  useEffect(() => {
-    dispatch(getAllTransactionPoints());
-  }, [dispatch]);
-
-  useEffect(() => {
-    const transactionPointId = localStorage.getItem("transactionPointId");
-    setTransactionPointName(
-      transactionPoints.find((point) => point.id === transactionPointId)?.name
-    );
-  }, [transactionPoints]);
-  
 
   return (
     <div className="dashboard-content">
-    <HeaderRoleNoButton
-    btnText={"Thêm đơn hàng"}
-    variant="primary"
-    onClick={handleOpenModal}
-  />
+      <HeaderRoleNoButton
+        btnText={"Thêm đơn hàng"}
+        variant="primary"
+        onClick={handleOpenModal}
+      />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Các đơn hàng tại điểm giao dịch {transactionPointName}</h2>
+          <h2>Các đơn hàng nhận tại kho {warehouseName}</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -247,7 +292,9 @@ function PointLeaderPackage() {
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td><span>{order.id}</span></td>
+                  <td>
+                    <span>{order.id}</span>
+                  </td>
                   <td>
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
@@ -307,11 +354,11 @@ function PointLeaderPackage() {
         </table>
 
         <ShowInfoPackage
-            show={showInfoPackage}
-            order = {selectedPackage}
-            statusPackage = {statusPackage}
-            onHide={handleCloseModal}
-          />
+          show={showInfoPackage}
+          order={selectedPackage}
+          statusPackage={statusPackage}
+          onHide={handleCloseModal}
+        />
 
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
@@ -363,4 +410,4 @@ function PointLeaderPackage() {
   );
 }
 
-export default PointLeaderPackage;
+export default WarehouseLeaderPackageReceivering;

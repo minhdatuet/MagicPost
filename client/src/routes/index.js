@@ -8,19 +8,22 @@ import Warehouse from "../pages/AdminPage/Warehouse/Warehouse";
 import Construction from "../pages/PublicPage/Construction/Construction"
 import AboutUs from "../pages/PublicPage/AboutUs//AboutUs"
 import DashBoardAdmin from "../pages/AdminPage/Dashboard/DashBoardAdmin"
-import PointLeaderPackage from "../pages/PointLeaderPage/Package/PointLeaderPackage";
 import PointLeaderAccount from "../pages/PointLeaderPage/Account/PointLeaderAccount";
 import pointStaffSendToWarehouse from "../pages/PointStaffPage/SendToWarehouse/SendToWarehouse";
 import pointStaffReceiveFromWarehouse from "../pages/PointStaffPage/ReceiveFromWarehouse/ReceiveFromWarehouse";
 import pointStaffSendToAccount from "../pages/PointStaffPage/SendToAccount/SendToAccount";
 import Refund from "../pages/PointStaffPage/RefundPackage/Refund";
 import WarehouseLeaderAccount from "../pages/WarehouseLeaderPage/Account/WarehouseLeaderAccount";
-import WarehouseLeaderPackage from "../pages/WarehouseLeaderPage/Package/WarehouseLeaderPackage";
+import WarehouseLeaderPackage from "../pages/WarehouseLeaderPage/PackageSending/WarehouseLeaderPackageSending";
 import warehouseStaffSendToWarehouse from "../pages/WarehouseStaffPage/SendToWarehouse/SendToWarehouse";
 import warehouseStaffReceiveFromWarehouse from "../pages/WarehouseStaffPage/ReceiveFromWarehouse/ReceiveFromWarehouse";
 import warehouseStaffSendToTransaction from "../pages/WarehouseStaffPage/SendToTransaction/SendToTransaction";
 import warehouseStaffReceiveFromTransaction from "../pages/WarehouseStaffPage/ReceiveFromTransaction/ReceiveFromTransaction";
 import Success from "../pages/PointStaffPage/ShippingSuccess/Success";
+import PointLeaderPackageSending from "../pages/PointLeaderPage/PackageSending/PointLeaderPackageSending";
+import PointLeaderPackageReceivering from "../pages/PointLeaderPage/PackageReceivering/PointLeaderPackageReceivering";
+import WarehouseLeaderPackageSending from "../pages/WarehouseLeaderPage/PackageSending/WarehouseLeaderPackageSending";
+import WarehouseLeaderPackageReceivering from "../pages/WarehouseLeaderPage/PackageReceivering/WarehouseLeaderPackageReceivering";
 const publicRoutes = [
     {
       path: 'login',
@@ -75,8 +78,12 @@ const pointLeaderRoutes = [
     page: PointLeaderAccount
   },
   {
-    path: 'pointLeader/package',
-    page: PointLeaderPackage
+    path: 'pointLeader/packageSending',
+    page: PointLeaderPackageSending
+  },
+  {
+    path: 'pointLeader/packageReceivering',
+    page: PointLeaderPackageReceivering
   }
 ]
 const pointStaffRoutes = [
@@ -108,8 +115,12 @@ const warehouseLeaderRoutes = [
     page: WarehouseLeaderAccount
   },
   {
-    path: 'warehouseLeader/package',
-    page: WarehouseLeaderPackage
+    path: 'warehouseLeader/packageSending',
+    page: WarehouseLeaderPackageSending
+  },
+  {
+    path: 'warehouseLeader/packageReceivering',
+    page: WarehouseLeaderPackageReceivering
   }
 ]
 const warehouseStaffRoutes = [

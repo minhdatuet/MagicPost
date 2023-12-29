@@ -12,6 +12,7 @@ import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateNewAccountModal from './Modal/CreateNewAccount/CreateNewAccount';
 import UpdateAccountModal from './Modal/UpdateAccount/UpdateAccount';
+import { getAllWarehouses } from '../../../store/actions';
 const WarehouseLeaderAccount = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
@@ -22,6 +23,25 @@ const WarehouseLeaderAccount = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const { warehouses } = useSelector((state) => state.warehouse);
+  const [warehouseName, setWarehouseName] = useState("");
+
+  useEffect(() => {
+    dispatch(getAllWarehouses());
+  }, []);
+  console.log(warehouses);
+  console.log(localStorage);
+  useEffect(() => {
+    const selectedWarehouse = warehouses.find(
+      (warehouse) => warehouse.id == localStorage.getItem("warehouseId")
+    );
+    if (selectedWarehouse) {
+      setWarehouseName(selectedWarehouse.name);
+    } else {
+      setWarehouseName("");
+    }
+  }, [warehouses]);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -127,7 +147,7 @@ const WarehouseLeaderAccount = () => {
       />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Tài khoản</h2>
+          <h2>Tài khoản nhân viên tại kho {warehouseName}</h2>
           <div className="dashboard-content-search">
             <input
               type="text"

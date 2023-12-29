@@ -10,16 +10,24 @@ import {
 import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
-import ShippingIcon from "../../../assets/icons/shipping.svg";
+import RefundedIcon from "../../../assets/icons/refunded.svg";
+import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
+import { Button } from '@mui/material';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
-import UpdateSendToWarehouse from "./Modal/UpdateSendToWarehouse/UpdateSendToWarehouse";
+import { apiGetPackagesOfWarehouse } from "../../../services/warehouse";
+// import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
+import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
+import ShippingIcon from "../../../assets/icons/shipping.svg"
 import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
-// import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
-function WarehouseStaffSendToWarehouse() {
+import { getAllWarehouses } from "../../../store/actions";
+
+function WarehouseLeaderPackageSending() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { packages } = useSelector((state) => state.package);
+  // const { packages } = useSelector((state) => state.package);
+
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
@@ -28,18 +36,47 @@ function WarehouseStaffSendToWarehouse() {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [showInfoPackage, setShowInfoPackage] = useState(false);
+  const [statusPackage, setStatusPackage] = useState('');
+  const { warehouses } = useSelector((state) => state.warehouse);
+  const [warehouseName, setWarehouseName] = useState("");
 
   useEffect(() => {
-    dispatch(getAllPackages());
+    dispatch(getAllWarehouses());
   }, []);
+  console.log(warehouses)
+  console.log(localStorage)
+  useEffect(() => {
+    const selectedWarehouse = warehouses.find(
+      (warehouse) => warehouse.id == localStorage.getItem('warehouseId')
+    );
+    if (selectedWarehouse) {
+      setWarehouseName(selectedWarehouse.name);
+    } else {
+      setWarehouseName("");
+    }
+  }, [warehouses]);
 
   useEffect(() => {
-    const filteredPackages = packages.filter((pk) =>
+    const fetchPackages = async () => {
+      const warehouseId = localStorage.getItem('warehouseId')
+      try {
+        const response = await apiGetPackagesOfWarehouse(warehouseId);
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        const filteredPackages = data.filter((pk) =>
       pk?.warehouseStart?.id === parseInt(localStorage.getItem('warehouseId')) && pk?.Status?.nameOfStatus === "DELIVERING"
       && pk?.Status?.dateWarehouseStartReceived !== null && pk?.Status?.dateSendToWarehouseEnd === null
     );
-    setFilteredPackages(filteredPackages);
-  }, [packages]);
+          setFilteredPackages(filteredPackages);
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+    fetchPackages();
+  }, []);
 
   useEffect(() => {
     setPagination(calculateRange(filteredPackages, 4));
@@ -55,7 +92,9 @@ function WarehouseStaffSendToWarehouse() {
   };
 
   const handleCloseModal = () => {
+
     setIsModalOpen(false);
+    setShowInfoPackage(false);
   };
 
   const handleOpenUpdateModal = (order) => {
@@ -67,15 +106,67 @@ function WarehouseStaffSendToWarehouse() {
     setIsUpdateModalOpen(false);
   };
 
+  function formatDateTime(dateTimeStr) {
+    const dateTime = new Date(dateTimeStr);
+
+    const day = dateTime.getUTCDate().toString().padStart(2, '0');
+    const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0');
+    const year = dateTime.getUTCFullYear();
+    const hours = dateTime.getUTCHours().toString().padStart(2, '0');
+    const minutes = dateTime.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = dateTime.getUTCSeconds().toString().padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  }
+
+  const handleShowInfoPackage = (order) => {
+    // console.log(order);
+    setSelectedPackage(order)
+    const statusTimes = [
+      [order.Status.datePointEndReceived,
+      order.transactionPointEnd && order.transactionPointEnd?.name ? order.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
+
+      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(order.Status.dateReceiverReturn)],
+
+      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendPackage)],
+
+      [order.Status.dateSendToPointEnd,
+      order.transactionPointEnd && order.transactionPointEnd?.name ?
+        "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " + formatDateTime(order.Status.dateSendToPointEnd) : null],
+
+      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(order.Status.dateSendToReceiver)],
+
+      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng rời khỏi kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseEnd) : null],
+
+      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseStart) : null],
+
+      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + formatDateTime(order.Status.dateWarehouseEndReceived) : null],
+
+      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateWarehouseStartReceived) : null],
+
+      [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
+    ];
+
+    const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
+
+    filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    setStatusPackage(filteredStatusTimes);
+    setShowInfoPackage(true)
+
+  };
+
   // Search
   const handleSearch = (event) => {
     setSearch(event.target.value);
     if (event.target.value !== "") {
       let searchResults = filteredPackages.filter(
         (item) =>
-          item?.first_name.toLowerCase().includes(search.toLowerCase()) ||
-          item?.last_name.toLowerCase().includes(search.toLowerCase()) ||
-          item?.product.toLowerCase().includes(search.toLowerCase())
+          item.first_name.toLowerCase().includes(search.toLowerCase()) ||
+          item.last_name.toLowerCase().includes(search.toLowerCase()) ||
+          item.product.toLowerCase().includes(search.toLowerCase())
       );
       setOrders(sliceData(searchResults, 1, 4));
       setPagination(calculateRange(searchResults, 4));
@@ -115,10 +206,10 @@ function WarehouseStaffSendToWarehouse() {
     btnText={"Thêm đơn hàng"}
     variant="primary"
     onClick={handleOpenModal}
-  /> 
+  />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Các đơn đang chờ gửi đến kho</h2>
+          <h2>Các đơn hàng chuyển đi tại kho {warehouseName}</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -141,7 +232,7 @@ function WarehouseStaffSendToWarehouse() {
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td><span>{order?.id}</span></td>
+                  <td><span>{order.id}</span></td>
                   <td>
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
@@ -173,21 +264,25 @@ function WarehouseStaffSendToWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order?.sender?.name}</span>
+                    <span>{order.sender.name}</span>
                   </td>
                   <td>
-                    <span>{order?.receiver?.name}</span>
+                    <span>{order.receiver.name}</span>
                   </td>
-                  <li class="list-inline-item">
+                  {/*  <td>
+        <span>{order.warehouseStart.name}</span>
+      </td>*/}
+                  <li className="list-inline-item">
                     <button
-                      class="btn btn-secondary btn-sm rounded-0"
+                      className="btn btn-secondary btn-sm rounded-0"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
-                      title="Edit"
-                      onClick={() => handleOpenUpdateModal(order)}
+                      title="View All"
+                      onClick={(e) => handleShowInfoPackage(order)}
                     >
-                      <i class="fa fa-edit"></i>
+                      <i className="fa fa-eye"></i>
+                      {/* Use the appropriate icon class here */}
                     </button>
                   </li>
                 </tr>
@@ -195,7 +290,13 @@ function WarehouseStaffSendToWarehouse() {
             </tbody>
           ) : null}
         </table>
-        <UpdateSendToWarehouse showModal={isUpdateModalOpen} handleClose={handleCloseUpdateModal} selectedPackage={selectedPackage} />
+
+        <ShowInfoPackage
+          show={showInfoPackage}
+          order={selectedPackage}
+          statusPackage={statusPackage}
+          onHide={handleCloseModal}
+        />
 
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
@@ -247,4 +348,4 @@ function WarehouseStaffSendToWarehouse() {
   );
 }
 
-export default WarehouseStaffSendToWarehouse;
+export default WarehouseLeaderPackageSending;
