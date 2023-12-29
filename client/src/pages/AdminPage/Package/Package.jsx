@@ -64,8 +64,8 @@ function Package() {
 
   }
   useEffect(() => {
-    setPagination(calculateRange(packages, 5));
-    setOrders(sliceData(packages, page, 5));
+    setPagination(calculateRange(packages, 6));
+    setOrders(sliceData(packages, page, 6));
   }, [page, packages]);
 
   // Search
@@ -79,11 +79,11 @@ function Package() {
   //         item.product.toLowerCase().includes(search.toLowerCase())
   //     );
   //     setOrders(searchResults);
-  //     setPagination(calculateRange(searchResults, 5));
+  //     setPagination(calculateRange(searchResults, 6));
   //     setPage(1);
   //   } else {
-  //     setOrders(sliceData(packages, page, 5));
-  //     setPagination(calculateRange(packages, 5));
+  //     setOrders(sliceData(packages, page, 6));
+  //     setPagination(calculateRange(packages, 6));
   //   }
   // };
 
@@ -98,11 +98,11 @@ function Package() {
             (item?.product && typeof item.product === 'string' && item.product.toLowerCase().includes(searchText))
         );
         setOrders(searchResults);
-        setPagination(calculateRange(searchResults, 5));
+        setPagination(calculateRange(searchResults, 6));
         setPage(1); // Reset to the first page when searching
     } else {
-        setOrders(sliceData(packages, page, 5));
-        setPagination(calculateRange(packages, 5));
+        setOrders(sliceData(packages, page, 6));
+        setPagination(calculateRange(packages, 6));
     }
 };
   // Change Page
@@ -155,6 +155,37 @@ function Package() {
         // Đặt lại selectedOrderToDelete về null
         setIsDelete(null);
       } */
+  };
+  const renderPagination = () => {
+    const totalButtons = 3; // Number of buttons to display
+    const halfButtons = Math.floor(totalButtons / 2);
+    const start = Math.max(1, page - halfButtons);
+    const end = Math.min(start + totalButtons - 1, pagination.length);
+
+    const buttons = [];
+
+    for (let i = start; i <= end; i++) {
+      buttons.push(
+        <span
+          key={i}
+          className={i === page ? "active-pagination" : "pagination"}
+          onClick={() => handleChangePage(i)}
+        >
+          {i}
+        </span>
+      );
+    }
+
+    if (start > 1) {
+      buttons.unshift(
+        <span key="start" className="pagination-disabled"></span>
+      );
+    }
+    if (end < pagination.length) {
+      buttons.push(<span key="end" className="pagination-disabled"></span>);
+    }
+
+    return buttons;
   };
 
   function formatDateTime(dateTimeStr) {
@@ -367,15 +398,7 @@ function Package() {
             >
               {"<"}
             </span>
-            {calculateRange(packages, 5).map((item, index) => (
-              <span
-                key={index}
-                className={item === page ? "active-pagination" : "pagination"}
-                onClick={() => handleChangePage(item)}
-              >
-                {item}
-              </span>
-            ))}
+            {renderPagination()}
             <span
               className="pagination"
               onClick={handleNextPage}

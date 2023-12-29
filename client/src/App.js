@@ -4,7 +4,6 @@ import { Routes, Route } from "react-router-dom";
 import { publicRoutes, bossRoutes, pointLeaderRoutes, pointStaffRoutes, warehouseLeaderRoutes, warehouseStaffRoutes } from "./routes";
 import Footer from "./conponents/Footer/Footer";
 import Sidebar from "./conponents/Sidebar/Sidebar";
-import DashBoardAdmin from "./pages/AdminPage/Dashboard/DashBoardAdmin";
 import "./App.css";
 import Loading from "./pages/PublicPage/Loading/Loading";
 import PackageForm from "./pages/PublicPage/PackageForm/PackageForm"

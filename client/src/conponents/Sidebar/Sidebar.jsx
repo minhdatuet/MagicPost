@@ -203,7 +203,7 @@ export default function Sidebar() {
         {navList.map((item) =>
           localStorage.getItem('role') === item.role ? (
             <div className="sidebarMenu">
-              <Link style={{ textDecoration: "none" }} to={'${item.role}'}>
+              <Link style={{ textDecoration: "none" }}>
                 <h3 className="sidebarTitle">{item.name_role}</h3>
               </Link>
               <ul className="sidebarList">

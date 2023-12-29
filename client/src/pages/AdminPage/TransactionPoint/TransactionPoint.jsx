@@ -62,8 +62,8 @@ function TransactionPoint() {
   };
 
   useEffect(() => {
-    setPagination(calculateRange(transactionPoints, 5));
-    setTransactions(sliceData(transactionPoints, page, 5));
+    setPagination(calculateRange(transactionPoints, 6));
+    setTransactions(sliceData(transactionPoints, page, 6));
   }, [page, transactionPoints]);
 
   // Search
@@ -76,11 +76,11 @@ function TransactionPoint() {
   //             item.leader.toLowerCase().includes(search.toLowerCase())
   //         );
   //         setTransactions(searchResults);
-  //         setPagination(calculateRange(searchResults, 5));
+  //         setPagination(calculateRange(searchResults, 6));
   //         setPage(1); // Reset to the first page when searching
   //     } else {
-  //         setTransactions(sliceData(transactionPoints, page, 5));
-  //         setPagination(calculateRange(transactionPoints, 5));
+  //         setTransactions(sliceData(transactionPoints, page, 6));
+  //         setPagination(calculateRange(transactionPoints, 6));
   //     }
   // };
 
@@ -96,11 +96,11 @@ function TransactionPoint() {
           item?.leader?.toLowerCase()?.includes(searchText)
       );
       setTransactions(searchResults);
-      setPagination(calculateRange(searchResults, 5));
+      setPagination(calculateRange(searchResults, 6));
       setPage(1); // Reset to the first page when searching
     } else {
-      setTransactions(sliceData(transactionPoints, page, 5));
-      setPagination(calculateRange(transactionPoints, 5));
+      setTransactions(sliceData(transactionPoints, page, 6));
+      setPagination(calculateRange(transactionPoints, 6));
     }
   };
 

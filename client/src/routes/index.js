@@ -7,7 +7,6 @@ import TransactionPoint from "../pages/AdminPage/TransactionPoint/TransactionPoi
 import Warehouse from "../pages/AdminPage/Warehouse/Warehouse";
 import Construction from "../pages/PublicPage/Construction/Construction"
 import AboutUs from "../pages/PublicPage/AboutUs//AboutUs"
-import DashBoardAdmin from "../pages/AdminPage/Dashboard/DashBoardAdmin"
 import PointLeaderAccount from "../pages/PointLeaderPage/Account/PointLeaderAccount";
 import pointStaffSendToWarehouse from "../pages/PointStaffPage/SendToWarehouse/SendToWarehouse";
 import pointStaffReceiveFromWarehouse from "../pages/PointStaffPage/ReceiveFromWarehouse/ReceiveFromWarehouse";
@@ -50,10 +49,6 @@ const publicRoutes = [
     }
   ];
 const bossRoutes = [
-    {
-        path: 'boss/dashboard',
-        page: DashBoardAdmin
-    },
     {
         path: 'boss/warehouse',
         page: Warehouse
