@@ -113,10 +113,19 @@ function CreateNewPackageModal(props) {
       event.stopPropagation();
       return
     }
-    if (form.checkValidity()) {
-      
+    else {
+      if (formData.senderPhone[0] !== '0' || !(formData.senderPhone.match('[0-9]{10}'))
+      || formData.receiverPhone[0] !== '0' || !(formData.receiverPhone.match('[0-9]{10}'))) {
+        window.alert("Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.");
+        return;
+      }
     }
-    setValidated(true);
+    if (form.checkValidity()) {
+      setValidated(true);
+    }
+    else {
+    
+    }
     if (validated) {
       apiCreatePackage(formData);
       setReceiverProvince('');
