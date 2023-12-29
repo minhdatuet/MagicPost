@@ -2,17 +2,19 @@ import React, { useRef } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import { useReactToPrint } from 'react-to-print';
+import SignaturePad from 'react-signature-canvas';
+import QRCode from 'qrcode.react';
 
 function PrintPackageInfo({ showModal, handleClose, selectedPackage, statusPackage }) {
   const modalContentRef = useRef();
+  const signaturePadRefSender = useRef();
+  const signaturePadRefReceiver = useRef();
 
   const handlePrint = useReactToPrint({
     content: () => modalContentRef.current,
     documentTitle: 'Giấy biên nhận chuyển phát',
     onAfterPrint: () => alert('Đã lưu giấy biên nhận chuyển phát'),
   });
-
-  console.log(selectedPackage);
 
   return (
     <Modal
@@ -56,7 +58,7 @@ function PrintPackageInfo({ showModal, handleClose, selectedPackage, statusPacka
                     <p>{selectedPackage.sender.address}</p>
                   </div>
                 </div>
-                <hr></hr>
+                <hr />
                 <div className="flex4">
                   <div className="flex5">
                     <p className="pLabel">
@@ -108,43 +110,48 @@ function PrintPackageInfo({ showModal, handleClose, selectedPackage, statusPacka
                   </div>
                   <div className="flex5">
                     <p className="pLabel">Thông tin vận chuyển: </p>
-                    <br></br>
+                    <br />
                     <ul>
-                      {statusPackage && statusPackage.map((item, i) => (
-                        <li key={i}>
-                          <p
-                            className={
-                              i === statusPackage.length - 1 ? 'pStatus' : ''
-                            }
-                          >
-                            {item[1]}
-                          </p>
-                        </li>
-                      ))}
-                      {/* {statusPackage.map((item, i) => (
-                        <li key={i}>
-                          <p
-                            className={
-                              i === statusPackage.length - 1 ? 'pStatus' : ''
-                            }
-                          >
-                            {item[1]}
-                          </p>
-                        </li>
-                      ))} */}
+                      {statusPackage &&
+                        statusPackage.map((item, i) => (
+                          <li key={i}>
+                            <p
+                              className={
+                                i === statusPackage.length - 1 ? 'pStatus' : ''
+                              }
+                            >
+                              {item[1]}
+                            </p>
+                          </li>
+                        ))}
                     </ul>
                   </div>
+                  <div className="flex5">
+                    <p className="pLabel">Chữ ký người gửi: </p>
+                    <div style={{ marginLeft: '150px'}}>
+                    <p>Mã QR đơn: </p>
+                </div>
+                  </div>
+                  <div className="flex5" style={{ display: 'flex', alignItems: 'center' }}>
+                  <p className="pLabel">Chữ ký người nhận: </p>
+                  <div style={{ marginLeft: '150px', marginBottom: '30px'}}>
+                      <QRCode value={selectedPackage.packageCode} size={50} />
+                  </div>
+              </div>
+              
                 </div>
               </div>
             </div>
-          </div>
+            </div>
         )}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handlePrint}>
           Xuất PDF
         </Button>
-        <Button variant='secondary' onClick={handleClose}>Đóng</Button>
+        <Button variant="secondary" onClick={handleClose}>
+          Đóng
+        </Button>
       </Modal.Footer>
     </Modal>
   );
