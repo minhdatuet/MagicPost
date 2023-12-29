@@ -59,6 +59,10 @@ function UpdateAccountModal(props) {
       event.stopPropagation();
       setValidated(true);
     } else {
+      if (formData.phone[0] !== '0' || !(formData.phone.match('[0-9]{10}'))) {
+        window.alert("Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.");
+        return;
+      }
       console.log(formData)
       const payload = {
         id: account.id,
