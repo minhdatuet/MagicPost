@@ -70,10 +70,11 @@ const Header = () => {
     if (matches.length == 0) {
       input.style.borderRadius = '15px';
     }
-    console.log(matches);
     setSuggestions(matches);
     setText(text)
   }
+
+  console.log(suggestions)
 
   useEffect(() => {
     if (showModal && packageItem && statusPackage.length > 0) {
@@ -87,6 +88,7 @@ const Header = () => {
     }
   }, [statusPackage, showModal, packageItem]);
 
+
   function formatDateTime(dateTimeStr) {
     const dateTime = new Date(dateTimeStr);
 
@@ -99,41 +101,39 @@ const Header = () => {
     return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
 
-  const openModal = (suggestions) => {
+  const openModal = (order) => {
 
     setShowModal(true);
-    console.log("hi");
-    setSearchedPackage(suggestions)
+    console.log(order);
+    setSearchedPackage(order)
     const statusTimes = [
-      [suggestions.Status.datePointEndReceived,
-      suggestions.transactionPointEnd && suggestions.transactionPointEnd?.name ? suggestions.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
+      [order.Status.datePointEndReceived, order?.transactionPointEnd?.name + " đang chuyển đơn hàng."],
 
-      [suggestions.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(suggestions.Status.dateReceiverReturn)],
+      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(order.Status.dateReceiverReturn)],
 
-      [suggestions.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + suggestions.transactionPointStart?.name + " lúc " + formatDateTime(suggestions.Status.dateSendPackage)],
+      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order?.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendPackage)],
 
-      [suggestions.Status.dateSendToPointEnd,
-      suggestions.transactionPointEnd && suggestions.transactionPointEnd?.name ?
-        "Đơn hàng chuyển tới điểm giao dịch " + suggestions.transactionPointEnd?.name + " lúc " + formatDateTime(suggestions.Status.dateSendToPointEnd) : null],
+      [order.Status.dateSendToPointEnd, "Đơn hàng chuyển tới điểm giao dịch " + order?.transactionPointEnd?.name + " lúc " + formatDateTime(order.Status.dateSendToPointEnd)],
 
-      [suggestions.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(suggestions.Status.dateSendToReceiver)],
+      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(order.Status.dateSendToReceiver)],
 
-      [suggestions.Status.dateSendToWarehouseEnd, suggestions.warehouseEnd && suggestions.warehouseEnd?.name ?
-        "Đơn hàng rời khỏi kho " + suggestions.warehouseStart?.name + " lúc " + formatDateTime(suggestions.Status.dateSendToWarehouseEnd) : null],
+      [order.Status.dateSendToWarehouseEnd, "Đơn hàng rời khỏi kho " + order?.warehouseStart?.name + " lúc " + formatDateTime(order?.Status?.dateSendToWarehouseEnd)],
 
-      [suggestions.Status.dateSendToWarehouseStart, suggestions.warehouseStart && suggestions.warehouseStart?.name ?
-        "Đơn hàng rời khỏi điểm giao dịch " + suggestions.transactionPointStart?.name + " lúc " + formatDateTime(suggestions.Status.dateSendToWarehouseStart) : null],
+      [order.Status.dateSendToWarehouseStart,
+      "Đơn hàng rời khỏi điểm giao dịch " + order?.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseStart)],
 
-      [suggestions.Status.dateWarehouseEndReceived, suggestions.warehouseEnd && suggestions.warehouseEnd?.name ?
-        "Đơn hàng nhập kho " + suggestions.warehouseEnd?.name + " lúc " + formatDateTime(suggestions.Status.dateWarehouseEndReceived) : null],
+      [order.Status.dateWarehouseEndReceived,
+      "Đơn hàng nhập kho " + order?.warehouseEnd?.name + " lúc " + formatDateTime(order.Status.dateWarehouseEndReceived)],
 
-      [suggestions.Status.dateWarehouseStartReceived, suggestions.warehouseStart && suggestions.warehouseStart?.name ?
-        "Đơn hàng nhập kho " + suggestions.warehouseStart?.name + " lúc " + formatDateTime(suggestions.Status.dateWarehouseStartReceived) : null],
+      [order.Status.dateWarehouseStartReceived,
+      "Đơn hàng nhập kho " + order?.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateWarehouseStartReceived)],
 
-      [suggestions.Status.receivedDate, "Đơn hàng được trả lại lúc " + suggestions.Status.receivedDate]
+      [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
     ];
     const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
     filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    console.log(statusTimes);
+    console.log(filteredStatusTimes);
     setStatusPackage(filteredStatusTimes);
     setText("");
     setSuggestions("");
@@ -171,12 +171,12 @@ const Header = () => {
                 onChange={e => onChangeHandler(e.target.value)}>
               </input>
             </div>
-            {suggestions && suggestions.map((suggestions, i) =>
-              <div key={i} className="searchBox"
-              onClick={() => openModal(suggestions)}>
-                {suggestions.packageCode}
+            {suggestions && suggestions.map((suggestion, index) => (
+              <div key={index} className="searchBox" onClick={() => openModal(suggestion)}>
+                {suggestion.packageCode}
+                <br></br>
               </div>
-            )}
+            ))}
           </li>
           {!isLogged && <li>
             <Link to='/login'>
@@ -188,7 +188,7 @@ const Header = () => {
             <Link to='/login'>
               <div>Đăng xuất</div>
             </Link>
-          </li>} 
+          </li>}
         </ul>
       </nav>
       <br></br>
