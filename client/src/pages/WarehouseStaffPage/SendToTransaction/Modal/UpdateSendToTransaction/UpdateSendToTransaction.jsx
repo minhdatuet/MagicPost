@@ -8,16 +8,15 @@ const UpdateSendToTransaction = ({ showModal, handleClose, selectedPackage }) =>
   const { transactionPoints } = useSelector((state) => state.transactionPoint);
     const [transactions, setTransactions] = useState(transactionPoints);
   const [selectedTransactionPoint, setSelectedTransactionPoint] = useState('');
-  
   useEffect(() => {
     dispatch(getAllTransactionPoints());
   }, []);
-
+  
   console.log(selectedPackage)
   console.log(transactionPoints)
-
+  
   useEffect(() => {
-    const filteredTransactions = transactionPoints.filter((pk) => 
+  const filteredTransactions = transactionPoints.filter((pk) => 
     pk.Warehouse?.id === selectedPackage?.warehouseEnd?.id
 );
 console.log(filteredTransactions)

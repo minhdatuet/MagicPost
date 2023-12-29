@@ -22,6 +22,7 @@ const WarehouseLeaderAccount = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [transactionPointName, setTransactionPointName] = useState("");
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -53,7 +54,7 @@ const WarehouseLeaderAccount = () => {
             const filteredUsers = data.filter(user => 
               user.accountType === "POINT_STAFF" && user.Employee.TransactionPoint.id == localStorage.getItem('transactionPointId')
             );
-    
+            setTransactionPointName(filteredUsers[0].Employee.TransactionPoint.name);
             setUsers(filteredUsers);
           } else {
             console.log(msg);
@@ -134,7 +135,7 @@ const WarehouseLeaderAccount = () => {
       />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Tài khoản</h2>
+          <h2>Tài khoản giao dịch viên tại điểm {transactionPointName}</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
