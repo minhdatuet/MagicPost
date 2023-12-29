@@ -68,25 +68,31 @@ const Account = () => {
     return buttons;
 };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await apiGetAllUsers();
-        const data = response?.data.response;
-        const err = response?.data.err;
-        const msg = response?.data.msg;
-        console.log(data);
-        if (err === 0) {
-          setUsers(data);
-        } else {
-          console.log(msg);
-        }
-      } catch (error) {
-        console.error('Error fetching users:', error);
+useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      const response = await apiGetAllUsers();
+      const data = response?.data.response;
+      const err = response?.data.err;
+      const msg = response?.data.msg;
+      console.log(data);
+
+      if (err === 0) {
+        const filteredUsers = data.filter(user =>
+          user.accountType === "WAREHOUSE_LEADER" || user.accountType === "POINT_LEADER"
+        );
+
+        setUsers(filteredUsers);
+      } else {
+        console.log(msg);
       }
-    };
-    fetchUsers();
-  }, []);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  fetchUsers();
+}, []);
 
   useEffect(() => {
     setPagination(calculateRange(users, 5));
