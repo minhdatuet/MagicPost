@@ -31,7 +31,7 @@ exports.getAll = async (req, res) => {
 exports.updateById = async (req, res) => {
     
     try{
-        
+        const id = req.params.id
         const response = await userService.updateService(id, req.body)
         return res.status(200).json(response)
     } catch (error) {

@@ -38,3 +38,16 @@ export const apiGetPackagesOfPoint = (id) =>  new Promise(async(resolve, reject)
         reject(error)
     }
 })
+
+export const apiUpdatePointById = (payload) =>  new Promise(async(resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'put',
+            url: `/api/v1/transactionpoint/update/${payload.id}`,
+            data: payload
+        })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})

@@ -3,12 +3,18 @@ import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllWarehouses, getAllTransactionPoints } from "../../../../../store/actions";
+import { apiUpdateUserById } from "../../../../../services/user";
+import { apiLeader } from "../../../../../services/auth";
+import { apiUpdateWarehouseById } from "../../../../../services/warehouse";
+import { apiUpdatePointById } from "../../../../../services/transactionpoint";
 
 function UpdateAccountModal(props) {
   const dispatch = useDispatch();
   const [validated, setValidated] = useState(false);
   const { warehouses } = useSelector((state) => state.warehouse);
   const { transactionPoints } = useSelector((state) => state.transactionPoint);
+  const [noLeaderWarehouses, setNoLeaderWarehouses] = useState([])
+  const [noLeaderPoints, setNoLeaderPoints] = useState([])
 
   useEffect(() => {
     dispatch(getAllWarehouses());
@@ -17,6 +23,18 @@ function UpdateAccountModal(props) {
   useEffect(() => {
     dispatch(getAllTransactionPoints());
   }, []);
+
+  useEffect(() => {
+    const filteredWarehouses = warehouses.filter(warehouse => warehouse.warehouseLeader === null);
+    console.log(filteredWarehouses)
+    setNoLeaderWarehouses(filteredWarehouses)
+  }, [warehouses])
+
+  useEffect(() => {
+    const filteredPoints = transactionPoints.filter(warehouse => warehouse.pointLeader === null);
+    console.log(filteredPoints)
+    setNoLeaderPoints(filteredPoints)
+  }, [transactionPoints])
 
   const { account } = props;
   const [formData, setFormData] = useState({
@@ -58,13 +76,46 @@ function UpdateAccountModal(props) {
       event.stopPropagation();
       setValidated(true);
     } else {
-      props.onHide();
-      setFormData({
-        userName: "",
-        phone: "",
-        role: "",
-        workLocation: "",
-      });
+      console.log(formData)
+      const payload ={ 
+        id: account.id,
+        name: formData.userName,
+        phone: formData.phone,
+        address: formData.address,
+        accountType: formData.role
+      }
+      apiUpdateUserById(payload)
+        if (formData.workLocation) {
+          if (account.accountType === 'WAREHOUSE_LEADER') {
+            const payloadWarehouse = {
+              id: account.Warehouses[0]?.id,
+              leaderId: null
+            }
+            apiUpdateWarehouseById(payloadWarehouse)
+          } else if (account.accountType === 'POINT_LEADER') {
+            const payloadPoint = {
+              id: account.TransactionPoints[0]?.id,
+              pointLeaderId: null
+            }
+            apiUpdatePointById(payloadPoint)
+          }
+          const data = {
+            accountType : formData.role,
+            phone: formData.phone,
+            positionId: formData.workLocation
+          }
+          apiLeader(data)
+        
+      }
+      window.alert("Cập nhật thông tin thành công")
+      window.location.reload()       
+      // props.onHide();
+      // setFormData({
+      //   userName: "",
+      //   phone: "",
+      //   role: "",
+      //   workLocation: "",
+      // });
     }
   };
 
@@ -135,12 +186,13 @@ function UpdateAccountModal(props) {
                 value={formData.role}
                 onChange={handleInputChange}
               >
+                <option value="">Chọn chức vụ</option>
                 <option value="POINT_LEADER">Trưởng điểm</option>
                 <option value="WAREHOUSE_LEADER">Trưởng kho</option>
               </Form.Control>
             </Form.Group>
             <Form.Group as={Col} md="6" controlId="workLocation">
-              <Form.Label>Chọn chức vụ</Form.Label>
+              <Form.Label>Vị trí làm việc</Form.Label>
               <Form.Control
                 as="select"
                 value={formData.workLocation}
@@ -148,12 +200,12 @@ function UpdateAccountModal(props) {
               >
                 <option value="">Chọn vị trí làm việc</option>
                 {formData.role === "WAREHOUSE_LEADER"
-                  ? warehouses.map((warehouse) => (
+                  ? noLeaderWarehouses.map((warehouse) => (
                       <option key={warehouse.id} value={warehouse.id}>
                         {warehouse.name}
                       </option>
                     ))
-                  : transactionPoints.map((transactionPoint) => (
+                  : noLeaderPoints.map((transactionPoint) => (
                       <option
                         key={transactionPoint.id}
                         value={transactionPoint.id}

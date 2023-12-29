@@ -2,27 +2,52 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, InputGroup, Row, Col } from "react-bootstrap";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
+import { apiGetLeaders } from "../../../../../services/user";
+import { apiUpdateWarehouseById } from "../../../../../services/warehouse";
 
 function UpdateWarehouseModal(props) {
   const { warehouses } = useSelector((state) => state.warehouse);
   const [validated, setValidated] = useState(false);
+  const [leaders, setLeaders] = useState([])
   const [formData, setFormData] = useState({
     name: "",
     address: "",
     warehouseLeader: "",
-    warehouseLeaderId: "",
+    leaderId: "",
   });
   const { selectWarehouse } = props;
-  console.log(selectWarehouse);
+  // console.log(selectWarehouse);
   const [reset, setReset] = useState(false);
+
+  useEffect(() => {
+    const fetchWarehouseLeader = async () => {
+      try {
+      const response = await apiGetLeaders('warehouse')
+      const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data)
+        if (err === 0) {
+          setLeaders(data)
+        } else {
+          console.log(msg)
+        }
+
+      } catch (error) {
+        console.error('Error fetching leaders:', error);
+      }
+    };
+    fetchWarehouseLeader();
+  }, []);
+
   useEffect(() => {
     if (selectWarehouse) {
       setFormData({
         ...selectWarehouse,
-        name: selectWarehouse.name,
+        name: selectWarehouse?.name,
         address: selectWarehouse.address,
-        selectWarehouseLeader: selectWarehouse.warehouseLeader.name,
-        selectWarehouseLeaderId: selectWarehouse.warehouseLeader.id,
+        selectWarehouseLeader: selectWarehouse.warehouseLeader?.name,
+        leaderId: selectWarehouse.warehouseLeader?.id,
       });
     }
   }, [selectWarehouse]);
@@ -43,8 +68,9 @@ function UpdateWarehouseModal(props) {
       return;
     }
     if (form.checkValidity()) {
-      // apiUpdateWarehouseById(formData);
-      console.log(formData);
+      apiUpdateWarehouseById(formData);
+      window.alert("Cập nhật kho thành công")
+      window.location.reload()
     }
     setValidated(true);
     if (validated) {
@@ -58,25 +84,26 @@ function UpdateWarehouseModal(props) {
     setFormData({
       ...selectWarehouse,
       warehouseLeader: "",
-      warehouseLeaderId: "",
+      leaderId: "",
     });
 
     props.onHide();
   };
 
   const setWarehouseLeader = (value) => {
-    const selectedName = warehouses.find((item) => {
-      return item?.warehouseLeader?.id?.toString() === value;
-    })?.warehouseLeader.name || '';
+    console.log(value)
+    const selectedName = leaders.find((item) => {
+      return item?.id?.toString() === value.id;
+    })?.name || '';
 
     setFormData(prevData => ({
       ...prevData,
       warehouseLeader: selectedName,
-      warehouseLeaderId: value
+      leaderId: value
     }));
   }
 
-  console.log(formData)
+  // console.log(formData)
   return (
     <Modal
       {...props}
@@ -99,7 +126,7 @@ function UpdateWarehouseModal(props) {
                 required
                 type="text"
                 // defaultValue={warehouse.name}
-                value={formData.name}
+                value={formData?.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -131,13 +158,13 @@ function UpdateWarehouseModal(props) {
 
               <Form.Control
                 as="select"
-                value={formData.warehouseLeaderId}
-                onChange={(e) => setFormData({ ...formData, warehouseLeaderId: e.target.value })}
+                value={formData.leaderId}
+                onChange={(e) => setFormData({ ...formData, leaderId: String(e.target.value)  })}
               >
                 <option value="">Chọn trưởng kho</option>
-                {warehouses.map((item) => (
-                  <option key={item.id} value={item.warehouseLeader?.id}>
-                    {item.warehouseLeader?.name}
+                {leaders.map((item) => (
+                  <option key={item?.id} value={item?.id} >
+                    {item?.name}
 
                   </option>
                 ))}
@@ -148,7 +175,7 @@ function UpdateWarehouseModal(props) {
             <div className="text-center mt-3" style={{ marginTop: "50px" }}>
               <Button
                 variant="secondary"
-                type="submit"
+                // type="submit"
                 id="input-submit"
                 onClick={handleSubmit}
               >

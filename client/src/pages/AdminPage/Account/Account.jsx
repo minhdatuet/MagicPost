@@ -15,6 +15,7 @@ import UpdateAccountModal from './Modal/UpdateAccount/UpdateAccount';
 const Account = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [accounts, setAccounts] = useState(users); 
   const [search, setSearch] = useState('');
   const [pagination, setPagination] = useState([]);
@@ -77,7 +78,7 @@ const Account = () => {
         const msg = response?.data.msg;
         console.log(data);
         if (err === 0) {
-          setUsers(data);
+          setAllUsers(data);
         } else {
           console.log(msg);
         }
@@ -87,6 +88,12 @@ const Account = () => {
     };
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    const filteredUsers = allUsers.filter(user => (user.accountType === 'WAREHOUSE_LEADER' || user.accountType === 'POINT_LEADER'));
+    console.log(filteredUsers)
+    setUsers(filteredUsers)
+  }, [allUsers])
 
   useEffect(() => {
     setPagination(calculateRange(users, 5));
