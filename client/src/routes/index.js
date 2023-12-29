@@ -14,7 +14,6 @@ import pointStaffReceiveFromWarehouse from "../pages/PointStaffPage/ReceiveFromW
 import pointStaffSendToAccount from "../pages/PointStaffPage/SendToAccount/SendToAccount";
 import Refund from "../pages/PointStaffPage/RefundPackage/Refund";
 import WarehouseLeaderAccount from "../pages/WarehouseLeaderPage/Account/WarehouseLeaderAccount";
-import WarehouseLeaderPackage from "../pages/WarehouseLeaderPage/PackageSending/WarehouseLeaderPackageSending";
 import warehouseStaffSendToWarehouse from "../pages/WarehouseStaffPage/SendToWarehouse/SendToWarehouse";
 import warehouseStaffReceiveFromWarehouse from "../pages/WarehouseStaffPage/ReceiveFromWarehouse/ReceiveFromWarehouse";
 import warehouseStaffSendToTransaction from "../pages/WarehouseStaffPage/SendToTransaction/SendToTransaction";
