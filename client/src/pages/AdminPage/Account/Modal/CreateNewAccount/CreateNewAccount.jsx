@@ -77,7 +77,7 @@ function CreateNewAccountModal(props) {
       }
   
       const fetchEmployee = async () => {
-        const response = await apiEmployee(formData);
+        const response = await apiLeader(formData);
         window.alert("Tạo tài khoản thành công");
         window.location.reload();
       };

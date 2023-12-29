@@ -104,16 +104,10 @@ function UpdatePackageModal(props) {
       event.stopPropagation();
       return
     }
-    else {
-      if (formData.senderPhone[0] !== '0' || !(formData.senderPhone.match('[0-9]{10}'))
-      || formData.receiverPhone[0] !== '0' || !(formData.receiverPhone.match('[0-9]{10}'))) {
-        window.alert("Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.");
-        return;
-      }
-    }
     if (form.checkValidity()) {
       apiUpdatePackageById(formData);
       console.log(formData);
+      window.alert("Cập nhập thành công")
       window.location.reload();
     }
     setValidated(true);

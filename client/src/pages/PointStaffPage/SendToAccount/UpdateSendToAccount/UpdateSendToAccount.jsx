@@ -48,7 +48,7 @@ const UpdateSendToAccount = ({ showModal, handleClose, selectedPackage }) => {
           <p>Người gửi: {selectedPackage?.sender.name}</p>
           <p>Người nhận: {selectedPackage?.receiver.name}</p>
           <Form.Group controlId="selectedWarehouse">
-            <Form.Label>Kho kế tiếp:</Form.Label>
+            <Form.Label>Trạng thái:</Form.Label>
             <Form.Control
               as="select"
               value={selectedStatus}
