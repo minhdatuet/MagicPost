@@ -6,7 +6,7 @@ import {
   getAllWarehouses,
   getAllTransactionPoints,
 } from "../../../../../store/actions";
-import { apiLeader, apiRegister } from "../../../../../services/auth";
+import { apiEmployee, apiLeader, apiRegister } from "../../../../../services/auth";
 function CreateNewAccountModal(props) {
   const [reset, setReset] = useState(false);
   const dispatch = useDispatch();
@@ -65,38 +65,46 @@ function CreateNewAccountModal(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
     const form = event.currentTarget;
+  
     if (form.checkValidity() === false) {
       event.stopPropagation();
       setValidated(true);
     } else {
+      if (formData.phone[0] !== '0' || !(formData.phone.match('[0-9]{10}'))) {
+        window.alert("Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.");
+        return;
+      }
+  
+      const fetchEmployee = async () => {
+        const response = await apiEmployee(formData);
+        window.alert("Tạo tài khoản thành công");
+        window.location.reload();
+      };
+  
+      const fetchCreateUser = async () => {
+        const response = await apiRegister(formData);
+        if (formData.positionId && !response.data.err) {
+          fetchEmployee();
+        } else {
+          window.alert("Số điện thoại đã được đăng ký trước đó");
+        }
+      };
+  
+      fetchCreateUser();
+  
+
       setFormData({
         name: "",
         phone: "",
         address: "",
         password: "",
-        accountType: "",
-        positionId: "",
+        accountType: "POINT_STAFF",
+        positionId: localStorage.getItem('transactionPointId'),
       });
-      console.log(formData)
-      const fetchCreateUser = async () => {
-        const response = await apiRegister(formData);
-        if (formData.positionId && !response.data.err) {
-          apiLeader(formData)
-          window.alert("Đăng ký thành công")
-          window.location.reload()
-        } else {
-          window.alert("Số điện thoại đã được sử dụng")
-        }
-      };
-      
-      fetchCreateUser()
-      
-      
-      // props.onHide();
     }
   };
+  
 
   return (
     <Modal
