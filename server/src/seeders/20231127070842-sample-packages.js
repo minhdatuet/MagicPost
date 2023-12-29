@@ -36,7 +36,7 @@ module.exports = {
         senderId,
         receiverId,
         warehouseStartId: ((i + 2) % 7) + 1,
-        trasactionPointStartId: (((i + 2) % 7))*3 + ((i + 2) % 3) + 1,
+        transactionPointStartId: (((i + 2) % 7))*3 + ((i + 2) % 3) + 1,
         name: `Item ${i}`,
         shippingCost: (i * 1000).toString(),
         createdAt: new Date(),

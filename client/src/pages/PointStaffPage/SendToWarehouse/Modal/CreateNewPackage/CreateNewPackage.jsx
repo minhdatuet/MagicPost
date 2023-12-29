@@ -151,6 +151,7 @@ function CreateNewPackageModal(props) {
         receiverAddress: "",
       });
       props.onHide();
+      window.alert("Tạo đơn hàng thành công")
       window.location.reload();
     }
 };
