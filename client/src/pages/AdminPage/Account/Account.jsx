@@ -69,6 +69,7 @@ const Account = () => {
     return buttons;
 };
 
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -85,9 +86,10 @@ const Account = () => {
       } catch (error) {
         console.error('Error fetching users:', error);
       }
-    };
-    fetchUsers();
-  }, []);
+  };
+
+  fetchUsers();
+}, []);
 
   useEffect(() => {
     const filteredUsers = allUsers.filter(user => (user.accountType === 'WAREHOUSE_LEADER' || user.accountType === 'POINT_LEADER'));
