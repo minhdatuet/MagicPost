@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { apiGetAllUsers } from '../../../services/user';
+import { apiDeleteEmployee, apiGetAllUsers } from '../../../services/user';
 import {
   calculateRange,
   sliceData,
@@ -40,6 +40,8 @@ const WarehouseLeaderAccount = () => {
 
   }
 
+  
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -50,9 +52,10 @@ const WarehouseLeaderAccount = () => {
         console.log(data);
         if (err === 0) {
             console.log(localStorage);
+
             const filteredUsers = data.filter(user => 
               user.accountType === "WAREHOUSE_STAFF" &&
-              user.Employee.Warehouse.id == localStorage.getItem('warehouseId')
+              user.Employee?.Warehouse?.id == localStorage.getItem('warehouseId')
             );
     
             setUsers(filteredUsers);
@@ -112,6 +115,14 @@ const WarehouseLeaderAccount = () => {
   const handleFirstPage = () => {
     firstPage(page, setPage);
   };
+
+  const handleDelete = (id) => {
+    if(window.confirm("Bạn có chắc chắn muốn xóa tài khoản này không?")) {
+      apiDeleteEmployee(id)
+      window.location.reload()
+    }
+
+  }
 
   return (
     <div className="dashboard-content">
@@ -186,7 +197,7 @@ const WarehouseLeaderAccount = () => {
                           data-toggle="tooltip"
                           data-placement="top"
                           title="Delete"
-                          // onClick={() => { handleDelete(order.id) }}
+                          onClick={() => { handleDelete(account.id) }}
                         >
                           <i class="fa fa-trash"></i>
                         </button>

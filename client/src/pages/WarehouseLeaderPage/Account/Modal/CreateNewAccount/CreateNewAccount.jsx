@@ -6,7 +6,7 @@ import {
   getAllWarehouses,
   getAllTransactionPoints,
 } from "../../../../../store/actions";
-import { apiLeader, apiRegister } from "../../../../../services/auth";
+import { apiEmployee, apiLeader, apiRegister } from "../../../../../services/auth";
 function CreateNewAccountModal(props) {
   const [reset, setReset] = useState(false);
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ function CreateNewAccountModal(props) {
     phone: "",
     address: "",
     password: "",
-    accountType: "",
+    accountType: "WAREHOUSE_STAFF",
     positionId: localStorage.getItem('warehouseId'),
   });
 
@@ -71,26 +71,35 @@ function CreateNewAccountModal(props) {
       event.stopPropagation();
       setValidated(true);
     } else {
+      console.log(formData)
+      const fetchEmployee = async () => {
+        const response = await apiEmployee(formData);
+        window.alert("Tạo tài khoản thành công")
+        window.location.reload()
+      };
+      const fetchCreateUser = async () => {
+        const response = await apiRegister(formData);
+        if (formData.positionId && !response.data.err) {
+          fetchEmployee()
+
+        } else {
+          window.alert("Số điện thoại đã được đăng ký trước đó")
+        }
+      };
+
+      
+      
+      fetchCreateUser()
+
       setFormData({
         name: "",
         phone: "",
         address: "",
         password: "",
-        accountType: "",
+        accountType: "WAREHOUSE_STAFF",
         positionId: localStorage.getItem('warehouseId'),
       });
-      console.log(formData)
-      const fetchCreateUser = async () => {
-        const response = await apiRegister(formData);
-        if (formData.positionId && !response.data.err) {
-          apiLeader(formData)
-        }
-      };
-      
-      fetchCreateUser()
-      
-      window.location.reload()
-      // props.onHide();
+    
     }
   };
 
