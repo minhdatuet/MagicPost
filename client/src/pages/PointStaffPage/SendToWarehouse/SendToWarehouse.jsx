@@ -19,6 +19,7 @@ import { getAllPackages } from "../../../store/actions/package";
 import UpdateSendToWarehouse from "./Modal/UpdateSendToWarehouse/UpdateSendToWarehouse";
 import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
 import PrintPackageInfo from "./Modal/PrintPackageInfo/PrintPackageInfo";
+import UpdatePackageModal from "./Modal/UpdatePackage/UpdatePackage";
 function PointStaffSendToWarehouse() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function PointStaffSendToWarehouse() {
   const [pagination, setPagination] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isUpdate1ModalOpen, setIsUpdate1ModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -74,6 +76,14 @@ function PointStaffSendToWarehouse() {
 
   const handleCloseUpdateModal = () => {
     setIsUpdateModalOpen(false);
+  };
+  const handleOpenUpdate1Modal = (order) => {
+    setIsUpdate1ModalOpen(true);
+    setSelectedPackage(order);
+  };
+
+  const handleCloseUpdate1Modal = () => {
+    setIsUpdate1ModalOpen(false);
   };
 
   // Search
@@ -150,7 +160,6 @@ function PointStaffSendToWarehouse() {
             <th>TRẠNG THÁI</th>
             <th>NGƯỜI GỬI</th>
             <th>NGƯỜI NHẬN</th>
-            <th>KHO GỬI TỚI</th>
           </thead>
 
           {filteredPackages.length !== 0 ? (
@@ -194,19 +203,28 @@ function PointStaffSendToWarehouse() {
                   <td>
                     <span>{order?.receiver?.name}</span>
                   </td>
-                  <td>
-                    <span>{order?.warehouseStart?.name}</span>
-                  </td>
                   <li class="list-inline-item">
                     <button
                       class="btn btn-secondary btn-sm rounded-0"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
-                      title="Edit"
-                      onClick={() => handleOpenUpdateModal(order)}
+                      title="Update"
+                      onClick={() => handleOpenUpdate1Modal(order)}
                     >
                       <i class="fa fa-edit"></i>
+                    </button>
+                  </li>
+                  <li class="list-inline-item">
+                    <button
+                      class="btn btn-secondary btn-sm rounded-0"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Update"
+                      onClick={() => handleOpenUpdateModal(order)}
+                    >
+                      <i class="fa fa-truck"></i>
                     </button>
                   </li>
                   <li className="list-inline-item">
@@ -230,6 +248,11 @@ function PointStaffSendToWarehouse() {
         <PrintPackageInfo
           showModal={isPrintOpen} handleClose={handleClosePrintModal} selectedPackage={selectedPackage}
         />
+        <UpdatePackageModal
+            show={isUpdate1ModalOpen}
+            order={selectedPackage}
+            onHide={handleCloseUpdate1Modal}
+          />
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
             <span
