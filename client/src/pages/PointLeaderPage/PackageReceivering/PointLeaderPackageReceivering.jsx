@@ -10,23 +10,22 @@ import {
 import { useNavigate } from 'react-router-dom'
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
-import RefundedIcon from "../../../assets/icons/refunded.svg";
+import ShippingIcon from "../../../assets/icons/shipping.svg";
 import HeaderRole from "../../../conponents/HeaderRole/HeaderRole";
 import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPackages } from "../../../store/actions/package";
-import { apiGetPackagesOfWarehouse } from "../../../services/warehouse";
+import { getAllPackages} from "../../../store/actions/package";
+import { getAllTransactionPoints } from "../../../store/actions";
+import { apiGetPackagesOfPoint } from "../../../services/transactionpoint";
 // import UpdateReceiveFromWarehouse from "./Modal/UpdateReceiveFromWarehouse/UpdateReceiveFromWarehouse";
 import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
-import ShippingIcon from "../../../assets/icons/shipping.svg"
-import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
 
-function WarehouseLeaderPackage() {
+function PointLeaderPackageReceivering() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const { packages } = useSelector((state) => state.package);
-
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
@@ -37,22 +36,38 @@ function WarehouseLeaderPackage() {
   const [orders, setOrders] = useState([]);
   const [showInfoPackage, setShowInfoPackage] = useState(false);
   const [statusPackage, setStatusPackage] = useState('');
+  const [transactionPointName, setTransactionPointName] = useState("");
+  const { transactionPoints } = useSelector((state) => state.transactionPoint);
+  useEffect(() => {
+    dispatch(getAllTransactionPoints());
+  }, []);
+  
+  useEffect(() => {
+  const selectedTransactionPoint = transactionPoints.find(
+    (transactionPoint) => transactionPoint.id == localStorage.getItem('transactionPointId')
+  );
 
+  if (selectedTransactionPoint) {
+    setTransactionPointName(selectedTransactionPoint.name);
+  } else {
+    setTransactionPointName("");
+  }
+}, [transactionPoints]);
   useEffect(() => {
     const fetchPackages = async () => {
-      const warehouseId = localStorage.getItem('warehouseId')
+      const pointId = localStorage.getItem('transactionPointId')
       try {
-        const response = await apiGetPackagesOfWarehouse(warehouseId);
+        const response = await apiGetPackagesOfPoint(pointId);
         const data = response?.data.response;
         const err = response?.data.err;
         const msg = response?.data.msg;
         console.log(data)
-        if (err === 0) {
-          setFilteredPackages(data);
-        } else {
-          console.log(msg)
-        }
-
+        console.log(localStorage);
+        const filteredPackages = data.filter((pk) =>
+            pk.transactionPointEnd?.id === parseInt(localStorage.getItem('transactionPointId')) && pk?.Status?.nameOfStatus === "DELIVERING"
+            && pk?.Status?.datePointEndReceived !== null && pk?.Status?.dateSendToReceiver === null
+      );
+      setFilteredPackages(filteredPackages);
       } catch (error) {
         console.error('Error fetching packages:', error);
       }
@@ -74,7 +89,6 @@ function WarehouseLeaderPackage() {
   };
 
   const handleCloseModal = () => {
-
     setIsModalOpen(false);
     setShowInfoPackage(false);
   };
@@ -131,34 +145,52 @@ function WarehouseLeaderPackage() {
 
       [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
     ];
-
+  
     const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
-
+  
     filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
     setStatusPackage(filteredStatusTimes);
     setShowInfoPackage(true)
-
+    
   };
 
   // Search
-  const handleSearch = (event) => {
-    setSearch(event.target.value);
-    if (event.target.value !== "") {
-      let searchResults = filteredPackages.filter(
-        (item) =>
-          item.first_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.last_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.product.toLowerCase().includes(search.toLowerCase())
-      );
-      setOrders(sliceData(searchResults, 1, 4));
-      setPagination(calculateRange(searchResults, 4));
-      setPage(1); // Reset to the first page when searching
-    } else {
-      setOrders(sliceData(filteredPackages, page, 4));
-      setPagination(calculateRange(filteredPackages, 4));
-    }
-  };
+  // const handleSearch = (event) => {
+  //   setSearch(event.target.value);
+  //   if (event.target.value !== "") {
+  //     let searchResults = filteredPackages.filter(
+  //       (item) =>
+  //         item.first_name.toLowerCase().includes(search.toLowerCase()) ||
+  //         item.last_name.toLowerCase().includes(search.toLowerCase()) ||
+  //         item.product.toLowerCase().includes(search.toLowerCase())
+  //     );
+  //     setOrders(sliceData(searchResults, 1, 4));
+  //     setPagination(calculateRange(searchResults, 4));
+  //     setPage(1); // Reset to the first page when searching
+  //   } else {
+  //     setOrders(sliceData(filteredPackages, page, 4));
+  //     setPagination(calculateRange(filteredPackages, 4));
+  //   }
+  // };
 
+  const handleSearch = (event) => {
+    const searchText = event.target.value.toLowerCase();
+    setSearch(searchText);
+
+    if (searchText !== '') {
+        let searchResults = filteredPackages.filter((item) =>
+            (item?.first_name && typeof item.first_name === 'string' && item.first_name.toLowerCase().includes(searchText)) ||
+            (item?.last_name && typeof item.last_name === 'string' && item.last_name.toLowerCase().includes(searchText)) ||
+            (item?.product && typeof item.product === 'string' && item.product.toLowerCase().includes(searchText))
+        );
+        setOrders(sliceData(searchResults, 1, 4));
+        setPagination(calculateRange(searchResults, 4));
+        setPage(1); // Reset to the first page when searching
+    } else {
+        setOrders(sliceData(filteredPackages, page, 4));
+        setPagination(calculateRange(filteredPackages, 4));
+    }
+};
   // Change Page
   const handleChangePage = (newPage) => {
     if (newPage !== page) {
@@ -182,6 +214,8 @@ function WarehouseLeaderPackage() {
     firstPage(page, setPage);
   };
 
+
+
   return (
     <div className="dashboard-content">
     <HeaderRoleNoButton
@@ -191,7 +225,7 @@ function WarehouseLeaderPackage() {
   />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Các đơn hàng tại kho</h2>
+          <h2>Các đơn hàng nhận tại điểm {transactionPointName}</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -274,11 +308,11 @@ function WarehouseLeaderPackage() {
         </table>
 
         <ShowInfoPackage
-          show={showInfoPackage}
-          order={selectedPackage}
-          statusPackage={statusPackage}
-          onHide={handleCloseModal}
-        />
+            show={showInfoPackage}
+            order = {selectedPackage}
+            statusPackage = {statusPackage}
+            onHide={handleCloseModal}
+          />
 
         {filteredPackages.length !== 0 ? (
           <div className="dashboard-content-footer">
@@ -330,4 +364,4 @@ function WarehouseLeaderPackage() {
   );
 }
 
-export default WarehouseLeaderPackage;
+export default PointLeaderPackageReceivering;

@@ -12,6 +12,7 @@ import HeaderRole from '../../../conponents/HeaderRole/HeaderRole';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateNewAccountModal from './Modal/CreateNewAccount/CreateNewAccount';
 import UpdateAccountModal from './Modal/UpdateAccount/UpdateAccount';
+import { getAllTransactionPoints } from '../../../store/actions';
 const WarehouseLeaderAccount = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
@@ -22,6 +23,23 @@ const WarehouseLeaderAccount = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [transactionPointName, setTransactionPointName] = useState("");
+  const { transactionPoints } = useSelector((state) => state.transactionPoint);
+  useEffect(() => {
+    dispatch(getAllTransactionPoints());
+  }, []);
+  
+  useEffect(() => {
+  const selectedTransactionPoint = transactionPoints.find(
+    (transactionPoint) => transactionPoint.id == localStorage.getItem('transactionPointId')
+  );
+
+  if (selectedTransactionPoint) {
+    setTransactionPointName(selectedTransactionPoint.name);
+  } else {
+    setTransactionPointName("");
+  }
+}, [transactionPoints]);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -53,7 +71,6 @@ const WarehouseLeaderAccount = () => {
             const filteredUsers = data.filter(user => 
               user.accountType === "POINT_STAFF" && user.Employee.TransactionPoint.id == localStorage.getItem('transactionPointId')
             );
-    
             setUsers(filteredUsers);
           } else {
             console.log(msg);
@@ -134,7 +151,7 @@ const WarehouseLeaderAccount = () => {
       />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Tài khoản</h2>
+          <h2>Tài khoản giao dịch viên tại điểm {transactionPointName}</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
