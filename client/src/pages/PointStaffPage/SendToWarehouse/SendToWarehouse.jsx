@@ -33,6 +33,7 @@ function PointStaffSendToWarehouse() {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [statusPackage, setStatusPackage] = useState('');
   const [isPrintOpen, setIsPrintOpen] = useState(false);
   useEffect(() => {
     dispatch(getAllPackages());
@@ -51,10 +52,55 @@ function PointStaffSendToWarehouse() {
     setPage(1);
   }, [filteredPackages]);
 
+
   useEffect(() => {
     setOrders(sliceData(filteredPackages, page, 4));
   }, [page, filteredPackages]);
+  function formatDateTime(dateTimeStr) {
+    const dateTime = new Date(dateTimeStr);
+
+    const day = dateTime.getUTCDate().toString().padStart(2, '0');
+    const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0');
+    const year = dateTime.getUTCFullYear();
+    const hours = dateTime.getUTCHours().toString().padStart(2, '0');
+    const minutes = dateTime.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = dateTime.getUTCSeconds().toString().padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  }
   const handleOpenPrintModal = (order) => {
+    const statusTimes = [
+      [order.Status.datePointEndReceived,
+      order.transactionPointEnd && order.transactionPointEnd?.name ? order.transactionPointEnd?.name + " đang chuyển đơn hàng." : null],
+
+      [order.Status.dateReceiverReturn, 'Người nhận trả lại hàng lúc ' + formatDateTime(order.Status.dateReceiverReturn)],
+
+      [order.Status.dateSendPackage, 'Người gửi gửi đơn hàng tại điểm giao dịch ' + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendPackage)],
+
+      [order.Status.dateSendToPointEnd,
+      order.transactionPointEnd && order.transactionPointEnd?.name ?
+        "Đơn hàng chuyển tới điểm giao dịch " + order.transactionPointEnd?.name + " lúc " + formatDateTime(order.Status.dateSendToPointEnd) : null],
+
+      [order.Status.dateSendToReceiver, "Đơn hàng đã chuyển tới người nhận lúc " + formatDateTime(order.Status.dateSendToReceiver)],
+
+      [order.Status.dateSendToWarehouseEnd, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng rời khỏi kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseEnd) : null],
+
+      [order.Status.dateSendToWarehouseStart, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng rời khỏi điểm giao dịch " + order.transactionPointStart?.name + " lúc " + formatDateTime(order.Status.dateSendToWarehouseStart) : null],
+
+      [order.Status.dateWarehouseEndReceived, order.warehouseEnd && order.warehouseEnd?.name ?
+        "Đơn hàng nhập kho " + order.warehouseEnd?.name + " lúc " + formatDateTime(order.Status.dateWarehouseEndReceived) : null],
+
+      [order.Status.dateWarehouseStartReceived, order.warehouseStart && order.warehouseStart?.name ?
+        "Đơn hàng nhập kho " + order.warehouseStart?.name + " lúc " + formatDateTime(order.Status.dateWarehouseStartReceived) : null],
+
+      [order.Status.receivedDate, "Đơn hàng được trả lại lúc " + order.Status.receivedDate]
+    ];
+
+    const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
+
+    filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    setStatusPackage(filteredStatusTimes);
     setIsPrintOpen(true);
     setSelectedPackage(order);
   }
@@ -246,7 +292,7 @@ function PointStaffSendToWarehouse() {
         </table>
         <UpdateSendToWarehouse showModal={isUpdateModalOpen} handleClose={handleCloseUpdateModal} selectedPackage={selectedPackage} />
         <PrintPackageInfo
-          showModal={isPrintOpen} handleClose={handleClosePrintModal} selectedPackage={selectedPackage}
+          showModal={isPrintOpen} handleClose={handleClosePrintModal} selectedPackage={selectedPackage}  statusPackage={statusPackage}
         />
         <UpdatePackageModal
             show={isUpdate1ModalOpen}

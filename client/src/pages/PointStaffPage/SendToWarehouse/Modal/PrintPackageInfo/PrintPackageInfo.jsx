@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import { useReactToPrint } from 'react-to-print';
 
-function PrintPackageInfo({ showModal, handleClose, selectedPackage }) {
+function PrintPackageInfo({ showModal, handleClose, selectedPackage, statusPackage }) {
   const modalContentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -110,6 +110,17 @@ function PrintPackageInfo({ showModal, handleClose, selectedPackage }) {
                     <p className="pLabel">Thông tin vận chuyển: </p>
                     <br></br>
                     <ul>
+                      {statusPackage && statusPackage.map((item, i) => (
+                        <li key={i}>
+                          <p
+                            className={
+                              i === statusPackage.length - 1 ? 'pStatus' : ''
+                            }
+                          >
+                            {item[1]}
+                          </p>
+                        </li>
+                      ))}
                       {/* {statusPackage.map((item, i) => (
                         <li key={i}>
                           <p
