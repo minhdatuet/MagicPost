@@ -107,6 +107,8 @@ function UpdatePackageModal(props) {
     if (form.checkValidity()) {
       apiUpdatePackageById(formData);
       console.log(formData);
+      window.alert("Cập nhật thành công")
+      window.location.reload()
     }
     setValidated(true);
     if (validated) {
