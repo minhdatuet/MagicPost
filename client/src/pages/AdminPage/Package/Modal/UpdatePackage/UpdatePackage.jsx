@@ -107,6 +107,7 @@ function UpdatePackageModal(props) {
     if (form.checkValidity()) {
       apiUpdatePackageById(formData);
       console.log(formData);
+      window.location.reload();
     }
     setValidated(true);
     if (validated) {

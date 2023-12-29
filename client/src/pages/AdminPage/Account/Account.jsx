@@ -23,6 +23,7 @@ const Account = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  console.log(accounts);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -215,8 +216,16 @@ const Account = () => {
                     )}
                   </td>
                   <td>
-                    <span>{account.address}</span>
-                  </td>
+                  <span>
+                    {account.TransactionPoints[0]?.name !== null
+                      ? account.TransactionPoints[0]?.name
+                      : account.Warehouses[0]?.name}
+                      {account.Warehouses[0]?.name !== null
+                        ? account.Warehouses[0]?.name
+                      : null}
+                  </span>
+                </td>
+                
                   <td>
                     <ul class="list-inline m-0">
                       <li class="list-inline-item">
