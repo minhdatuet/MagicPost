@@ -84,12 +84,16 @@ function CreateNewAccountModal(props) {
         const response = await apiRegister(formData);
         if (formData.positionId && !response.data.err) {
           apiLeader(formData)
+          window.alert("Đăng ký thành công")
+          window.location.reload()
+        } else {
+          window.alert("Số điện thoại đã được sử dụng")
         }
       };
       
       fetchCreateUser()
       
-      window.location.reload()
+      
       // props.onHide();
     }
   };

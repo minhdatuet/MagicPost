@@ -6,10 +6,13 @@ import {
   getAllTransactionPoints,
 } from "../../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { apiGetLeaders } from "../../../../../services/user";
+import { apiUpdatePointById } from "../../../../../services/transactionpoint";
 
 function UpdateTransactionPoint(props) {
     const dispatch = useDispatch();
     const [validated, setValidated] = useState(false);
+    const [leaders, setLeaders] = useState([])
     const [formData, setFormData] = useState({
       name: "",
       address: "",
@@ -24,6 +27,27 @@ function UpdateTransactionPoint(props) {
       dispatch(getAllWarehouses());
       dispatch(getAllTransactionPoints());
     }, [dispatch]);
+
+    useEffect(() => {
+      const fetchWarehouseLeader = async () => {
+        try {
+        const response = await apiGetLeaders('point')
+        const data = response?.data.response;
+          const err = response?.data.err;
+          const msg = response?.data.msg;
+          console.log(data)
+          if (err === 0) {
+            setLeaders(data)
+          } else {
+            console.log(msg)
+          }
+  
+        } catch (error) {
+          console.error('Error fetching leaders:', error);
+        }
+      };
+      fetchWarehouseLeader();
+    }, []);
   
     useEffect(() => {
       if (transactionPoint) {
@@ -31,8 +55,8 @@ function UpdateTransactionPoint(props) {
           ...prevData,
           name: transactionPoint.name || "",
           address: transactionPoint.address || "",
-          warehouse: "",
-          transactionPointLeader: "",
+          warehouse: transactionPoint.Warehouse?.id,
+          transactionPointLeader: transactionPoint.pointLeaderId,
         }));
       }
     }, [transactionPoints, transactionPoint]);
@@ -67,7 +91,17 @@ function UpdateTransactionPoint(props) {
         event.stopPropagation();
       } else {
         console.log(formData);
-        handleHide();
+        // handleHide();
+        const payload = {
+          id: transactionPoint.id,
+          name: formData.name,
+          address: formData.address,
+          pointLeaderId: formData.transactionPointLeader,
+          warehouseId: formData.warehouse
+        }
+        apiUpdatePointById(payload)
+        window.alert("Cập nhật điểm giao dịch thành công")
+        window.location.reload()
       }
   
       setValidated(true);
@@ -135,11 +169,11 @@ function UpdateTransactionPoint(props) {
               <Form.Control
                 as="select"
                 value={formData.warehouse}
-                onChange={(e) => setWarehouse(e.target.value)}
+                onChange={(e) => setWarehouse(String(e.target.value))}
               >
                 <option>Chọn kho hàng</option>
                 {warehouses.map((item) => (
-                  <option key={item.id} value={item?.name}>
+                  <option key={item.id} value={item?.id}>
                     {item?.name}
                   </option>
                 ))}
@@ -151,19 +185,19 @@ function UpdateTransactionPoint(props) {
             <Form.Control
               as="select"
               value={formData.transactionPointLeader}
-              onChange={(e) => setTransactionPointLeader(e.target.value)}
+              onChange={(e) => setTransactionPointLeader(String(e.target.value))}
             >
               <option>Chọn trưởng điểm</option>
-              {transactionPoints.map((item) => (
-                <option key={item.id} value={item.pointLeader?.name}>
-                  {item.pointLeader?.name}
+              {leaders.map((item) => (
+                <option key={item.id} value={item?.id}>
+                  {item?.name}
                 </option>
               ))}
             </Form.Control>
           </Form.Group>
           <Row style={{ marginTop: "10px" }}>
             <div className="text-center mt-3" style={{ marginTop: "50px" }}>
-              <Button variant="secondary" id="input-submit" type="submit">
+              <Button variant="secondary" id="input-submit" onClick={handleSubmit}>
                 Cập nhật
               </Button>
               <Button variant="secondary" onClick={handleHide}>

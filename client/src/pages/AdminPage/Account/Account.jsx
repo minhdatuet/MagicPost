@@ -15,6 +15,7 @@ import UpdateAccountModal from './Modal/UpdateAccount/UpdateAccount';
 const Account = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [accounts, setAccounts] = useState(users); 
   const [search, setSearch] = useState('');
   const [pagination, setPagination] = useState([]);
@@ -68,31 +69,33 @@ const Account = () => {
     return buttons;
 };
 
-useEffect(() => {
-  const fetchUsers = async () => {
-    try {
-      const response = await apiGetAllUsers();
-      const data = response?.data.response;
-      const err = response?.data.err;
-      const msg = response?.data.msg;
-      console.log(data);
 
-      if (err === 0) {
-        const filteredUsers = data.filter(user =>
-          user.accountType === "WAREHOUSE_LEADER" || user.accountType === "POINT_LEADER"
-        );
-
-        setUsers(filteredUsers);
-      } else {
-        console.log(msg);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await apiGetAllUsers();
+        const data = response?.data.response;
+        const err = response?.data.err;
+        const msg = response?.data.msg;
+        console.log(data);
+        if (err === 0) {
+          setAllUsers(data);
+        } else {
+          console.log(msg);
+        }
+      } catch (error) {
+        console.error('Error fetching users:', error);
       }
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
   };
 
   fetchUsers();
 }, []);
+
+  useEffect(() => {
+    const filteredUsers = allUsers.filter(user => (user.accountType === 'WAREHOUSE_LEADER' || user.accountType === 'POINT_LEADER'));
+    console.log(filteredUsers)
+    setUsers(filteredUsers)
+  }, [allUsers])
 
   useEffect(() => {
     setPagination(calculateRange(users, 5));
