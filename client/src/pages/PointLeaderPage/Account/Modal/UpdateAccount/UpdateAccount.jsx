@@ -3,6 +3,7 @@ import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllWarehouses, getAllTransactionPoints } from "../../../../../store/actions";
+import { apiUpdateUserById } from "../../../../../services/user";
 
 function UpdateAccountModal(props) {
   const dispatch = useDispatch();
@@ -58,13 +59,16 @@ function UpdateAccountModal(props) {
       event.stopPropagation();
       setValidated(true);
     } else {
-      props.onHide();
-      setFormData({
-        userName: "",
-        phone: "",
-        role: "",
-        workLocation: "",
-      });
+      console.log(formData)
+      const payload = {
+        id: account.id,
+        name: formData.userName,
+        phone: formData.phone,
+        address: formData.address
+      }
+      apiUpdateUserById(payload)
+      window.alert("Cập nhật thành công")
+      window.location.reload()
     }
   };
 

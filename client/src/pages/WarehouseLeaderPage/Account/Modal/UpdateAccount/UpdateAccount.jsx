@@ -3,6 +3,7 @@ import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllWarehouses, getAllTransactionPoints } from "../../../../../store/actions";
+import { apiUpdateUserById } from "../../../../../services/user";
 
 function UpdateAccountModal(props) {
   const dispatch = useDispatch();
@@ -20,16 +21,16 @@ function UpdateAccountModal(props) {
 
   const { account } = props;
   const [formData, setFormData] = useState({
-    userName: "",
+    name: "",
     phone: "",
-    role: "",
+    role: "WAREHOUSE_STAFF",
     workLocation: "",
   });
   useEffect(() => {
     if (account) {
       setFormData({
         ...account,
-        userName: account.name || "",
+        name: account.name || "",
         phone: account.phone || "",
         role: account.accountType || "",
         workLocation:
@@ -58,20 +59,30 @@ function UpdateAccountModal(props) {
       event.stopPropagation();
       setValidated(true);
     } else {
-      props.onHide();
-      setFormData({
-        userName: "",
-        phone: "",
-        role: "",
-        workLocation: "",
-      });
+      console.log(formData)
+      const payload = {
+        id: account.id,
+        name: formData.name,
+        phone: formData.phone,
+        address: formData.address
+      }
+      apiUpdateUserById(payload)
+      window.alert("Cập nhật thành công")
+      window.location.reload()
+      // props.onHide();
+      // setFormData({
+      //   userName: "",
+      //   phone: "",
+      //   role: "",
+      //   workLocation: "",
+      // });
     }
   };
 
   const handleHide = () => {
     setFormData({
       ...account,
-      userName: account.name || "",
+      name: account.name || "",
       phone: account.phone || "",
       role: account.accountType || "",
       workLocation:
@@ -100,11 +111,11 @@ function UpdateAccountModal(props) {
       <Modal.Body>
         <Form validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
-            <Form.Group as={Col} md="6" controlId="userName">
+            <Form.Group as={Col} md="6" controlId="name">
               <Form.Label>Tên tài khoản</Form.Label>
               <Form.Control
                 type="text"
-                value={formData.userName}
+                value={formData.name}
                 onChange={handleInputChange}
               />
             </Form.Group>
