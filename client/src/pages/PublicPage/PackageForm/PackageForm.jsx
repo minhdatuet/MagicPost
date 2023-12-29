@@ -10,6 +10,9 @@ const PackageForm = () => {
     const handleClickClose = async () => {
         navigate('*')
     }
+
+    // console.log(statusPackage);
+    // console.log(packageItem)
     return (
         <div className='packageForm'>
             <div className='headerPackage'>

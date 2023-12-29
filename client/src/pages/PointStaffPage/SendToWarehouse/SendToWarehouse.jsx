@@ -98,7 +98,7 @@ function PointStaffSendToWarehouse() {
     ];
 
     const filteredStatusTimes = statusTimes.filter(time => time[0] !== null);
-
+    console.log(filteredStatusTimes)
     filteredStatusTimes.sort((a, b) => new Date(a[0]) - new Date(b[0]));
     setStatusPackage(filteredStatusTimes);
     setIsPrintOpen(true);
