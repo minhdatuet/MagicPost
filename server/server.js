@@ -5,7 +5,7 @@ const initRoutes = require('./src/routes/index.js');
 const connectDatabase = require('./src/config/connectDatabase.js');
 const app = express()
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: ['http://localhost:3000', 'http://magicpost.com:3000'],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true
 }))

@@ -47,7 +47,7 @@ function CreateNewAccountModal(props) {
       phone: "",
       address: "",
       password: "",
-      accountType: "",
+      accountType: "POINT_STAFF",
       positionId: localStorage.getItem('transactionPointId'),
     });
     if (props.onHide) {
@@ -91,8 +91,8 @@ function CreateNewAccountModal(props) {
         }
       };
 
-      
-      
+
+
       fetchCreateUser()
 
       setFormData({
