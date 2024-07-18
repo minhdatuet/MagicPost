@@ -12,12 +12,13 @@ exports.registerService = (body) => new Promise(async(resolve, reject) => {
             defaults: {
                 name: body.name,
                 phone: body.phone,
+                email: body.email,
                 password: hashPassword(body.password),
                 accountType: body.accountType,
                 address: body.address
             }
         })
-        
+
         const token = response[1] && jwr.sign({phone: response[0].phone}, process.env.SECRET_KEY, {expiresIn: '2d'})
         resolve({
             err: token? 0 : 2,
@@ -66,7 +67,7 @@ exports.updateLeader = (body) => new Promise(async(resolve, reject) => {
     } catch (error) {
         reject(error)
     }
-    
+
 })
 
 exports.updateEmployee = (body) => new Promise(async(resolve, reject) => {
@@ -103,7 +104,7 @@ exports.updateEmployee = (body) => new Promise(async(resolve, reject) => {
     } catch (error) {
         reject(error)
     }
-    
+
 })
 
 exports.loginService = (body) => new Promise(async(resolve, reject) => {
@@ -133,7 +134,7 @@ exports.getEmployees = (positionId, type) => new Promise(async(resolve, reject) 
                     where: {
                       '$Employee.warehouseId$': positionId,
                     },
-                    attributes: ['id','name', 'phone', 'address', 'accountType'],
+                    attributes: ['id','name','email', 'phone', 'address', 'accountType'],
             include: [
             {
                 model: db.Warehouse,
@@ -215,4 +216,3 @@ exports.getEmployees = (positionId, type) => new Promise(async(resolve, reject) 
         reject(error)
     }
 })
-

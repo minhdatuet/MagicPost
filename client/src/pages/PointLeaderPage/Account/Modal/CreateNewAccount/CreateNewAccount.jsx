@@ -35,6 +35,7 @@ function CreateNewAccountModal(props) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    email: "",
     address: "",
     password: "",
     accountType: "POINT_STAFF",
@@ -45,6 +46,7 @@ function CreateNewAccountModal(props) {
     setFormData({
       name: "",
       phone: "",
+      email: "",
       address: "",
       password: "",
       accountType: "POINT_STAFF",
@@ -98,6 +100,7 @@ function CreateNewAccountModal(props) {
       setFormData({
         name: "",
         phone: "",
+        email: "",
         address: "",
         password: "",
         accountType: "POINT_STAFF",
@@ -163,7 +166,22 @@ function CreateNewAccountModal(props) {
                 Vui lòng nhập mật khẩu.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="6" controlId="address">
+            <Form.Group as={Col} md="6" controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập email.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          <Row className="mb-3">
+            <Form.Group as={Col} md="12" controlId="address">
               <Form.Label>Địa chỉ</Form.Label>
               <Form.Control
                 required

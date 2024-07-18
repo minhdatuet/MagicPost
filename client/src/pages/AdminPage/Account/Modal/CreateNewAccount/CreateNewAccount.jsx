@@ -35,6 +35,7 @@ function CreateNewAccountModal(props) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    email: null,
     address: "",
     password: "",
     accountType: "",
@@ -45,6 +46,7 @@ function CreateNewAccountModal(props) {
     setFormData({
       name: "",
       phone: "",
+      email: null,
       address: "",
       password: "",
       accountType: "",
@@ -66,7 +68,7 @@ function CreateNewAccountModal(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-  
+
     if (form.checkValidity() === false) {
       event.stopPropagation();
       setValidated(true);
@@ -75,13 +77,14 @@ function CreateNewAccountModal(props) {
         window.alert("Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.");
         return;
       }
-  
+      console.log(formData)
+
       const fetchEmployee = async () => {
         const response = await apiLeader(formData);
         window.alert("Tạo tài khoản thành công");
         window.location.reload();
       };
-  
+
       const fetchCreateUser = async () => {
         const response = await apiRegister(formData);
         if (formData.positionId && !response.data.err) {
@@ -90,13 +93,14 @@ function CreateNewAccountModal(props) {
           window.alert("Số điện thoại đã được đăng ký trước đó");
         }
       };
-  
+
       fetchCreateUser();
-  
+
 
       setFormData({
         name: "",
         phone: "",
+        email: null,
         address: "",
         password: "",
         accountType: "POINT_STAFF",
@@ -104,7 +108,7 @@ function CreateNewAccountModal(props) {
       });
     }
   };
-  
+
 
   return (
     <Modal
@@ -135,18 +139,33 @@ function CreateNewAccountModal(props) {
                 Vui lòng nhập tên tài khoản.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="6" controlId="phone">
-              <Form.Label>Số điện thoại</Form.Label>
+            <Form.Group as={Col} md="6" controlId="email">
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 required
                 type="text"
-                placeholder="Nhập số điện thoại"
-                value={formData.phone}
+                placeholder="Nhập email"
+                value={formData.email}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập số điện thoại.
+                Vui lòng nhập email tài khoản.
               </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          <Row className="mb-3">
+            <Form.Group as={Col} md="12" controlId="phone">
+                <Form.Label>Số điện thoại</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Nhập số điện thoại"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Vui lòng nhập số điện thoại.
+                </Form.Control.Feedback>
             </Form.Group>
           </Row>
           <Row className="mb-3">
