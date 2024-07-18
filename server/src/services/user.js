@@ -12,7 +12,7 @@ exports.getUser = (phone) => new Promise(async(resolve, reject) => {
               phone
             },
             // raw: true,
-            attributes: ['id','name', 'phone', 'address', 'accountType'],
+            attributes: ['id','name','email', 'phone', 'address', 'accountType'],
             include: [
             {
                 model: db.Warehouse,
@@ -43,7 +43,7 @@ exports.getUser = (phone) => new Promise(async(resolve, reject) => {
             }]
 
         })
-        
+
         resolve({
             err: response? 0: 2,
             msg: response? "Succesfully" : "Unsuccesfully",
@@ -58,7 +58,7 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
     try {
         const response = await db.Accounts.findAll({
             // raw: true,
-            attributes: ['id','name', 'phone', 'address', 'accountType'],
+            attributes: ['id','name', 'email', 'phone', 'address', 'accountType'],
             include: [
             {
                 model: db.Warehouse,
@@ -97,7 +97,7 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
         reject(error)
     }
 })
-  
+
   exports.updateService = (id, updatedData) => new Promise(async (resolve, reject) => {
     try {
         const [rowsAffected] = await db.Accounts.update(updatedData, {
@@ -109,7 +109,7 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
             err: rowsAffected> 0 ? 0 : 2,
             msg: rowsAffected> 0 ? successMessage : errorMessage,
         };
-  
+
         resolve(response);
     } catch (error) {
         reject(error);
@@ -122,7 +122,7 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
 
         if (type === 'warehouse') {
             response = await db.Accounts.findAll({
-                attributes: ['id', 'name', 'phone', 'address', 'accountType'],
+                attributes: ['id', 'name', 'email', 'phone', 'address', 'accountType'],
                 where: {
                     accountType: 'WAREHOUSE_LEADER'
                 },
@@ -159,11 +159,11 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
                         ]
                     }
                 ],
-                
+
             });
         } else if (type === 'point') {
             response = await db.Accounts.findAll({
-                attributes: ['id', 'name', 'phone', 'address', 'accountType'],
+                attributes: ['id', 'name', 'email', 'phone', 'address', 'accountType'],
                 where: {
                     accountType: 'POINT_LEADER'
                 },
@@ -200,9 +200,9 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
                         ]
                     }
                 ],
-                
+
             });
-        } 
+        }
         const responseWarehouse = await db.Warehouse.findAll();
         console.log(responseWarehouse)
         const responsePoint = await db.TransactionPoint.findAll();
@@ -242,9 +242,8 @@ exports.deleteService = (id) => new Promise(async(resolve, reject) => {
           err: responseEmployee && response ? 0 : 2,
           msg: responseEmployee && response ? 'Delete is successfully' : `Can't find this id`,
         })
-  
+
       } catch (error) {
         reject(error)
     }
   })
-  

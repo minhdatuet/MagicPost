@@ -49,6 +49,7 @@ function UpdateAccountModal(props) {
         ...account,
         userName: account.name || "",
         phone: account.phone || "",
+        email: account.email || "",
         role: account.accountType || "",
         workLocation:
           account.Warehouses[0]?.name ||
@@ -57,7 +58,7 @@ function UpdateAccountModal(props) {
       });
     }
   }, [account]);
-  
+
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -81,9 +82,10 @@ function UpdateAccountModal(props) {
         return;
       }
       console.log(formData)
-      const payload ={ 
+      const payload ={
         id: account.id,
         name: formData.userName,
+        email: formData.email,
         phone: formData.phone,
         address: formData.address,
         accountType: formData.role
@@ -109,10 +111,10 @@ function UpdateAccountModal(props) {
             positionId: formData.workLocation
           }
           apiLeader(data)
-        
+
       }
       window.alert("Cập nhật thông tin thành công")
-      window.location.reload()       
+      window.location.reload()
       // props.onHide();
       // setFormData({
       //   userName: "",
@@ -128,6 +130,7 @@ function UpdateAccountModal(props) {
       ...account,
       userName: account.name || "",
       phone: account.phone || "",
+      email: account.email || "",
       role: account.accountType || "",
       workLocation:
         account.Warehouses[0]?.name ||
@@ -163,14 +166,24 @@ function UpdateAccountModal(props) {
                 onChange={handleInputChange}
               />
             </Form.Group>
-            <Form.Group as={Col} md="6" controlId="phone">
-              <Form.Label>Số điện thoại</Form.Label>
+            <Form.Group as={Col} md="6" controlId="email">
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="text"
-                value={formData.phone}
+                value={formData.email}
                 onChange={handleInputChange}
               />
             </Form.Group>
+          </Row>
+          <Row className="mb-3">
+            <Form.Group as={Col} md="12" controlId="phone">
+                <Form.Label>Số điện thoại</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
           </Row>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="address">

@@ -45,6 +45,7 @@ function CreateNewAccountModal(props) {
     setFormData({
       name: "",
       phone: "",
+      email: "",
       address: "",
       password: "",
       accountType: "",
@@ -91,19 +92,20 @@ function CreateNewAccountModal(props) {
         }
       };
 
-      
-      
+
+
       fetchCreateUser()
 
       setFormData({
         name: "",
         phone: "",
+        email: "",
         address: "",
         password: "",
         accountType: "WAREHOUSE_STAFF",
         positionId: localStorage.getItem('warehouseId'),
       });
-    
+
     }
   };
 
@@ -136,7 +138,22 @@ function CreateNewAccountModal(props) {
                 Vui lòng nhập tên tài khoản.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="6" controlId="phone">
+            <Form.Group as={Col} md="6" controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập email.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          <Row className="mb-3">
+            <Form.Group as={Col} md="12" controlId="phone">
               <Form.Label>Số điện thoại</Form.Label>
               <Form.Control
                 required

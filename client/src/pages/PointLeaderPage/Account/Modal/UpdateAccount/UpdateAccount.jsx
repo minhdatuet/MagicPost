@@ -23,6 +23,7 @@ function UpdateAccountModal(props) {
   const [formData, setFormData] = useState({
     userName: "",
     phone: "",
+    email: "",
     role: "",
     workLocation: "",
   });
@@ -31,6 +32,7 @@ function UpdateAccountModal(props) {
       setFormData({
         ...account,
         userName: account.name || "",
+        email: account.email || "",
         phone: account.phone || "",
         role: account.accountType || "",
         workLocation:
@@ -40,7 +42,7 @@ function UpdateAccountModal(props) {
       });
     }
   }, [account]);
-  
+
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -67,6 +69,7 @@ function UpdateAccountModal(props) {
       const payload = {
         id: account.id,
         name: formData.userName,
+        email: formData.email,
         phone: formData.phone,
         address: formData.address
       }
@@ -81,6 +84,7 @@ function UpdateAccountModal(props) {
       ...account,
       userName: account.name || "",
       phone: account.phone || "",
+      email: account.email || "",
       role: account.accountType || "",
       workLocation:
         account.Warehouses[0]?.name ||
@@ -126,6 +130,14 @@ function UpdateAccountModal(props) {
             </Form.Group>
           </Row>
           <Row className="mb-3">
+          <Form.Group as={Col} md="6" controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="text"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
             <Form.Group as={Col} controlId="address">
               <Form.Label>Địa chỉ</Form.Label>
               <Form.Control

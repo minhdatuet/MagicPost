@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   Accounts.init({
     name: DataTypes.STRING,
     phone: DataTypes.STRING,
+    email: DataTypes.STRING,
     password: DataTypes.STRING,
     accountType: DataTypes.ENUM(['BOSS','WAREHOUSE_LEADER', 'WAREHOUSE_STAFF', 'POINT_LEADER', 'POINT_STAFF', 'CUSTOMER' ]),
     address: DataTypes.STRING
