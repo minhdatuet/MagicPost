@@ -178,10 +178,10 @@ function TransactionPoint() {
         warehouses={warehouses}
         style={{ zIndex: 9999 }}
       />
-      <HeaderRole btnText="Thêm điểm giao dịch" onClick={setIsModalOpen} />
+      <HeaderRole btnText="Thêm điểm bưu cục" onClick={setIsModalOpen} />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Điểm giao dịch</h2>
+          <h2>Điểm bưu cục</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -196,7 +196,7 @@ function TransactionPoint() {
         <table>
           <thead>
             <th>ID</th>
-            <th>TÊN KHO HÀNG</th>
+            {/* <th>TÊN KHO HÀNG</th> */}
             <th>TÊN TRƯỞNG ĐIỂM</th>
             <th>TÊN ĐIỂM</th>
             <th>ĐỊA CHỈ</th>
@@ -209,9 +209,9 @@ function TransactionPoint() {
                   <td>
                     <span>{transaction.id}</span>
                   </td>
-                  <td>
+                  {/* <td>
                     <span>{transaction.Warehouse?.name}</span>
-                  </td>
+                  </td> */}
                   <td>
                     <span>{transaction.pointLeader?.name}</span>
                   </td>

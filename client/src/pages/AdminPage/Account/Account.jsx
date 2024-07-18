@@ -196,6 +196,7 @@ const Account = () => {
             <th>SỐ ĐIỆN THOẠI</th>
             <th>CHỨC VỤ</th>
             <th>NƠI LÀM VIỆC</th>
+            <th>EMAIL</th>
           </thead>
           {accounts.length !== 0 ? (
             <tbody>
@@ -230,7 +231,6 @@ const Account = () => {
                       : null}
                   </span>
                 </td>
-
                   <td>
                     <ul class="list-inline m-0">
                       <li class="list-inline-item">
