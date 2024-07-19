@@ -16,7 +16,7 @@ import { getAllTransactionPoints } from '../../../store/actions';
 const WarehouseLeaderAccount = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
-  const [accounts, setAccounts] = useState(users); 
+  const [accounts, setAccounts] = useState(users);
   const [search, setSearch] = useState('');
   const [pagination, setPagination] = useState([]);
   const [page, setPage] = useState(1);
@@ -28,7 +28,7 @@ const WarehouseLeaderAccount = () => {
   useEffect(() => {
     dispatch(getAllTransactionPoints());
   }, []);
-  
+
   useEffect(() => {
   const selectedTransactionPoint = transactionPoints.find(
     (transactionPoint) => transactionPoint.id == localStorage.getItem('transactionPointId')
@@ -68,8 +68,9 @@ const WarehouseLeaderAccount = () => {
         console.log(data);
         if (err === 0) {
             console.log(localStorage);
-            const filteredUsers = data.filter(user => 
-              user.accountType === "POINT_STAFF" && user.Employee.TransactionPoint.id == localStorage.getItem('transactionPointId')
+            const filteredUsers = data.filter(user =>
+              user.accountType === "POINT_STAFF" &&
+              user.Employee?.TransactionPoint?.id == localStorage.getItem('transactionPointId')
             );
             setUsers(filteredUsers);
           } else {
@@ -84,7 +85,7 @@ const WarehouseLeaderAccount = () => {
 
   useEffect(() => {
     setPagination(calculateRange(users, 5));
-    setAccounts(sliceData(users, page, 5)); 
+    setAccounts(sliceData(users, page, 5));
   }, [page, users]);
 
   // Search
@@ -97,11 +98,11 @@ const WarehouseLeaderAccount = () => {
           item.last_name.toLowerCase().includes(search.toLowerCase()) ||
           item.product.toLowerCase().includes(search.toLowerCase())
       );
-      setAccounts(searchResults); 
+      setAccounts(searchResults);
       setPagination(calculateRange(searchResults, 5));
       setPage(1);
     } else {
-      setAccounts(sliceData(users, page, 5)); 
+      setAccounts(sliceData(users, page, 5));
       setPagination(calculateRange(users, 5));
     }
   };
@@ -166,6 +167,7 @@ const WarehouseLeaderAccount = () => {
           <thead>
             <th>ID</th>
             <th>TÊN</th>
+            <th>EMAIL</th>
             <th>SỐ ĐIỆN THOẠI</th>
             <th>EMAIL</th>
           </thead>
@@ -178,6 +180,9 @@ const WarehouseLeaderAccount = () => {
                   </td>
                   <td>
                     <span>{account.name}</span>
+                  </td>
+                  <td>
+                    <span>{account.email}</span>
                   </td>
                   <td>
                     <span>{account.phone}</span>

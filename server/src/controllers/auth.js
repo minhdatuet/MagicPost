@@ -4,10 +4,10 @@ exports.login = async (req, res) => {
     try{
         if(!phone || !password) return res.status(400).json({
             err: 1,
-            msg: 'Missing inputs!' 
+            msg: 'Missing inputs!'
         })
         const response = await authService.loginService(req.body)
-        return res.status(200).json(response)    
+        return res.status(200).json(response)
     } catch (error) {
         return res.status(500).json({
             err: -1,
@@ -17,17 +17,18 @@ exports.login = async (req, res) => {
 }
 
 exports.createAccount = async (req, res) => {
-    const {name, phone, password, address, accountType} = req.body
+    const {name, phone, email, password, address, accountType} = req.body
+    console.log(req.body)
     try{
         // return name
-        if(!name || !phone || !password || !address || !accountType) return res.status(400).json({
+        if(!name || !phone || !email || !password || !address || !accountType) return res.status(400).json({
             err: 1,
-            msg: 'Missing inputs!' + (!name ? "name " : " ") + (!phone ? "phone " : " ") 
+            msg: 'Missing inputs!' + (!name ? "name " : " ") + (!phone ? "phone " : " ")
                                 + (!password ? "password " : " ") + (!address ? "address " : " ")
-                                + (!accountType ? "accountType " : " ")
+                                + (!accountType ? "accountType " : " ") + (!email ? "email " : " ")
         })
         const response = await authService.registerService(req.body)
-        return res.status(200).json(response)    
+        return res.status(200).json(response)
     } catch (error) {
         return res.status(500).json({
             err: -1,
@@ -45,7 +46,7 @@ exports.updateLeader = async (req, res) => {
             msg: 'Missing inputs!' + (!accountType ? "accountType " : " ") + (!phone ? "phone " : " ") + (!positionId ? "positionId " : " ")
         })
         const response = await authService.updateLeader(req.body)
-        return res.status(200).json(response)    
+        return res.status(200).json(response)
     } catch (error) {
         return res.status(500).json({
             err: -1,
@@ -63,7 +64,7 @@ exports.updateEmployee = async (req, res) => {
             msg: 'Missing inputs!' + (!accountType ? "accountType " : " ") + (!phone ? "phone " : " ") + (!positionId ? "positionId " : " ")
         })
         const response = await authService.updateEmployee(req.body)
-        return res.status(200).json(response)    
+        return res.status(200).json(response)
     } catch (error) {
         return res.status(500).json({
             err: -1,
@@ -90,4 +91,3 @@ exports.getEmployees = async (req, res) => {
         })
     }
 }
-

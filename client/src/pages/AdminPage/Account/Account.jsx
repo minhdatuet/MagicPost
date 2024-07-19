@@ -16,7 +16,7 @@ const Account = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
-  const [accounts, setAccounts] = useState(users); 
+  const [accounts, setAccounts] = useState(users);
   const [search, setSearch] = useState('');
   const [pagination, setPagination] = useState([]);
   const [page, setPage] = useState(1);
@@ -76,6 +76,7 @@ const Account = () => {
       try {
         const response = await apiGetAllUsers();
         const data = response?.data.response;
+        console.log(data);
         const err = response?.data.err;
         const msg = response?.data.msg;
         console.log(data);
@@ -100,7 +101,7 @@ const Account = () => {
 
   useEffect(() => {
     setPagination(calculateRange(users, 5));
-    setAccounts(sliceData(users, page, 5)); 
+    setAccounts(sliceData(users, page, 5));
   }, [page, users]);
 
   // Search
@@ -113,11 +114,11 @@ const Account = () => {
   //         item.last_name.toLowerCase().includes(search.toLowerCase()) ||
   //         item.product.toLowerCase().includes(search.toLowerCase())
   //     );
-  //     setAccounts(searchResults); 
+  //     setAccounts(searchResults);
   //     setPagination(calculateRange(searchResults, 5));
   //     setPage(1);
   //   } else {
-  //     setAccounts(sliceData(users, page, 5)); 
+  //     setAccounts(sliceData(users, page, 5));
   //     setPagination(calculateRange(users, 5));
   //   }
   // };
@@ -135,7 +136,7 @@ const Account = () => {
         setPagination(calculateRange(searchResults, 5));
         setPage(1);// Reset to the first page when searching
     } else {
-      setAccounts(sliceData(users, page, 5)); 
+      setAccounts(sliceData(users, page, 5));
       setPagination(calculateRange(users, 5));
     }
 };
@@ -170,7 +171,7 @@ const Account = () => {
         variant="primary"
         onClick={handleOpenModal}
       />
-      <CreateNewAccountModal    
+      <CreateNewAccountModal
       show={isModalOpen}
       onHide={handleCloseModal}
       style={{ zIndex: 9999 }}/>
@@ -191,6 +192,7 @@ const Account = () => {
           <thead>
             <th>ID</th>
             <th>TÊN</th>
+            <th>EMAIL</th>
             <th>SỐ ĐIỆN THOẠI</th>
             <th>CHỨC VỤ</th>
             <th>NƠI LÀM VIỆC</th>
@@ -205,6 +207,9 @@ const Account = () => {
                   </td>
                   <td>
                     <span>{account.name}</span>
+                  </td>
+                  <td>
+                    <span>{account.email}</span>
                   </td>
                   <td>
                     <span>{account.phone}</span>
@@ -226,9 +231,6 @@ const Account = () => {
                       : null}
                   </span>
                 </td>
-                <td>
-                    <span>account.email</span>
-                  </td>
                   <td>
                     <ul class="list-inline m-0">
                       <li class="list-inline-item">

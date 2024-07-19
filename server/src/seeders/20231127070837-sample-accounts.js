@@ -16,6 +16,7 @@ module.exports = {
         // Sample data for the first record
         name: 'Huong',
         phone: generateRandomPhoneNumber(),
+        email: "boss@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'BOSS',
         address: 'alfksjl',
@@ -26,6 +27,7 @@ module.exports = {
         // Sample data for the first record
         name: 'Dat',
         phone: generateRandomPhoneNumber(),
+        email: "pointleader1@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_LEADER',
         address: 'alfksjl',
@@ -36,6 +38,7 @@ module.exports = {
         // Sample data for the second record
         name: 'Vi',
         phone: generateRandomPhoneNumber(),
+        email: "warehouseleader1@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_LEADER',
         address: 'alfksjl',
@@ -46,6 +49,7 @@ module.exports = {
         // Sample data for the first record
         name: 'Huy',
         phone: generateRandomPhoneNumber(),
+        email: "pointstaff1@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_STAFF',
         address: 'alfksjl',
@@ -56,6 +60,7 @@ module.exports = {
         // Sample data for the first record
         name: 'Lien',
         phone: generateRandomPhoneNumber(),
+        email: "warehousestaff1@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_STAFF',
         address: 'alfksjl',
@@ -66,6 +71,7 @@ module.exports = {
         // Sample data for the first record
         name: 'Van',
         phone: generateRandomPhoneNumber(),
+        email: "pointstaff1@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_STAFF',
         address: 'alfksjl',
@@ -76,6 +82,7 @@ module.exports = {
         // Sample data for the first record
         name: 'Hoa',
         phone: generateRandomPhoneNumber(),
+        email: "warehousestaff2@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_STAFF',
         address: 'alfksjl',
@@ -85,6 +92,7 @@ module.exports = {
       {
         name: 'Trung',
         phone: generateRandomPhoneNumber(),
+        email: "warehouseleader2@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_LEADER',
         address: 'abcxyz',
@@ -94,6 +102,7 @@ module.exports = {
       {
         name: 'Nga',
         phone: generateRandomPhoneNumber(),
+        email: "warehouseleader2@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_LEADER',
         address: 'pqrst',
@@ -103,6 +112,7 @@ module.exports = {
       {
         name: 'Tuan',
         phone: generateRandomPhoneNumber(),
+        email: "warehouseleader3@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_LEADER',
         address: 'uvwxyz',
@@ -111,6 +121,7 @@ module.exports = {
       },{
         name: 'Nam',
         phone: generateRandomPhoneNumber(),
+        email: "warehouseleader4@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_LEADER',
         address: 'lmnop',
@@ -120,6 +131,7 @@ module.exports = {
       {
         name: 'Anh',
         phone: generateRandomPhoneNumber(),
+        email: "warehouseleader5@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_LEADER',
         address: 'qrstuv',
@@ -129,6 +141,7 @@ module.exports = {
       {
         name: 'Tuyet',
         phone: generateRandomPhoneNumber(),
+        email: "warehouseleader6@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_LEADER',
         address: 'wxyz',
@@ -138,6 +151,7 @@ module.exports = {
       {
         name: 'Quang',
         phone: generateRandomPhoneNumber(),
+        email: "pointleader3@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_LEADER',
         address: 'lmnop',
@@ -147,6 +161,7 @@ module.exports = {
       {
         name: 'Bao',
         phone: generateRandomPhoneNumber(),
+        email: "pointleader4@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_LEADER',
         address: 'qrstuv',
@@ -156,6 +171,7 @@ module.exports = {
       {
         name: 'Minh',
         phone: generateRandomPhoneNumber(),
+        email: "pointleader5@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_LEADER',
         address: 'wxyz',
@@ -165,6 +181,7 @@ module.exports = {
       {
         name: 'Nam Anh',
         phone: generateRandomPhoneNumber(),
+        email: "pointleader6@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_LEADER',
         address: 'lmnop',
@@ -174,6 +191,7 @@ module.exports = {
       {
         name: 'Bao Quoc',
         phone: generateRandomPhoneNumber(),
+        email: "pointleader7@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_LEADER',
         address: 'qrstuv',
@@ -183,6 +201,7 @@ module.exports = {
       {
         name: 'Minh Thu',
         phone: generateRandomPhoneNumber(),
+        email: "pointleader8@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_LEADER',
         address: 'wxyz',
@@ -192,6 +211,7 @@ module.exports = {
       {
         name: 'Thanh Tung',
         phone: generateRandomPhoneNumber(),
+        email: "pointstaff5@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_STAFF',
         address: 'lmnop',
@@ -201,6 +221,7 @@ module.exports = {
       {
         name: 'Hai Yen',
         phone: generateRandomPhoneNumber(),
+        email: "pointstaff7@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_STAFF',
         address: 'qrstuv',
@@ -210,6 +231,7 @@ module.exports = {
       {
         name: 'Ngoc Linh',
         phone: generateRandomPhoneNumber(),
+        email: "pointstaff8@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_STAFF',
         address: 'wxyz',
@@ -219,6 +241,7 @@ module.exports = {
       {
         name: 'Lan Anh',
         phone: generateRandomPhoneNumber(),
+        email: "pointstaff9@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_STAFF',
         address: 'lmnop',
@@ -228,6 +251,7 @@ module.exports = {
       {
         name: 'Hong Hanh',
         phone: generateRandomPhoneNumber(),
+        email: "pointstaff10@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_STAFF',
         address: 'qrstuv',
@@ -237,6 +261,7 @@ module.exports = {
       {
         name: 'Nguyen Trung',
         phone: generateRandomPhoneNumber(),
+        email: "pointstaff11@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'POINT_STAFF',
         address: 'wxyz',
@@ -246,6 +271,7 @@ module.exports = {
       {
         name: 'Phuong Anh',
         phone: generateRandomPhoneNumber(),
+        email: "warehouse8@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_STAFF',
         address: 'lmnop',
@@ -255,6 +281,7 @@ module.exports = {
       {
         name: 'Trung Hieu',
         phone: generateRandomPhoneNumber(),
+        email: "warehousestaff8@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_STAFF',
         address: 'qrstuv',
@@ -264,6 +291,7 @@ module.exports = {
       {
         name: 'Mai Anh',
         phone: generateRandomPhoneNumber(),
+        email: "warehousestaff9@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_STAFF',
         address: 'wxyz',
@@ -273,6 +301,7 @@ module.exports = {
       {
         name: 'Tran Binh',
         phone: generateRandomPhoneNumber(),
+        email: "warehousestaff10@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_STAFF',
         address: 'lmnop',
@@ -282,6 +311,7 @@ module.exports = {
       {
         name: 'Thuy Dung',
         phone: generateRandomPhoneNumber(),
+        email: "warehousestaff11@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_STAFF',
         address: 'qrstuv',
@@ -291,6 +321,7 @@ module.exports = {
       {
         name: 'Minh Tuan',
         phone: generateRandomPhoneNumber(),
+        email: "warehousestaff12@gmail.com",
         password: '$2a$12$1bswV8ED5ZV.WrmRY37kMeaghRHSdmhgnyuQZ/.ytoQUmf94LATAe',
         accountType: 'WAREHOUSE_STAFF',
         address: 'wxyz',
