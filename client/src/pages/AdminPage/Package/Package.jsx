@@ -19,7 +19,19 @@ import { apiDeletePackage, apiGetAllPackages } from "../../../services/package";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPackages } from "../../../store/actions/package";
 import ShowInfoPackage from "../../AdminPage/Package/Modal/ShowInfoPackage/ShowInfoPackage"
-// import moment from 'moment';
+import moment from 'moment';
+import Chart from 'react-apexcharts';
+import {
+  LineChart,
+  ResponsiveContainer,
+  Legend,
+  Tooltip,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from "recharts";
+
 import {
   getAllTransactionPoints,
   getAllWarehouses,
@@ -41,7 +53,136 @@ function Package() {
   const [showInfoPackage, setShowInfoPackage] = useState(false);
   const [statusPackage, setStatusPackage] = useState('');
 
+  const [loading, setLoading] = useState(true);
+  const [donutChartData, setDonutChartData] = useState({
+    options: {
+      labels: ["Chờ Giao Hàng", "Giao Thành Công", "Hàng Hủy"],
+      colors: ["#008FFB", "#00E396", "#FEB019"],
+      chart: {
+        width: 250,
+        type: "donut",
+      },
+    },
+    series: [294, 2, 2],
+  });
+  const [lineChartData, setLineChartData] = useState({
+    options: {
+      xaxis: {
+        categories: [],
+        labels: {
+          formatter: function (value) {
+            return value; 
+          },
+        },
+      },
+    },
+    series: [
+      {
+        name: "Đơn hàng theo tháng",
+        data: [],
+      },
+    ],
+  });
+
   useEffect(() => {
+    if (packages.length > 0 && loading) {
+      setLoading(false);
+      setDonutChartData(prevData => {
+        const newDonutChartData = { ...prevData };
+  
+        for (const order of packages) {
+          if (order?.Status?.nameOfStatus === "SUCCESS") {
+            newDonutChartData.series[1] += 1;
+          } else if (order?.Status?.nameOfStatus === "FAILED") {
+            newDonutChartData.series[2] += 1;
+          } else if (order?.Status?.nameOfStatus === "DELIVERING") {
+            newDonutChartData.series[0] += 1;
+          }
+        }
+  
+        console.log("Updated Donut Chart Data:", newDonutChartData);
+  
+        return newDonutChartData;
+      });
+
+      console.log(packages);
+
+      const ordersByMonth = packages.reduce((acc, order) => {
+        const monthYear = moment(order.Status.dateSendPackage).format('MM/YYYY');
+        if (!acc[monthYear]) {
+          acc[monthYear] = {
+            count: 0,
+          };
+        }
+        acc[monthYear].count += 1;
+        return acc;
+      }, {});
+
+      console.log("ordersByMonth:", ordersByMonth); // In ra để kiểm tra
+
+      // Lấy và sắp xếp các tháng năm
+      const sortedMonths = Object.keys(ordersByMonth).sort((a, b) => moment(b, 'MM/YYYY') - moment(a, 'MM/YYYY'));
+      console.log("sortedMonths:", sortedMonths); // In ra để kiểm tra
+
+      const maxDisplayedPoints = 5;
+      const recentMonths = sortedMonths.slice(0, maxDisplayedPoints);
+      console.log("recentMonths:", recentMonths); // In ra để kiểm tra
+
+      // Cập nhật dữ liệu biểu đồ với các tháng gần đây
+      const incomeTmp = recentMonths.map((key) => ordersByMonth[key].count);
+      console.log("incomeTmp:", incomeTmp); // In ra để kiểm tra
+
+      const categoTmp = recentMonths.map((key) => key);
+      console.log("categoTmp:", categoTmp); // In ra để kiểm tra
+
+      const updatedLineChartData = {
+        ...lineChartData,
+        options: {
+          ...lineChartData.options,
+          xaxis: {
+            categories: categoTmp,
+            labels: {
+              formatter: function (value) {
+                return value; // Trả về giá trị tháng/năm mà không thay đổi
+              },
+            },
+          },
+        },
+        series: [
+          {
+            name: "Đơn hàng theo tháng",
+            data: incomeTmp,
+          },
+        ],
+      };
+
+      setLineChartData(updatedLineChartData);
+      //setDonutChartData(newDonutChartData);
+      //setLineChartData(newLineChartData);
+    }
+  }, [packages, loading]);
+
+  useEffect(() => {
+    if (packages.length > 0 && loading) {
+      setLoading(false);
+      setDonutChartData(prevData => {
+        const newDonutChartData = { ...prevData };
+  
+        for (const order of packages) {
+          if (order?.Status?.nameOfStatus === "SUCCESS") {
+            newDonutChartData.series[1] += 1;
+          } else if (order?.Status?.nameOfStatus === "FAILED") {
+            newDonutChartData.series[2] += 1;
+          } else if (order?.Status?.nameOfStatus === "DELIVERING") {
+            newDonutChartData.series[0] += 1;
+          }
+        }
+  
+        console.log("Updated Donut Chart Data:", newDonutChartData);
+  
+        return newDonutChartData;
+      });
+    }
     dispatch(getAllPackages());
   }, []);
   const handleOpenModal = () => {
@@ -92,19 +233,19 @@ function Package() {
     setSearch(searchText);
 
     if (searchText !== '') {
-        let searchResults = packages.filter((item) =>
-            (item?.first_name && typeof item.first_name === 'string' && item.first_name.toLowerCase().includes(searchText)) ||
-            (item?.last_name && typeof item.last_name === 'string' && item.last_name.toLowerCase().includes(searchText)) ||
-            (item?.product && typeof item.product === 'string' && item.product.toLowerCase().includes(searchText))
-        );
-        setOrders(searchResults);
-        setPagination(calculateRange(searchResults, 6));
-        setPage(1); // Reset to the first page when searching
+      let searchResults = packages.filter((item) =>
+        (item?.first_name && typeof item.first_name === 'string' && item.first_name.toLowerCase().includes(searchText)) ||
+        (item?.last_name && typeof item.last_name === 'string' && item.last_name.toLowerCase().includes(searchText)) ||
+        (item?.product && typeof item.product === 'string' && item.product.toLowerCase().includes(searchText))
+      );
+      setOrders(searchResults);
+      setPagination(calculateRange(searchResults, 6));
+      setPage(1); // Reset to the first page when searching
     } else {
-        setOrders(sliceData(packages, page, 6));
-        setPagination(calculateRange(packages, 6));
+      setOrders(sliceData(packages, page, 6));
+      setPagination(calculateRange(packages, 6));
     }
-};
+  };
   // Change Page
   const handleChangePage = (newPage) => {
     if (newPage !== page) {
@@ -134,7 +275,7 @@ function Package() {
     console.log(isDelete);
   };
   const handleDelete = (id) => {
-    if(window.confirm("Bạn có chắc chắn muốn xóa đơn hàng này không?")) {
+    if (window.confirm("Bạn có chắc chắn muốn xóa đơn hàng này không?")) {
       apiDeletePackage(id)
       window.location.reload();
     }
@@ -259,7 +400,7 @@ function Package() {
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
           <h2>Đơn hàng</h2>
-          <div className="dashboard-content-search">
+          {/* <div className="dashboard-content-search">
             <input
               type="text"
               value={search}
@@ -267,9 +408,9 @@ function Package() {
               className="dashboard-content-input"
               onChange={handleSearch}
             />
-          </div>
+          </div> */}
         </div>
-        <table>
+        {/* <table>
           <thead>
             <th>ID</th>
             <th>TRẠNG THÁI</th>
@@ -336,7 +477,6 @@ function Package() {
                           onClick={(e) => handleShowInfoPackage(order)}
                         >
                           <i className="fa fa-eye"></i>
-                          {/* Use the appropriate icon class here */}
                         </button>
                       </li>
                       <li class="list-inline-item">
@@ -380,8 +520,8 @@ function Package() {
             order={selectedPackage}
             onHide={handleCloseUpdateModal}
           />
-        </table>
-
+        </table> */}
+{/* 
         {orders.length !== 0 ? (
           <div className="dashboard-content-footer">
             <span
@@ -418,7 +558,23 @@ function Package() {
           <div className="dashboard-content-footer">
             <span className="empty-table">No data</span>
           </div>
-        )}
+        )} */}
+      </div>
+      <div className="chart-container">
+        <div className="chart-item">
+          <Chart
+            options={donutChartData.options}
+            series={donutChartData.series}
+            type="donut"
+          />
+        </div>
+        <div className="chart-item">
+          <Chart
+            options={lineChartData.options}
+            series={lineChartData.series}
+            type="line"
+          />
+        </div>
       </div>
     </div>
   );
