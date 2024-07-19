@@ -72,8 +72,8 @@ function CreateTransactionPointModal(props) {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault(); 
-  
+    event.preventDefault();
+
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
@@ -83,18 +83,18 @@ function CreateTransactionPointModal(props) {
         name: form.elements?.name.value,
         address: form.elements.address.value,
         warehouseId: form.elements.warehouseId.value,
-        pointLeaderId: form.elements.pointLeaderId.value,
+        pointLeaderId: "",
       });
       console.log(formData)
       // const payload = {
       //   name: form.name,
-      //   address: formData.address, 
+      //   address: formData.address,
       //   warehouseId: formData.warehouse,
       //   pointLeaderId: formData.transactionPointLeader
       // }
       apiCreateNewPoint(formData)
       window.location.reload()
-      // props.onHide(); 
+      // props.onHide();
       // setFormData({
       //   name: '',
       //   address: '',
@@ -173,17 +173,6 @@ function CreateTransactionPointModal(props) {
               </Form.Control>
             </Form.Group>
           </Row>
-          <Form.Group as={Col} md="5" controlId="pointLeaderId">
-              <Form.Label>Trưởng điểm</Form.Label>
-              <Form.Control as="select" value={formData.pointLeaderId} onChange={(e) => setpointLeaderId(e.target.value)}>
-                <option>Chọn trưởng điểm</option>
-                {leaders.map((item) => (
-                  <option key={item.id} value={item?.id}>
-                    {item?.name}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
           <Row style={{ marginTop: '10px' }}>
             <div className="text-center mt-3" style={{ marginTop: '50px' }}>
               <Button variant="secondary" id="input-submit" type = "submit">
