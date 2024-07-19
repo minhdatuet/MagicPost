@@ -86,13 +86,13 @@ export default function Sidebar() {
         },
         {
           icon: Inventory2Rounded,
-          title: "Thống kê hàng gửi",
+          title: "Thống kê hàng gửi đi",
           link: "/pointLeader/packageSending",
           key: 2,
         },
         {
           icon: Storefront,
-          title: "Thống kê hàng nhận",
+          title: "Thống kê hàng gửi đến",
           link: "/pointLeader/packageReceivering",
           key: 3,
         },
@@ -146,13 +146,13 @@ export default function Sidebar() {
         },
         {
           icon: Inventory2Rounded,
-          title: "Thống kê hàng đi",
+          title: "Hàng gửi tới kho",
           link: "/warehouseLeader/packageSending",
           key: 2,
         },
         {
           icon: Storefront,
-          title: "Thống kê hàng đến",
+          title: "Hàng gửi tới bưu cục",
           link: "/warehouseLeader/packageReceivering",
           key: 3,
         },

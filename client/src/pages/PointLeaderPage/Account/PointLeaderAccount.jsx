@@ -182,7 +182,7 @@ const WarehouseLeaderAccount = () => {
                   <td>
                     <span>{account.phone}</span>
                   </td>
-                  <td><span>email here</span></td>
+                  <td><span>{account.email}</span></td>
                   <td>
                     <ul class="list-inline m-0">
                       <li class="list-inline-item">

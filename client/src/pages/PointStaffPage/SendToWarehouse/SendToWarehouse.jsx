@@ -177,7 +177,7 @@ function PointStaffSendToWarehouse() {
   return (
     <div className="dashboard-content">
       <HeaderRole
-        btnText={"Thêm đơn hàng"}
+        btnText={"Ghi nhận đơn hàng"}
         variant="primary"
         onClick={handleOpenModal}
       />
@@ -205,7 +205,7 @@ function PointStaffSendToWarehouse() {
             <th>MÃ VẬN ĐƠN</th>
             <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>ID NGƯỜI NHẬN</th>
+            <th>ĐIỂM KẾ TIẾP</th>
             <th>CƯỚC PHÍ</th>
             <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
@@ -247,7 +247,7 @@ function PointStaffSendToWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.receiver.id}</span>
+                    <span></span>
                   </td>
                   <td>
                     <span>{order.shippingCost}</span>

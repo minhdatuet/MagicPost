@@ -116,7 +116,7 @@ function PointStaffReceiveFromWarehouse() {
   return (
     <div className="dashboard-content">
     <HeaderRoleNoButton
-    btnText={"Thêm đơn hàng"}
+    btnText={"Ghi nhận đơn hàng"}
     variant="primary"
     onClick={handleOpenModal}
   />
