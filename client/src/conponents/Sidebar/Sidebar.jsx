@@ -80,19 +80,19 @@ export default function Sidebar() {
       navChild: [
         {
           icon: AccountBalanceRounded,
-          title: "Giao dịch viên",
+          title: "Quản lý nhân viên",
           link: "/pointLeader/account",
           key: 1,
         },
         {
           icon: Inventory2Rounded,
-          title: "Hàng gửi",
+          title: "Thống kê hàng gửi",
           link: "/pointLeader/packageSending",
           key: 2,
         },
         {
           icon: Storefront,
-          title: "Hàng nhận",
+          title: "Thống kê hàng nhận",
           link: "/pointLeader/packageReceivering",
           key: 3,
         },
@@ -140,19 +140,19 @@ export default function Sidebar() {
       navChild: [
         {
           icon: AccountBalanceRounded,
-          title: "Nhân viên",
+          title: "Quản lý nhân viên",
           link: "/warehouseLeader/account",
           key: 1,
         },
         {
           icon: Inventory2Rounded,
-          title: "Hàng đi",
+          title: "Thống kê hàng đi",
           link: "/warehouseLeader/packageSending",
           key: 2,
         },
         {
           icon: Storefront,
-          title: "Hàng đến",
+          title: "Thống kê hàng đến",
           link: "/warehouseLeader/packageReceivering",
           key: 3,
         },

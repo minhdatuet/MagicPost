@@ -135,18 +135,20 @@ function PointStaffReceiveFromWarehouse() {
         </div>
         <table>
           <thead>
-            <th>ID</th>
+            <th>MÃ VẬN ĐƠN</th>
+            <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>NGƯỜI GỬI</th>
-            <th>NGƯỜI NHẬN</th>
-            <th>ĐIỂM GIAO DỊCH GỬI TỚI</th>
+            <th>ID NGƯỜI NHẬN</th>
+            <th>CƯỚC PHÍ</th>
+            <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
 
           {filteredPackages.length !== 0 ? (
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td><span>{order?.id}</span></td>
+                  <td><span>{order.packageCode}</span></td>
+                  <td><span>{order?.Status?.dateSendPackage}</span></td>
                   <td>
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
@@ -178,13 +180,13 @@ function PointStaffReceiveFromWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order?.sender?.name}</span>
+                    <span>{order.receiver.id}</span>
                   </td>
                   <td>
-                    <span>{order?.receiver?.name}</span>
+                    <span>{order.shippingCost}</span>
                   </td>
                   <td>
-                    <span>{order?.transactionPointStart?.name}</span>
+                    <span>2024-07-19T14:40:22.000Z</span>
                   </td>
                   <li class="list-inline-item">
                     <button

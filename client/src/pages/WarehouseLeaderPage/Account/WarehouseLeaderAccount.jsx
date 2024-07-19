@@ -174,8 +174,7 @@ const WarehouseLeaderAccount = () => {
             <th>ID</th>
             <th>TÊN</th>
             <th>SỐ ĐIỆN THOẠI</th>
-            <th>ĐỊA CHỈ</th>
-            <th>KHO LÀM VIỆC</th>
+            <th>EMAIL</th>
           </thead>
           {accounts.length !== 0 ? (
             <tbody>
@@ -190,12 +189,7 @@ const WarehouseLeaderAccount = () => {
                   <td>
                     <span>{account.phone}</span>
                   </td>
-                  <td>
-                    <span>{account.address}</span>
-                  </td>
-                  <td>
-                  <span>{account.Employee.Warehouse.name}
-                  </span></td>
+                  <td><span>email.here</span></td>
                   <td>
                     <ul class="list-inline m-0">
                       <li class="list-inline-item">
