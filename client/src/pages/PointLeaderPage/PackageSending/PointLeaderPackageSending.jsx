@@ -289,7 +289,7 @@ useEffect(() => {
                     </div>
                   </td>
                   <td>
-                    <span>{order.receiver.id}</span>
+                    <span></span>
                   </td>
                   <td>
                     <span>{order.shippingCost}</span>

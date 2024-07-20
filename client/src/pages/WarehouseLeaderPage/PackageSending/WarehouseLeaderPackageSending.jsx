@@ -225,7 +225,7 @@ function WarehouseLeaderPackageSending() {
             <th>MÃ VẬN ĐƠN</th>
             <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>ID NGƯỜI NHẬN</th>
+            <th>ĐIỂM KẾ TIẾP</th>
             <th>CƯỚC PHÍ</th>
             <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
@@ -267,7 +267,7 @@ function WarehouseLeaderPackageSending() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.receiver.id}</span>
+                    <span></span>
                   </td>
                   <td>
                     <span>{order.shippingCost}</span>

@@ -122,7 +122,7 @@ function PointStaffReceiveFromWarehouse() {
   />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Các đơn đang chờ nhận từ kho</h2>
+          <h2>Xác nhận đơn hàng</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -138,7 +138,7 @@ function PointStaffReceiveFromWarehouse() {
             <th>MÃ VẬN ĐƠN</th>
             <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>ID NGƯỜI NHẬN</th>
+            <th>ĐIỂM KẾ TIẾP</th>
             <th>CƯỚC PHÍ</th>
             <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
@@ -180,7 +180,7 @@ function PointStaffReceiveFromWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.receiver.id}</span>
+                    <span></span>
                   </td>
                   <td>
                     <span>{order.shippingCost}</span>

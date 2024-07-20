@@ -8,6 +8,7 @@ import {
   firstPage,
 } from "../../../utils/table-pagination";
 import { useNavigate } from 'react-router-dom'
+import Button from '@mui/material/Button';
 import DoneIcon from "../../../assets/icons/done.svg";
 import CancelIcon from "../../../assets/icons/cancel.svg";
 import ShippingIcon from "../../../assets/icons/shipping.svg";
@@ -109,6 +110,16 @@ function WarehouseStaffSendToWarehouse() {
     firstPage(page, setPage);
   };
 
+  
+  const handleTab1Click = () => {
+    navigate("/warehouseStaff/sendToTransaction");
+  };
+
+  const handleTab2Click = () => {
+    navigate('/warehouseStaff/sendToWarehouse');
+  };
+
+
   return (
     <div className="dashboard-content">
     <HeaderRoleNoButton
@@ -117,6 +128,10 @@ function WarehouseStaffSendToWarehouse() {
     onClick={handleOpenModal}
   /> 
       <div className="dashboard-content-container">
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px' }}>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab1Click}>Đơn chờ gửi tới điểm giao dịch</Button>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab2Click}>Đơn chờ gửi tới kho</Button>
+      </div>
         <div className="dashboard-content-header">
           <h2>Các đơn đang chờ gửi đến kho</h2>
           <div className="dashboard-content-search">
@@ -134,7 +149,7 @@ function WarehouseStaffSendToWarehouse() {
             <th>MÃ VẬN ĐƠN</th>
             <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>ID NGƯỜI NHẬN</th>
+            <th>ĐIỂM KẾ TIẾP</th>
             <th>CƯỚC PHÍ</th>
             <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
@@ -176,7 +191,7 @@ function WarehouseStaffSendToWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.receiver.id}</span>
+                    <span></span>
                   </td>
                   <td>
                     <span>{order.shippingCost}</span>

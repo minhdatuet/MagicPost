@@ -20,6 +20,7 @@ import UpdateSendToWarehouse from "./Modal/UpdateSendToWarehouse/UpdateSendToWar
 import CreateNewPackageModal from "./Modal/CreateNewPackage/CreateNewPackage";
 import PrintPackageInfo from "./Modal/PrintPackageInfo/PrintPackageInfo";
 import UpdatePackageModal from "./Modal/UpdatePackage/UpdatePackage";
+import HeaderRoleNoButton from "../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton";
 function PointStaffSendToWarehouse() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,6 +36,9 @@ function PointStaffSendToWarehouse() {
   const [orders, setOrders] = useState([]);
   const [statusPackage, setStatusPackage] = useState('');
   const [isPrintOpen, setIsPrintOpen] = useState(false);
+
+  const [isTab1, setIsTab1] = useState(true);
+  const [isTab2, setIsTab2] = useState(false);
   useEffect(() => {
     dispatch(getAllPackages());
   }, []);
@@ -111,6 +115,14 @@ function PointStaffSendToWarehouse() {
     setIsModalOpen(true);
   };
 
+  const handleTab1Click = () => {
+    navigate('/pointStaff/sendToWarehouse');
+  };
+
+  const handleTab2Click = () => {
+    navigate('/pointStaff/sendToAccount');
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -176,8 +188,8 @@ function PointStaffSendToWarehouse() {
 
   return (
     <div className="dashboard-content">
-      <HeaderRole
-        btnText={"Ghi nhận đơn hàng"}
+      <HeaderRoleNoButton
+        btnText={"Đơn chờ gửi đến kho"}
         variant="primary"
         onClick={handleOpenModal}
       />
@@ -185,10 +197,15 @@ function PointStaffSendToWarehouse() {
         // dialogClassName="modal-dialog-custom"
         show={isModalOpen}
         onHide={handleCloseModal}
-        style={{ zIndex: 9999 }} // Add this line
+        style={{ zIndex: 9999 }} 
       />
       <div className="dashboard-content-container">
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px' }}>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab1Click}>Đơn chờ gửi đến kho</Button>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab2Click}>Đơn gửi người nhận</Button>
+      </div>
         <div className="dashboard-content-header">
+        {/* <Button style={{ backgroundColor: 'gray', color: 'white' }}onClick={handleOpenModal}>Ghi nhận đơn hàng</Button> */}
           <h2>Các đơn đang chờ gửi đến kho</h2>
           <div className="dashboard-content-search">
             <input

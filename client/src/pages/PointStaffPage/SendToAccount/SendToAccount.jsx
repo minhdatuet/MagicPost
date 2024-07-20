@@ -61,6 +61,14 @@ function PointStaffSendToAccount() {
     setIsModalOpen(false);
   };
 
+  const handleTab1Click = () => {
+    navigate('/pointStaff/sendToWarehouse');
+  };
+
+  const handleTab2Click = () => {
+    navigate('/pointStaff/sendToAccount');
+  };
+
   const handleOpenUpdateModal = (order) => {
     setIsUpdateModalOpen(true);
     setSelectedPackage(order);
@@ -120,6 +128,10 @@ function PointStaffSendToAccount() {
     onClick={handleOpenModal}
   />
       <div className="dashboard-content-container">
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px' }}>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab1Click}>Đơn chờ gửi đến kho</Button>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab2Click}>Đơn gửi người nhận</Button>
+      </div>
         <div className="dashboard-content-header">
           <h2>Các đơn hàng phát cho người nhận</h2>
           <div className="dashboard-content-search">
@@ -137,7 +149,7 @@ function PointStaffSendToAccount() {
             <th>MÃ VẬN ĐƠN</th>
             <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>ID NGƯỜI NHẬN</th>
+            <th>ĐIỂM KẾ TIẾP</th>
             <th>CƯỚC PHÍ</th>
             <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
@@ -179,7 +191,7 @@ function PointStaffSendToAccount() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.receiver.id}</span>
+                    <span></span>
                   </td>
                   <td>
                     <span>{order.shippingCost}</span>

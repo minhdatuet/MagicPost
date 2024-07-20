@@ -31,9 +31,21 @@ function Refund() {
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [orders, setOrders] = useState([]);
 
+  
+  const [isTab1, setIsTab1] = useState(true);
+  const [isTab2, setIsTab2] = useState(false);
+
   useEffect(() => {
     dispatch(getAllPackages());
   }, []);
+
+  const handleTab1Click = () => {
+    navigate("/pointStaff/refund");
+  };
+
+  const handleTab2Click = () => {
+    navigate('/pointStaff/success');
+  };
 
   useEffect(() => {
     const filteredPackages = packages.filter((pk) =>
@@ -41,6 +53,7 @@ function Refund() {
       && pk?.Status?.dateReceiverReturn !== null
     );
     setFilteredPackages(filteredPackages);
+    console.log("test", orders);
   }, [packages]);
 
   useEffect(() => {
@@ -119,6 +132,10 @@ function Refund() {
     onClick={handleOpenModal}
   />
       <div className="dashboard-content-container">
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px' }}>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab1Click}>Đơn hoàn trả</Button>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab2Click}>Đơn giao thành công</Button>
+      </div>
         <div className="dashboard-content-header">
           <h2>Các đơn hàng người nhận hoàn trả</h2>
           <div className="dashboard-content-search">
@@ -136,7 +153,7 @@ function Refund() {
             <th>MÃ VẬN ĐƠN</th>
             <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>ID NGƯỜI NHẬN</th>
+            <th>ĐIỂM KẾ TIẾP</th>
             <th>CƯỚC PHÍ</th>
             <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
@@ -178,7 +195,7 @@ function Refund() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.receiver.id}</span>
+                    <span></span>
                   </td>
                   <td>
                     <span>{order.shippingCost}</span>

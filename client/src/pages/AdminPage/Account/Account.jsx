@@ -196,7 +196,6 @@ const Account = () => {
             <th>SỐ ĐIỆN THOẠI</th>
             <th>CHỨC VỤ</th>
             <th>NƠI LÀM VIỆC</th>
-            <th>EMAIL</th>
           </thead>
           {accounts.length !== 0 ? (
             <tbody>

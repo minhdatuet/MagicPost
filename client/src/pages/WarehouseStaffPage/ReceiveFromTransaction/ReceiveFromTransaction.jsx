@@ -113,6 +113,14 @@ function PointStaffReceiveFromWarehouse() {
     firstPage(page, setPage);
   };
 
+  const handleTab1Click = () => {
+    navigate("/warehouseStaff/receiveFromTransaction");
+  };
+
+  const handleTab2Click = () => {
+    navigate('/warehouseStaff/receiveFromWarehouse');
+  };
+
   return (
     <div className="dashboard-content">
     <HeaderRoleNoButton
@@ -121,6 +129,10 @@ function PointStaffReceiveFromWarehouse() {
     onClick={handleOpenModal}
   />
       <div className="dashboard-content-container">
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px' }}>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab1Click}>Đơn chờ nhận từ điểm giao dịch</Button>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab2Click}>Đơn chờ nhận từ kho</Button>
+      </div>
         <div className="dashboard-content-header">
           <h2>Các đơn đang chờ nhận từ điểm giao dịch</h2>
           <div className="dashboard-content-search">
@@ -138,7 +150,7 @@ function PointStaffReceiveFromWarehouse() {
             <th>MÃ VẬN ĐƠN</th>
             <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>ID NGƯỜI NHẬN</th>
+            <th>ĐIỂM KẾ TIẾP</th>
             <th>CƯỚC PHÍ</th>
             <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
@@ -180,7 +192,7 @@ function PointStaffReceiveFromWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.receiver.id}</span>
+                    <span></span>
                   </td>
                   <td>
                     <span>{order.shippingCost}</span>

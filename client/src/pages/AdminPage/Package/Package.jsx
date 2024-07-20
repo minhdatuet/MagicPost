@@ -576,6 +576,16 @@ function Package() {
           />
         </div>
       </div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '50px' }}>
+        <img
+          src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/08/hinh-nen-anime-cute-1.jpg"
+          alt="Ảnh anime cute"
+          style={{
+            width: '700px',
+            height: 'auto',
+          }}
+        />
+      </div>
     </div>
   );
 }
