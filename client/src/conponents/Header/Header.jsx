@@ -147,7 +147,7 @@ const Header = () => {
           <li>
             <div className="logo">
               <Link to='/'>
-                <h2>MAGIC POST</h2>
+                <h2>FUTA Express</h2>
               </Link>
             </div>
           </li>
@@ -193,7 +193,7 @@ const Header = () => {
       </nav>
       <br></br>
       <div className="post">
-        <h1>Welcome to Magic Post</h1>
+        <h1>Welcome to FUTA Express!</h1>
       </div>
     </div>
   )
