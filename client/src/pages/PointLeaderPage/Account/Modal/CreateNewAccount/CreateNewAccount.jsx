@@ -139,11 +139,11 @@ function CreateNewAccountModal(props) {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} md="6" controlId="userName">
-              <Form.Label>Tên tài khoản</Form.Label>
+              <Form.Label>Tên đăng nhập</Form.Label>
               <Form.Control
                 required
                 type="text"
-                placeholder="Nhập username"
+                placeholder="Nhập tên đăng nhập"
                 // value={formData.name}
                 // onChange={handleInputChange}
               />
@@ -208,7 +208,7 @@ function CreateNewAccountModal(props) {
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
-          <Row className="mb-3">
+          {/* <Row className="mb-3">
             <Form.Group as={Col} md="12" controlId="address">
               <Form.Label>Địa chỉ</Form.Label>
               <Form.Control
@@ -222,7 +222,7 @@ function CreateNewAccountModal(props) {
                 Vui lòng nhập địa chỉ.
               </Form.Control.Feedback>
             </Form.Group>
-          </Row>
+          </Row> */}
           <Row style={{ marginTop: "10px" }}>
             <div className="text-center mt-3" style={{ marginTop: "50px" }}>
               <Button variant="secondary" id="input-submit" type="submit">

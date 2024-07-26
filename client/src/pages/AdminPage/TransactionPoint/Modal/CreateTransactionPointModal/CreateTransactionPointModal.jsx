@@ -173,6 +173,21 @@ function CreateTransactionPointModal(props) {
               </Form.Control>
             </Form.Group>
           </Row>
+          <Row style={{ marginTop: '10px' }} className="mb-3">
+            <Form.Group as={Col} controlId="notion">
+              <Form.Label>Mô tả</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập mô tả"
+                // value={formData.address}
+                // onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập mô tả.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
           <Row style={{ marginTop: '10px' }}>
             <div className="text-center mt-3" style={{ marginTop: '50px' }}>
               <Button variant="secondary" id="input-submit" type = "submit">

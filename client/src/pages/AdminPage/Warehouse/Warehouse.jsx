@@ -164,7 +164,7 @@ const renderPagination = () => {
             />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    <h2>Kho hàng</h2>
+                    <h2>Quản lý điểm kho</h2>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'

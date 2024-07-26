@@ -120,7 +120,7 @@ function UpdateAccountModal(props) {
               />
             </Form.Group>
             <Form.Group as={Col} md="6" controlId="username">
-              <Form.Label>Tên tài khoản</Form.Label>
+              <Form.Label>Tên đăng nhập</Form.Label>
               <Form.Control
                 type="text"
                 // value={formData.phone}
@@ -163,7 +163,7 @@ function UpdateAccountModal(props) {
               />
             </Form.Group>
           </Row>
-          <Row className="mb-3">
+          {/* <Row className="mb-3">
             <Form.Group as={Col} controlId="address">
               <Form.Label>Địa chỉ</Form.Label>
               <Form.Control
@@ -172,7 +172,7 @@ function UpdateAccountModal(props) {
                 onChange={handleInputChange}
               />
             </Form.Group>
-          </Row>
+          </Row> */}
           <Row style={{ marginTop: "10px" }}>
             <div className="text-center mt-3" style={{ marginTop: "50px" }}>
               <Button variant="secondary" type="submit" id="input-submit">

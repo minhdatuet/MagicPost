@@ -180,7 +180,20 @@ function UpdateTransactionPoint(props) {
               </Form.Control>
             </Form.Group>
           </Row>
-          <Form.Group as={Col} md="5" controlId="transactionPointLeader">
+          <Form.Group as={Col} controlId="notion">
+              <Form.Label>Mô tả</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập chú thích"
+                // value={formData.address}
+                // onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập chú thích.
+              </Form.Control.Feedback>
+            </Form.Group>
+          {/* <Form.Group as={Col} md="5" controlId="transactionPointLeader">
             <Form.Label>Trưởng điểm</Form.Label>
             <Form.Control
               as="select"
@@ -194,7 +207,7 @@ function UpdateTransactionPoint(props) {
                 </option>
               ))}
             </Form.Control>
-          </Form.Group>
+          </Form.Group> */}
           <Row style={{ marginTop: "10px" }}>
             <div className="text-center mt-3" style={{ marginTop: "50px" }}>
               <Button variant="secondary" id="input-submit" onClick={handleSubmit}>
