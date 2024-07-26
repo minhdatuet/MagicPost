@@ -46,7 +46,7 @@ export default function Sidebar() {
   const navList = [
     {
       role: "BOSS",
-      name_role: "Lãnh đạo",
+      name_role: "FUTA Express",
       navChild: [
         {
           icon: Inventory2Rounded,
@@ -76,23 +76,23 @@ export default function Sidebar() {
     },
     {
       role: "POINT_LEADER",
-      name_role: "Trưởng điểm",
+      name_role: "FUTA Express",
       navChild: [
         {
           icon: AccountBalanceRounded,
-          title: "Giao dịch viên",
+          title: "Quản lý nhân viên",
           link: "/pointLeader/account",
           key: 1,
         },
         {
           icon: Inventory2Rounded,
-          title: "Hàng gửi",
+          title: "Thống kê hàng gửi đi",
           link: "/pointLeader/packageSending",
           key: 2,
         },
         {
           icon: Storefront,
-          title: "Hàng nhận",
+          title: "Thống kê hàng gửi đến",
           link: "/pointLeader/packageReceivering",
           key: 3,
         },
@@ -100,59 +100,59 @@ export default function Sidebar() {
     },
     {
       role: "POINT_STAFF",
-      name_role: "Giao dịch viên",
+      name_role: "FUTA Express",
       navChild: [
-        {
-          icon: Home,
-          title: "Đơn chờ gửi đến kho",
-          link: "/pointStaff/sendToWarehouse",
+              {
+          icon: AccessAlarmSharp,
+          title: "Ghi nhận đơn hàng",
+          link: "pointStaff/acceptPackage",
           key: 1,
         },
         {
-          icon: Storefront,
-          title: "Đơn chờ nhận từ kho",
-          link: "/pointStaff/receiveFromWarehouse",
+          icon: Home,
+          title: "Tạo đơn chuyển hàng",
+          link: "/pointStaff/sendToWarehouse",
           key: 2,
         },
         {
-          icon: AccessAlarmSharp,
-          title: "Đơn gửi người nhận",
-          link: "/pointStaff/sendToAccount",
+          icon: Storefront,
+          title: "Xác nhận đơn hàng",
+          link: "/pointStaff/receiveFromWarehouse",
           key: 3,
         },
         {
           icon: WorkOutline,
-          title: "Đơn hoàn trả",
+          title: "Thống kê hàng hóa",
           link: "/pointStaff/refund",
           key: 4,
         },
-        {
-          icon: WorkOutline,
-          title: "Đơn giao thành công",
-          link: "/pointStaff/success",
-          key: 5,
-        }
+        // {
+        //   icon: WorkOutline,
+        //   title: "Đơn giao thành công",
+        //   link: "/pointStaff/success",
+        //   key: 5,
+        // }
       ],
     },
     {
       role: "WAREHOUSE_LEADER",
-      name_role: "Trưởng kho",
+      name_role: "FUTA Express",
       navChild: [
         {
           icon: AccountBalanceRounded,
-          title: "Nhân viên",
+          title: "Quản lý nhân viên",
           link: "/warehouseLeader/account",
           key: 1,
         },
         {
           icon: Inventory2Rounded,
-          title: "Hàng đi",
+          title: "Hàng gửi tới kho",
           link: "/warehouseLeader/packageSending",
           key: 2,
         },
         {
           icon: Storefront,
-          title: "Hàng đến",
+          title: "Hàng gửi tới bưu cục",
           link: "/warehouseLeader/packageReceivering",
           key: 3,
         },
@@ -160,31 +160,31 @@ export default function Sidebar() {
     },
     {
       role: "WAREHOUSE_STAFF",
-      name_role: "Nhân viên kho",
+      name_role: "FUTA Express",
       navChild: [
         {
-          icon: Home,
-          title: "Đơn chờ gửi đến kho",
-          link: "/warehouseStaff/sendToWarehouse",
+          icon: WorkOutline,
+          title: "Xác nhận hàng hóa",
+          link: "/warehouseStaff/receiveFromTransaction",
           key: 1,
         },
-        {
-          icon: Storefront,
-          title: "Đơn chờ nhận từ kho",
-          link: "/warehouseStaff/receiveFromWarehouse",
-          key: 2,
-        },
+        // {
+        //   icon: Home,
+        //   title: "Đơn chờ gửi đến kho",
+        //   link: "/warehouseStaff/sendToWarehouse",
+        //   key: 2,
+        // },
+        // {
+        //   icon: Storefront,
+        //   title: "Đơn chờ nhận từ kho",
+        //   link: "/warehouseStaff/receiveFromWarehouse",
+        //   key: 2,
+        // },
         {
           icon: AccessAlarmSharp,
-          title: "Đơn chờ gửi đến DGD",
+          title: "Tạo đơn chuyển hàng",
           link: "/warehouseStaff/sendToTransaction",
-          key: 3,
-        },
-        {
-          icon: WorkOutline,
-          title: "Đơn chờ nhận từ DGD",
-          link: "/warehouseStaff/receiveFromTransaction",
-          key: 4,
+          key: 2,
         },
       ],
     }

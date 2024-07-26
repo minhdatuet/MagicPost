@@ -158,7 +158,7 @@ const WarehouseLeaderAccount = () => {
       />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Tài khoản nhân viên tại kho {warehouseName}</h2>
+          <h2>Quản lý nhân viên tại kho {warehouseName}</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -175,8 +175,6 @@ const WarehouseLeaderAccount = () => {
             <th>TÊN</th>
             <th>EMAIL</th>
             <th>SỐ ĐIỆN THOẠI</th>
-            <th>ĐỊA CHỈ</th>
-            <th>KHO LÀM VIỆC</th>
           </thead>
           {accounts.length !== 0 ? (
             <tbody>
@@ -194,12 +192,6 @@ const WarehouseLeaderAccount = () => {
                   <td>
                     <span>{account.phone}</span>
                   </td>
-                  <td>
-                    <span>{account.address}</span>
-                  </td>
-                  <td>
-                  <span>{account.Employee.Warehouse.name}
-                  </span></td>
                   <td>
                     <ul class="list-inline m-0">
                       <li class="list-inline-item">

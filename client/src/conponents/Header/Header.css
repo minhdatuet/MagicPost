@@ -65,9 +65,10 @@ nav .menuNav {
 }
 
 .post {
-    margin-left: 20%;
-    margin-top: 270px
+    margin-left: 10%;
+    margin-top: 270px;
 }
+
 .post h1 {
     display: flex;
     justify-content: center;
@@ -75,7 +76,7 @@ nav .menuNav {
     font-weight: 600;
     color: white;
     border-right: 4px solid #000;
-    animation: cursor 1s infinite step-end, typing 15s infinite steps(21);
+    animation: cursor 1s infinite step-end, typing 10s steps(20);
     white-space: nowrap;
     overflow: hidden;
 }
@@ -96,11 +97,16 @@ nav .menuNav {
 
 @keyframes typing{
     0%{ width: 0ch} 
-    30%{ width: 21ch;} 
-    80%{ width: 21ch;} 
+    30%{ width: 25ch;} 
+    80%{ width: 25ch;} 
     90%{ width: 0ch;} 
     100%{ width: 0ch;}
 }
+/* 
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+} */
 
 .header-span {
     margin-left: 200px;

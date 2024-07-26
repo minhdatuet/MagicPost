@@ -61,6 +61,14 @@ function PointStaffSendToAccount() {
     setIsModalOpen(false);
   };
 
+  const handleTab1Click = () => {
+    navigate('/pointStaff/sendToWarehouse');
+  };
+
+  const handleTab2Click = () => {
+    navigate('/pointStaff/sendToAccount');
+  };
+
   const handleOpenUpdateModal = (order) => {
     setIsUpdateModalOpen(true);
     setSelectedPackage(order);
@@ -120,6 +128,10 @@ function PointStaffSendToAccount() {
     onClick={handleOpenModal}
   />
       <div className="dashboard-content-container">
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px' }}>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab1Click}>Đơn chờ gửi đến kho</Button>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab2Click}>Đơn gửi người nhận</Button>
+      </div>
         <div className="dashboard-content-header">
           <h2>Các đơn hàng phát cho người nhận</h2>
           <div className="dashboard-content-search">
@@ -134,18 +146,20 @@ function PointStaffSendToAccount() {
         </div>
         <table>
           <thead>
-            <th>ID</th>
+            <th>MÃ VẬN ĐƠN</th>
+            <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>NGƯỜI GỬI</th>
-            <th>NGƯỜI NHẬN</th>
-            <th>PHÍ VẬN CHUYỂN</th>
+            <th>ĐIỂM KẾ TIẾP</th>
+            <th>CƯỚC PHÍ</th>
+            <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
 
           {filteredPackages.length !== 0 ? (
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td><span>{order.id}</span></td>
+                  <td><span>{order.packageCode}</span></td>
+                  <td><span>{order?.Status?.dateSendPackage}</span></td>
                   <td>
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
@@ -177,13 +191,13 @@ function PointStaffSendToAccount() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.sender.name}</span>
+                    <span></span>
                   </td>
                   <td>
-                    <span>{order.receiver.name}</span>
+                    <span>{order.shippingCost}</span>
                   </td>
                   <td>
-                    <span>{order.shippingCost} VND</span>
+                    <span>2024-07-19T14:40:22.000Z</span>
                   </td>
                   <li class="list-inline-item">
                     <button

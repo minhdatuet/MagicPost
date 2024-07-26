@@ -22,6 +22,7 @@ import PointLeaderPackageSending from "../pages/PointLeaderPage/PackageSending/P
 import PointLeaderPackageReceivering from "../pages/PointLeaderPage/PackageReceivering/PointLeaderPackageReceivering";
 import WarehouseLeaderPackageSending from "../pages/WarehouseLeaderPage/PackageSending/WarehouseLeaderPackageSending";
 import WarehouseLeaderPackageReceivering from "../pages/WarehouseLeaderPage/PackageReceivering/WarehouseLeaderPackageReceivering";
+import AcceptPackage from "../pages/PointStaffPage/AcceptPackage/AcceptPackage"
 const publicRoutes = [
     {
       path: 'login',
@@ -81,6 +82,10 @@ const pointLeaderRoutes = [
   }
 ]
 const pointStaffRoutes = [
+  {
+    path: 'pointStaff/acceptPackage',
+    page: AcceptPackage 
+  },
   {
     path: 'pointStaff/sendToWarehouse',
     page: pointStaffSendToWarehouse

@@ -42,7 +42,7 @@ const Footer = () => {
                         <i className="fa fa-youtube icon"></i>
                       </a>
                 </div>
-                <p className="copyright">Magic Post 2023</p>
+                <p className="copyright">FUTA Express 2024</p>
             </div>
         </footer>
     </div>

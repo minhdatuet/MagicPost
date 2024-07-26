@@ -114,6 +114,15 @@ function WarehouseStaffSendToWarehouse() {
     firstPage(page, setPage);
   };
 
+  const handleTab1Click = () => {
+    navigate("/warehouseStaff/sendToTransaction");
+  };
+
+  const handleTab2Click = () => {
+    navigate('/warehouseStaff/sendToWarehouse');
+  };
+
+
   return (
     <div className="dashboard-content">
     <HeaderRoleNoButton
@@ -122,8 +131,12 @@ function WarehouseStaffSendToWarehouse() {
     onClick={handleOpenModal}
   />
       <div className="dashboard-content-container">
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px' }}>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab1Click}>Đơn chờ gửi tới điểm giao dịch</Button>
+        <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleTab2Click}>Đơn chờ gửi tới kho</Button>
+      </div>
         <div className="dashboard-content-header">
-          <h2>Các đơn đang chờ gửi đến kho</h2>
+          <h2>Các đơn đang chờ gửi đến điểm giao dịch</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -136,17 +149,20 @@ function WarehouseStaffSendToWarehouse() {
         </div>
         <table>
           <thead>
-            <th>ID</th>
+            <th>MÃ VẬN ĐƠN</th>
+            <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
-            <th>NGƯỜI GỬI</th>
-            <th>NGƯỜI NHẬN</th>
+            <th>ĐIỂM KẾ TIẾP</th>
+            <th>CƯỚC PHÍ</th>
+            <th>CẬP NHẬT LẦN CUỐI</th>
           </thead>
 
           {filteredPackages.length !== 0 ? (
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td><span>{order.id}</span></td>
+                  <td><span>{order.packageCode}</span></td>
+                  <td><span>{order?.Status?.dateSendPackage}</span></td>
                   <td>
                     <div>
                       {order?.Status?.nameOfStatus === "DELIVERING" ? (
@@ -178,10 +194,13 @@ function WarehouseStaffSendToWarehouse() {
                     </div>
                   </td>
                   <td>
-                    <span>{order.sender.name}</span>
+                    <span></span>
                   </td>
                   <td>
-                    <span>{order.receiver.name}</span>
+                    <span>{order.shippingCost}</span>
+                  </td>
+                  <td>
+                    <span>2024-07-19T14:40:22.000Z</span>
                   </td>
                   <li class="list-inline-item">
                     <button
