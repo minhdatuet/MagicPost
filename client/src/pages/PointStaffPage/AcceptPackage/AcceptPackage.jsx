@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { apiGetPublicProvinces, apiGetPublicDistrict, apiGetPublicWard, apiCreatePackage } from '../../../services/package';
 import "./AcceptPackage.scss";
 import HeaderRoleNoButton from '../../../conponents/HeaderRole/HeaderRoleNoButton/HeaderRoleNoButton';
+import Draggable from 'react-draggable';
+import { ResizableBox } from 'react-resizable';
 
 function AcceptPackage() {
   const [receiverProvinces, setReceiverProvinces] = useState([]);
@@ -738,6 +740,24 @@ function AcceptPackage() {
                   onChange={handleCheckboxChange}
                 />
               </div>
+            </Form.Group>
+          </Row>
+          <Row>
+            <Form.Group as={Col} md="6" controlId="notion">
+              <Form.Label>Ghi chú</Form.Label>
+              <ResizableBox width={1000} height={150} minConstraints={[150, 100]} maxConstraints={[500, 300]}>
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  padding: '10px',
+                  border: '1px solid #ccc',
+                  backgroundColor: '#f9f9f9',
+                  boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                  overflow: 'auto'
+                }}>
+                  <textarea style={{ width: '100%', height: '100%' }} placeholder="Write your note here..."></textarea>
+                </div>
+              </ResizableBox>
             </Form.Group>
           </Row>
           <Row>
