@@ -33,6 +33,7 @@ module.exports = {
 
       packagesData.push({
         packageCode: taoMaDonHang(),
+        type: 1,
         senderId,
         receiverId,
         warehouseStartId: ((i + 2) % 7) + 1,

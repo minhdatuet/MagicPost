@@ -30,6 +30,8 @@ function UpdateAccountModal(props) {
     if (account) {
       setFormData({
         ...account,
+        user_id: account.user_id || "",
+        username: account.username || "",
         name: account.name || "",
         email: account.email || "",
         phone: account.phone || "",
@@ -66,6 +68,8 @@ function UpdateAccountModal(props) {
       }
       console.log(formData)
       const payload = {
+        user_id: formData.user_id,
+        username: formData.username,
         id: account.id,
         name: formData.name,
         email: formData.email,
@@ -88,6 +92,8 @@ function UpdateAccountModal(props) {
   const handleHide = () => {
     setFormData({
       ...account,
+      user_id: account.user_id || "",
+      username: account.username || "",
       name: account.name || "",
       phone: account.phone || "",
       email: account.email || "",
@@ -118,19 +124,20 @@ function UpdateAccountModal(props) {
       <Modal.Body>
         <Form validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
-            <Form.Group as={Col} md="6" controlId="userId">
+            <Form.Group as={Col} md="6" controlId="user_id">
               <Form.Label>Mã nhân viên</Form.Label>
               <Form.Control
                 type="text"
-                value={''}
+                value={formData.user_id}
+                onChange={handleInputChange}
               />
             </Form.Group>
             <Form.Group as={Col} md="6" controlId="username">
               <Form.Label>Tên tài khoản</Form.Label>
               <Form.Control
                 type="text"
-                // value={formData.name}
-                // onChange={handleInputChange}
+                value={formData.username}
+                onChange={handleInputChange}
               />
             </Form.Group>
           </Row>

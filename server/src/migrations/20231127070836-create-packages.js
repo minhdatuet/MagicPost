@@ -23,6 +23,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: 'customers', key: 'id' }
     },
+    type: {
+      allowNull: true,
+      type: Sequelize.INTEGER,
+    },
     transactionPointStartId: {
         allowNull: false,
         type: Sequelize.INTEGER,
