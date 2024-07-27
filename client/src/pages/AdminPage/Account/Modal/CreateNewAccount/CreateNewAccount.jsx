@@ -33,6 +33,8 @@ function CreateNewAccountModal(props) {
     setNoLeaderPoints(filteredPoints)
   }, [transactionPoints])
   const [formData, setFormData] = useState({
+    user_id: "",
+    username: "",
     name: "",
     phone: "",
     email: null,
@@ -44,6 +46,8 @@ function CreateNewAccountModal(props) {
 
   const handleHide = () => {
     setFormData({
+      user_id: "",
+      username: "",
       name: "",
       phone: "",
       email: null,
@@ -98,6 +102,8 @@ function CreateNewAccountModal(props) {
 
 
       setFormData({
+        user_id: "",
+        username: "",
         name: "",
         phone: "",
         email: null,
@@ -125,6 +131,34 @@ function CreateNewAccountModal(props) {
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Row className="mb-3">
+            <Form.Group as={Col} md="6" controlId="user_id">
+              <Form.Label>Mã Nhân viên</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập mã nhân viên"
+                value={formData.user_id}
+                onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập mã nhân viên
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="6" controlId="username">
+              <Form.Label>Tên tài khoản</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Nhập username"
+                value={formData.username}
+                onChange={handleInputChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Vui lòng nhập tên đăng nhập.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
           <Row className="mb-3">
             <Form.Group as={Col} md="6" controlId="name">
               <Form.Label>Tên tài khoản</Form.Label>

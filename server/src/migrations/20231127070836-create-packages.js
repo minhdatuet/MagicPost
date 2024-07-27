@@ -25,7 +25,11 @@ module.exports = {
     },
     type: {
       allowNull: true,
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING(50),
+    },
+    note: {
+      allowNull: true,
+      type: Sequelize.STRING(100),
     },
     transactionPointStartId: {
         allowNull: false,
