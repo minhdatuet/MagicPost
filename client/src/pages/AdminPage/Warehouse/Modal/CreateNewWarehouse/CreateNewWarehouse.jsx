@@ -175,7 +175,7 @@ function CreateNewWarehouseModal(props) {
                 Vui lòng nhập tên thành phố.
               </Form.Control.Feedback>
             </Form.Group>
-            <Row>
+          \
             <Form.Group as={Col} controlId="description">
               <Form.Label>Mô tả</Form.Label>
               <Form.Control
