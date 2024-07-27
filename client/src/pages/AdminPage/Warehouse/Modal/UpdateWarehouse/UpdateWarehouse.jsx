@@ -156,7 +156,7 @@ function UpdateWarehouseModal(props) {
                 </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
-            <Form.Group as={Col} md="5" controlId="warehouseLeader">
+            {/* <Form.Group as={Col} md="5" controlId="warehouseLeader">
               <Form.Label>Trưởng kho hàng</Form.Label>
 
               <Form.Control
@@ -172,7 +172,7 @@ function UpdateWarehouseModal(props) {
                   </option>
                 ))}
               </Form.Control>
-            </Form.Group>
+            </Form.Group> */}
           </Row>
           <Row>
           <Form.Group as={Col} controlId="description">

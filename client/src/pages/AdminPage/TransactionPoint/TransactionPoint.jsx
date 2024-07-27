@@ -181,7 +181,7 @@ function TransactionPoint() {
       <HeaderRole btnText="Thêm điểm bưu cục" onClick={setIsModalOpen} />
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Điểm bưu cục</h2>
+          <h2>Quản lý điểm bưu cục</h2>
           <div className="dashboard-content-search">
             <input
               type="text"

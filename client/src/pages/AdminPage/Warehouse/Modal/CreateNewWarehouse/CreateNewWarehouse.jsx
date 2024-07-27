@@ -175,7 +175,7 @@ function CreateNewWarehouseModal(props) {
                 Vui lòng nhập tên thành phố.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="5" controlId="leaderId">
+            {/* <Form.Group as={Col} md="5" controlId="leaderId">
               <Form.Label>Trưởng kho hàng</Form.Label>
               <Form.Control as="select" value={formData.leaderId} onChange={(e) => setleaderId(e.target.value)}>
                 <option>Chọn trưởng kho</option>
@@ -185,7 +185,7 @@ function CreateNewWarehouseModal(props) {
                   </option>
                 ))}
               </Form.Control>
-            </Form.Group>
+            </Form.Group> */}
             </Row>
             <Row>
             <Form.Group as={Col} controlId="description">

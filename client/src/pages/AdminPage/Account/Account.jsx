@@ -177,7 +177,7 @@ const Account = () => {
       style={{ zIndex: 9999 }}/>
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Tài khoản</h2>
+          <h2>Quản lý nhân viên</h2>
           <div className="dashboard-content-search">
             <input
               type="text"

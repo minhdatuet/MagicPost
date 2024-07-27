@@ -146,11 +146,11 @@ function CreateNewAccountModal(props) {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} md="6" controlId="username">
-              <Form.Label>Tên tài khoản</Form.Label>
+              <Form.Label>Tên đăng nhập</Form.Label>
               <Form.Control
                 required
                 type="text"
-                placeholder="Nhập username"
+                placeholder="Nhập tên đăng nhập"
                 value={formData.username}
                 onChange={handleInputChange}
               />
@@ -161,16 +161,16 @@ function CreateNewAccountModal(props) {
           </Row>
           <Row className="mb-3">
             <Form.Group as={Col} md="6" controlId="name">
-              <Form.Label>Tên tài khoản</Form.Label>
+              <Form.Label>Tên nhân viên</Form.Label>
               <Form.Control
                 required
                 type="text"
-                placeholder="Nhập tên tài khoản"
+                placeholder="Nhập tên nhân viên"
                 value={formData.name}
                 onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
-                Vui lòng nhập tên tài khoản.
+                Vui lòng nhập tên nhân viên.
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} md="6" controlId="email">

@@ -185,7 +185,7 @@ function UpdateTransactionPoint(props) {
             </Form.Group>
           </Row>
           <Row>
-          <Form.Group as={Col} md="5" controlId="transactionPointLeader">
+          {/* <Form.Group as={Col} md="5" controlId="transactionPointLeader">
             <Form.Label>Trưởng điểm</Form.Label>
             <Form.Control
               as="select"
@@ -199,7 +199,7 @@ function UpdateTransactionPoint(props) {
                 </option>
               ))}
             </Form.Control>
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group as={Col} controlId="description">
               <Form.Label>Mô tả điểm giao dịch</Form.Label>
               <Form.Control
