@@ -200,6 +200,7 @@ function TransactionPoint() {
             <th>TÊN TRƯỞNG ĐIỂM</th>
             <th>TÊN ĐIỂM</th>
             <th>ĐỊA CHỈ</th>
+            <th>MÔ TẢ</th>
           </thead>
 
           {transactions.length !== 0 ? (
@@ -220,6 +221,9 @@ function TransactionPoint() {
                   </td>
                   <td>
                     <span>{transaction.address}</span>
+                  </td>
+                  <td>
+                    <span>{transaction.description}</span>
                   </td>
                   <td>
                     <ul class="list-inline m-0">
