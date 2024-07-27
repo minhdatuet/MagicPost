@@ -33,6 +33,8 @@ function CreateNewAccountModal(props) {
     setNoLeaderPoints(filteredPoints)
   }, [transactionPoints])
   const [formData, setFormData] = useState({
+    user_id: "",
+    username: "",
     name: "",
     phone: "",
     address: "",
@@ -43,6 +45,8 @@ function CreateNewAccountModal(props) {
 
   const handleHide = () => {
     setFormData({
+      user_id: "",
+      username: "",
       name: "",
       phone: "",
       email: "",
@@ -97,6 +101,8 @@ function CreateNewAccountModal(props) {
       fetchCreateUser()
 
       setFormData({
+        user_id: "",
+        username: "",
         name: "",
         phone: "",
         email: "",
@@ -125,27 +131,27 @@ function CreateNewAccountModal(props) {
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
-            <Form.Group as={Col} md="6">
+            <Form.Group as={Col} md="6" controlId="user_id">
               <Form.Label>Mã nhân viên</Form.Label>
               <Form.Control
                 required
                 type="text"
                 placeholder="Nhập mã nhân viên"
-              // value={formData.name}
-              // onChange={handleInputChange}
+                value={formData.user_id}
+                onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
                 Vui lòng nhập mã nhân viên.
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} md="6" controlId="username">
-              <Form.Label>Tên đăng nhập</Form.Label>
+              <Form.Label>Tên tài khoản</Form.Label>
               <Form.Control
                 required
                 type="text"
-                placeholder="Nhập tên đăng nhập"
-                // value={formData.name}
-                // onChange={handleInputChange}
+                placeholder="Nhập tên nhân viên"
+                value={formData.username}
+                onChange={handleInputChange}
               />
               <Form.Control.Feedback type="invalid">
                 Vui lòng nhập tên đăng nhập.

@@ -12,7 +12,7 @@ exports.getUser = (phone) => new Promise(async(resolve, reject) => {
               phone
             },
             // raw: true,
-            attributes: ['id','name','email', 'phone', 'address', 'accountType'],
+            attributes: ['id','name','username', 'user_id', 'email', 'phone', 'address', 'accountType', 'password'],
             include: [
             {
                 model: db.Warehouse,
@@ -58,7 +58,7 @@ exports.getAllService = () => new Promise(async(resolve, reject) => {
     try {
         const response = await db.Accounts.findAll({
             // raw: true,
-            attributes: ['id','name', 'email', 'phone', 'address', 'accountType'],
+            attributes: ['id','name', 'email', 'username', 'user_id', 'phone', 'address', 'accountType', 'password'],
             include: [
             {
                 model: db.Warehouse,
