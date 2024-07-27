@@ -77,7 +77,7 @@ function UpdateAccountModal(props) {
         name: formData.userName,
         email: formData.email,
         phone: formData.phone,
-        address: formData.address
+        // address: formData.address
       }
       apiUpdateUserById(payload)
       window.alert("Cập nhật thành công")

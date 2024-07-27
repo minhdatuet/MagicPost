@@ -17,7 +17,6 @@ exports.registerService = (body) => new Promise(async(resolve, reject) => {
                 email: body.email,
                 password: hashPassword(body.password),
                 accountType: body.accountType,
-                address: body.address
             }
         })
 

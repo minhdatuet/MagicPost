@@ -38,7 +38,6 @@ function CreateNewAccountModal(props) {
     name: "",
     phone: "",
     email: null,
-    address: "",
     password: "",
     accountType: "",
     positionId: null,
@@ -51,7 +50,6 @@ function CreateNewAccountModal(props) {
       name: "",
       phone: "",
       email: null,
-      address: "",
       password: "",
       accountType: "",
       positionId: "",
@@ -107,7 +105,6 @@ function CreateNewAccountModal(props) {
         name: "",
         phone: "",
         email: null,
-        address: "",
         password: "",
         accountType: "POINT_STAFF",
         positionId: localStorage.getItem('transactionPointId'),
@@ -216,7 +213,7 @@ function CreateNewAccountModal(props) {
                 Vui lòng nhập mật khẩu.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="6" controlId="address">
+            {/* <Form.Group as={Col} md="6" controlId="address">
               <Form.Label>Địa chỉ</Form.Label>
               <Form.Control
                 required
@@ -228,7 +225,7 @@ function CreateNewAccountModal(props) {
               <Form.Control.Feedback type="invalid">
                 Vui lòng nhập địa chỉ.
               </Form.Control.Feedback>
-            </Form.Group>
+            </Form.Group> */}
           </Row>
           <Row style={{ marginTop: "10px" }} className="mb-3">
             <Form.Group as={Col} md="6" controlId="accountType">
